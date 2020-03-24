@@ -1,5 +1,6 @@
 import React from 'react';
 import Register from './Register'
+
 import {
     BrowserRouter as Router,
     Switch,

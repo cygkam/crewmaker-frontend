@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import { Button, Form,Grid, GridColumn, Image,Header,Segment,Message } from 'semantic-ui-react'
 
 class Register extends Component {
 
@@ -15,6 +16,7 @@ class Register extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.wrapper = React.createRef();
   }
 
   handleChange(event) {
@@ -34,54 +36,79 @@ class Register extends Component {
 
   render () {
     return (
-      <div>
-        <form>
-            <label htmlFor="login">Login :</label>
-            <input
-                  type = "text"
-                  name = "login"
-                  value={this.state.login} onChange={this.handleChange}
-              />
-              <br/>
-            <label htmlFor="password">Hasło :</label>
-            <input
-                  type = "password"
-                  name = "password"
-                  value={this.state.password} onChange={this.handleChange}
-              />
-              <br/>
-              <label htmlFor="email">Email :</label>
-            <input
-                  type = "email"
-                  name = "email"
-                  value={this.state.email} onChange={this.handleChange}
-            />
-            <br/>
-            <label htmlFor="name">Imię :</label>
-            <input 
-                type = "text"
-                name = "name"
-                value = {this.state.name} onChange={this.handleChange}
-            >
-            </input>
-            <br/>
-            <label htmlFor="surname">Nazwisko :</label>
-            <input
+      <Grid textAlign='center' verticalAlign='middle'>
+      <Grid.Column style={{ maxWidth: 500 }}>
+        <Header as='h2' color='orange' textAlign='center'>
+           Zarajestruj się !
+        </Header>
+        <Form size='large'>
+          <Segment stacked>
+          <Form.Input
+              fluid
+              icon='user'
+              iconPosition='left'
+              name = 'login'
               type = 'text'
-              name = "surname"
-              value = {this.state.surname} onChange={this.handleChange}
+              placeholder='Login'
+              onChange={this.handleChange}
             />
-            <br/>
-            <label htmlFor="phonenumber">Telefon :</label>
-            <input
-              type ="text"
-              name = "phonenumber"
-              value = {this.state.phonenumber} onChange={this.handleChange}
+            <Form.Input
+              fluid
+              icon='lock'
+              iconPosition='left'
+              name='password'
+              placeholder='Hasło'
+              type='password'
+              onChange={this.handleChange}
             />
-            <br/>
-          <input type="submit" value="Stwórz konto" onClick={this.handleSubmit} />
-        </form>
-      </div>
+            <Form.Input
+              fluid
+              icon='lock'
+              iconPosition='left'
+              placeholder='Potwierdz hasło'
+              type='password'
+              onChange={this.handleChange}
+            />             
+            <Form.Input 
+              fluid 
+              icon='mail' 
+              iconPosition='left'
+              name = 'email'
+             placeholder='Adres e-mail' 
+             onChange={this.handleChange}
+            />
+            <Form.Input
+              fluid
+              icon ='user'
+              iconPosition='left'
+              placeholder='Imię'
+              name='name'
+              onChange={this.handleChange}
+            />
+            <Form.Input
+              fluid
+              icon ='user'
+              iconPosition='left'
+              placeholder='Nazwisko'
+              name='surname'
+              onChange={this.handleChange}
+            />
+            <Form.Input
+              fluid
+              icon='phone'
+              iconPosition='left'
+              name='phonenumber'
+              placeholder='Numer telefonu'
+              onChange={this.handleChange}
+            />
+  
+            <Button color='orange' fluid size='large' onClick={this.handleSubmit}>
+              Stwórz konto
+            </Button>
+          </Segment>
+        </Form>
+      </Grid.Column>
+    </Grid>
     );
   }
 }
