@@ -4,11 +4,12 @@ import './index.css';
 import App from './App';
 import Menu from './Menu'
 import * as serviceWorker from './serviceWorker';
+import NavBarMenu from './NavBarMenu';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    <Menu />
+    <NavBarMenu/>
   </React.StrictMode>,
   document.getElementById('root')
 );
