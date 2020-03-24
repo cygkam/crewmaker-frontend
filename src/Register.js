@@ -36,28 +36,28 @@ class Register extends Component {
     return (
       <div>
         <form>
-            <label for="login">Login :</label>
+            <label htmlFor="login">Login :</label>
             <input
                   type = "text"
                   name = "login"
                   value={this.state.login} onChange={this.handleChange}
               />
               <br/>
-            <label for="password">Hasło :</label>
+            <label htmlFor="password">Hasło :</label>
             <input
                   type = "password"
                   name = "password"
                   value={this.state.password} onChange={this.handleChange}
               />
               <br/>
-              <label for="email">Email :</label>
+              <label htmlFor="email">Email :</label>
             <input
                   type = "email"
                   name = "email"
                   value={this.state.email} onChange={this.handleChange}
             />
             <br/>
-            <label for="name">Imię :</label>
+            <label htmlFor="name">Imię :</label>
             <input 
                 type = "text"
                 name = "name"
@@ -65,14 +65,14 @@ class Register extends Component {
             >
             </input>
             <br/>
-            <label for="surname">Nazwisko :</label>
+            <label htmlFor="surname">Nazwisko :</label>
             <input
               type = 'text'
               name = "surname"
               value = {this.state.surname} onChange={this.handleChange}
             />
             <br/>
-            <label for="phonenumber">Telefon :</label>
+            <label htmlFor="phonenumber">Telefon :</label>
             <input
               type ="text"
               name = "phonenumber"
