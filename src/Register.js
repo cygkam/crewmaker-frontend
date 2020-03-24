@@ -28,8 +28,8 @@ class Register extends Component {
   }
 
   handleSubmit(event) {
-    alert("SIEMA")
     event.preventDefault();
+    console.log(this.state);
   }
 
   render () {
@@ -79,7 +79,7 @@ class Register extends Component {
               value = {this.state.phonenumber} onChange={this.handleChange}
             />
             <br/>
-          <input type="submit" value="Wyślij" onSubmit={this.handleSubmit} />
+          <input type="submit" value="Stwórz konto" onClick={this.handleSubmit} />
         </form>
       </div>
     );
