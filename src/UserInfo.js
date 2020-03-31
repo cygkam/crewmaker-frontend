@@ -17,7 +17,7 @@ class UserInfo extends Component {
         return(
             <Grid>
                 <Grid.Row>
-                    <GridColumn>
+                    <GridColumn width={10}>
                         <List>
                         <List.Item>
                         <List.Content>
@@ -48,7 +48,8 @@ class UserInfo extends Component {
                     </List.Item>
                 </List>
                     </GridColumn >
-                    <GridColumn verticalAlign='middle'>
+
+                    <GridColumn verticalAlign='middle' width={5}>
                         <Image src={this.state.photo} style={{minHeight: '200px', minWidth: '200px' }}/>
                     </GridColumn>
                 </Grid.Row>
