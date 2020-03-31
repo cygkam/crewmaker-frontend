@@ -8,6 +8,8 @@ import {
     Link
   } from "react-router-dom";
 import Login from './Login';
+import MainProfilePage from './MainProfilePage';
+
 
   function Menu() {
       return (
@@ -20,6 +22,9 @@ import Login from './Login';
               </li>
               <li>
                 <Link to="/register">Register</Link>
+              </li>
+              <li>
+                <Link to="/mainProfilePage">Profile Page</Link>
               </li>
               <li>
                 <Link to="/login">Login</Link>
@@ -35,6 +40,9 @@ import Login from './Login';
             </Route>
             <Route path="/login">
               <Login/>
+            </Route>
+            <Route path="/mainProfilePage">
+              <MainProfilePage/>
             </Route>
             <Route path="/">
               <Home />

@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import {Menu,Input,Segment} from 'semantic-ui-react';
+import {Menu,Input,Segment, MenuItem} from 'semantic-ui-react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -8,6 +8,7 @@ import {
   } from "react-router-dom";
   import Login from './Login';
   import Register from './Register'
+import MainProfilePage from "./MainProfilePage";
 
 class NavBarMenu extends Component {
     constructor(props) {
@@ -43,6 +44,14 @@ class NavBarMenu extends Component {
           >
               Zarejestruj się
           </Menu.Item>
+          <MenuItem
+            name='mainProfilPage'
+            active={activeItem === 'mainProfilePage'}
+            onClick={this.handleItemClick}
+            as={Link} to="/mainProfilePage"
+          >
+              Profil użytkownika
+          </MenuItem>
           <Menu.Item position='right'
           name='login'
           active={activeItem === 'login'}
@@ -50,12 +59,14 @@ class NavBarMenu extends Component {
           as={Link} to="/login">
                 Zaloguj
           </Menu.Item>
-         
         </Menu>
 
         <Switch>
             <Route path="/register">
               <Register></Register>
+            </Route>
+            <Route path="/mainProfilePage">
+              <MainProfilePage></MainProfilePage>
             </Route>
             <Route path="/login">
               <Login/>
