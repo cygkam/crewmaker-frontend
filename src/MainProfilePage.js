@@ -13,7 +13,7 @@ class MainProfilePage extends Component {
                 </Grid.Column>
             
                 <Grid.Column width={3}>
-                    <UserInfo style={{border: '2px solid red'}}/>
+                    <UserInfo style={{textAlign: 'left', border: '2px solid red'}}/>
                 </Grid.Column>
                 </Grid.Row>
           </Grid>            
