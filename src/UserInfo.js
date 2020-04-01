@@ -6,7 +6,8 @@ class UserInfo extends Component {
     constructor(propos){
         super(propos);
         
-        this.state = {login: 'login użytkownika',
+        this.state = {
+        login: 'login użytkownika',
         email: 'email użytkownika',
         name: 'imie użytkownika',
         surname: 'nazwisko użytkownika',

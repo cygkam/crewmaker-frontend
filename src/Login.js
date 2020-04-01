@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Form,Grid, Header, Segment} from 'semantic-ui-react'
+import {Form,Grid, Header, Segment} from 'semantic-ui-react';
+import {userService} from './Services'
 
 class Login extends Component {
 
@@ -7,16 +8,46 @@ class Login extends Component {
     super(props);
     this.state ={
       login: '',
-      password:''
-    }
+      password:'',
+      submitted: false,
+      loading: false,
+      error: ''
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
   }
 
   handleChange = (e) => this.setState({
     [e.target.name] : e.target.value
-  }) ;
+  });
 
-  handleSubmit = (e) => console.log(this.state);
+  handleSubmit (e) {
+        e.preventDefault();
+
+        this.setState({ submitted: true });
+        const { login, password, returnUrl } = this.state;
+
+        // stop here if form is invalid
+        if (!(login && password)) {
+          return;
+        }
+
+        this.setState({ loading: true });
+        userService.login(login, password).then(
+          user => {
+            const { from } = this.props.location.state || {
+              from: { pathname: "/" }
+            };
+            this.props.history.push(from);
+          },
+          error => this.setState({ error, loading: false })
+        );
+    }
   
+
+
   render () {
     return(
       <Grid verticalAlign='middle' textAlign='center'>
