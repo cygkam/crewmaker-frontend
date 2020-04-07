@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import { Button, Form,Grid, GridColumn, Image,Header,Segment,Messag, List } from 'semantic-ui-react'
 
+
 class UserInfo extends Component {
     constructor(propos){
         super(propos);
@@ -17,7 +18,7 @@ class UserInfo extends Component {
         return(
             <Grid>
                 <Grid.Row>
-                    <GridColumn width={10}>
+                    <GridColumn width={7} floated ='left'>
                         <List>
                         <List.Item>
                         <List.Content>
@@ -49,7 +50,7 @@ class UserInfo extends Component {
                 </List>
                     </GridColumn >
 
-                    <GridColumn verticalAlign='middle' width={5}>
+                    <GridColumn width={4}>
                         <Image src={this.state.photo} style={{minHeight: '200px', minWidth: '200px' }}/>
                     </GridColumn>
                 </Grid.Row>
