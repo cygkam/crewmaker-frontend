@@ -9,9 +9,8 @@ class UserInfo extends Component {
         this.state = {
         login: 'login użytkownika',
         email: 'email użytkownika',
-        name: 'imie użytkownika',
-        surname: 'nazwisko użytkownika',
-        photo: 'https://react.semantic-ui.com/images/wireframe/image.png'
+        photo: 'https://react.semantic-ui.com/images/wireframe/image.png',
+        telephone: '111-111-111'
       };
     }
 
@@ -28,7 +27,7 @@ class UserInfo extends Component {
                     </Button>
                     
                         <Segment>
-                            <Label attached='top'>Login</Label>
+                            <Label attached='top'>{this.state.login}</Label>
                             <Image fluid src={this.state.photo} style={{minHeight: '200px', minWidth: '200px' }}/>
                         </Segment>
                     
@@ -47,11 +46,11 @@ class UserInfo extends Component {
                     
                         <Segment textAlign ='left'>
                             <Icon name='mail' />
-                            user@example.com
+                            {this.state.email}
                         </Segment>
                         <Segment textAlign = 'left'>
                             <Icon name='phone' />
-                            111-111-111
+                            {this.state.telephone}
                         </Segment>
                     </Grid.Row>
                 </GridColumn>
