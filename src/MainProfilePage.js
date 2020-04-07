@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import { Button,Label,ButtonContent,Icon, Form,Grid, GridColumn, Image,Header,Segment,Message, ButtonGroup, Modal } from 'semantic-ui-react'
 import UserInfo from "./UserInfo"
 import CommingEvent from "./CommingEvent"
+import PassedEvent from "./PassedEvent"
 
 class MainProfilePage extends Component {
 
