@@ -21,22 +21,22 @@ class CommingEvent extends Component {
 
     render() {
         return(
-            <Grid>
+            <Grid verticalAlign='middle'>
                 <GridRow>
-                    <GridColumn allign='center' width={1}>
+                    <GridColumn verticalAlign='center' width={1}>
                         <Image src={this.state.sportIconLink}/>
                         <h4>{this.state.sportName}</h4>
                     </GridColumn>
-                    <GridColumn width={1}>
+                    <GridColumn verticalAlign='center' width={1}>
                         <h4>21:30</h4>
-                        <h5>21-03-2020</h5>
+                        <h4>21-03-2020</h4>
                     </GridColumn>
-                    <GridColumn width={1}>
+                    <GridColumn verticalAlign='center' width={1}>
                         <h4>{this.state.actuallPartcipantNumber}/{this.state.maxPartcipantNumber}</h4>
                         <h7>UCZESTNIKOW</h7>
                         <Progress percent={this.state.actuallPartcipantNumber/this.state.maxPartcipantNumber}/>
                     </GridColumn>
-                    <GridColumn width={2}>
+                    <GridColumn verticalAlign='center' width={2}>
                         <h4>{this.state.placeName}</h4>
                         <h4>{this.state.streetName + " " + this.state.streetNumber}</h4>
                         <h4>{this.state.placeName}</h4>
