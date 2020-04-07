@@ -9,7 +9,7 @@ class CommingEvent extends Component {
         this.state = {
             sportName: 'Piłeczka',
             sportIconLink: 'https://ecsmedia.pl/c/serwetki-pilka-nozna-33-cm-20-sztuk-w-iext54112696.jpg',
-            eventDate: new Date(2020, 5, 3, 10,30),
+            eventDate: '',
             actuallPartcipantNumber: 1,
             maxPartcipantNumber: 3,
             placeName: 'SUPER MIEJSCOWA',
@@ -23,13 +23,13 @@ class CommingEvent extends Component {
         return(
             <Grid>
                 <GridRow>
-                    <GridColumn width={1}>
+                    <GridColumn allign='center' width={1}>
                         <Image src={this.state.sportIconLink}/>
                         <h4>{this.state.sportName}</h4>
                     </GridColumn>
                     <GridColumn width={1}>
-                        <h4>{this.state.eventDate.getHours}:{this.state.eventDate.getMinutes}</h4>
-                        <h5>{this.state.eventDate.getDate}-{this.state.eventDate.getMonth}-{this.state.eventDate.getFullYear}</h5>
+                        <h4>21:30</h4>
+                        <h5>21-03-2020</h5>
                     </GridColumn>
                     <GridColumn width={1}>
                         <h4>{this.state.actuallPartcipantNumber}/{this.state.maxPartcipantNumber}</h4>
