@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Button, Form,Grid, GridColumn, Image,Header,Segment,Messag, List } from 'semantic-ui-react'
+import { Button, Label,Icon, Form,Grid, GridColumn, Image,Header,Segment,Messag, List, Container } from 'semantic-ui-react'
 
 
 class UserInfo extends Component {
@@ -18,44 +18,46 @@ class UserInfo extends Component {
     render() {
         return(
             <Grid>
-                <Grid.Row>
-                    <GridColumn width={7} floated ='left'>
-                        <List>
-                        <List.Item>
-                        <List.Content>
-                            <List.Header>Login</List.Header>
-                            <List.Description>{this.state.login}</List.Description>       
-                        </List.Content>
-                        </List.Item>
-                        <br></br>
-                        <List.Item>
-                        <List.Content>
-                            <List.Header>Email</List.Header>
-                            <List.Description>{this.state.email}</List.Description>       
-                        </List.Content>
-                        </List.Item>
-                        <br></br>
-                        <List.Item>
-                        <List.Content>
-                            <List.Header>Imię</List.Header>
-                            <List.Description>{this.state.name}</List.Description>       
-                        </List.Content>
-                        </List.Item>
-                        <br></br>
-                        <List.Item>
-                        <List.Content>
-                            <List.Header>Nazwisko</List.Header>
-                            <List.Description>{this.state.surname}</List.Description>       
-                        </List.Content>
-                    </List.Item>
-                </List>
-                    </GridColumn >
+                <GridColumn> 
+                    <Grid.Row>
+                        <Button fluid size='massive' animated color='orange'>
+                        <Button.Content visible>Znajdź ekipę</Button.Content>
+                        <Button.Content hidden>
+                            <Icon name='group' />
+                        </Button.Content>
+                    </Button>
+                    
+                        <Segment>
+                            <Label attached='top'>Login</Label>
+                            <Image fluid src={this.state.photo} style={{minHeight: '200px', minWidth: '200px' }}/>
+                        </Segment>
+                    
+                        <Segment>
+                            <Label attached="top left">O mnie</Label>
+                            <Container textAlign='left'>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                    Vivamus nunc ipsum, consequat dictum est at, lobortis viverra nisl. 
+                                    Maecenas facilisis, sapien nec sollicitudin lacinia, tellus ex rutrum nulla,
+                                    a egestas justo mi non mi.
+                                </p>
+                            
+                            </Container>
+                        </Segment>
+                    
+                        <Segment textAlign ='left'>
+                            <Icon name='mail' />
+                            user@example.com
+                        </Segment>
+                        <Segment textAlign = 'left'>
+                            <Icon name='phone' />
+                            111-111-111
+                        </Segment>
 
-                    <GridColumn width={4}>
-                        <Image src={this.state.photo} style={{minHeight: '200px', minWidth: '200px' }}/>
-                    </GridColumn>
-                </Grid.Row>
-            </Grid> 
+                    </Grid.Row>
+                </GridColumn>
+                
+            </Grid>
             )
     }
 }
