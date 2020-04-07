@@ -44,14 +44,16 @@ class NavBarMenu extends Component {
           >
               Zarejestruj się
           </Menu.Item>
+
           <MenuItem
-            name='mainProfilPage'
+            name='mainProfilePage'
             active={activeItem === 'mainProfilePage'}
             onClick={this.handleItemClick}
             as={Link} to="/mainProfilePage"
           >
               Profil użytkownika
           </MenuItem>
+
           <Menu.Item position='right'
           name='login'
           active={activeItem === 'login'}
