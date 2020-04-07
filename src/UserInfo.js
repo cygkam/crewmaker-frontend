@@ -53,7 +53,6 @@ class UserInfo extends Component {
                             <Icon name='phone' />
                             111-111-111
                         </Segment>
-
                     </Grid.Row>
                 </GridColumn>
                 
