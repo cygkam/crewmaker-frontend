@@ -7,15 +7,15 @@ class PassedEvent extends Component {
         super(propos);
         
         this.state = {
-            sportName: 'Piłeczka',
+            sportName: 'Piłka nożna',
             sportIconLink: 'https://ecsmedia.pl/c/serwetki-pilka-nozna-33-cm-20-sztuk-w-iext54112696.jpg',
             eventDate: '',
             actuallPartcipantNumber: 1,
             maxPartcipantNumber: 3,
-            placeName: 'SUPER MIEJSCOWA',
-            streetName: 'SUPER ULICA',
-            streetNumber: 'SUPER NUMER',
-            city: 'SUPER MIASTO'
+            placeName: 'Nazwa miejsca',
+            streetName: 'Nazwa ulicy',
+            streetNumber: 'numer',
+            city: 'Miasto'
       };
     }
 
