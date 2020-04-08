@@ -15,10 +15,11 @@ class MainProfilePage extends Component {
                 </Grid.Column>
 
                 <Grid.Column width={5}>
-                    <Segment>
+                    <Segment fluid>
                             <Label attached='top'>Twoje aktualne wydarzenia</Label>
-                            <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+                            <CommingEvent/>
                     </Segment>
+                    
                     
                 </Grid.Column>
 
