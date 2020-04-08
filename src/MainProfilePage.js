@@ -15,21 +15,37 @@ class MainProfilePage extends Component {
                 </Grid.Column>
 
                 <Grid.Column width={5}>
-                    <Segment>
+                    <Segment fluid>
                             <Label attached='top'>Twoje aktualne wydarzenia</Label>
-                            <Grid>
-                                <GridRow>
-                                    <CommingEvent/>
-                                </GridRow>
-                            </Grid>
+                            <Segment>
+                                <CommingEvent/>
+                            </Segment>
+                            <Segment>
+                                <CommingEvent/>
+                            </Segment>
+                            <Segment>
+                                <CommingEvent/>
+                            </Segment>
+                            <Segment>
+                                <CommingEvent/>
+                            </Segment>
                     </Segment>
+                    
                     
                 </Grid.Column>
 
                 <Grid.Column textAlign = 'center' width={4}>
-                    <Segment>
+                    <Segment divided>
                             <Label attached='top'>Historia wydarzeń</Label>
-                            <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+                            <Segment>
+                                <PassedEvent/>
+                            </Segment>
+                            <Segment>
+                                <PassedEvent/>
+                            </Segment>
+                            <Segment>
+                                <PassedEvent/>
+                            </Segment>
                     </Segment>
                 </Grid.Column>
                 </Grid.Row>
