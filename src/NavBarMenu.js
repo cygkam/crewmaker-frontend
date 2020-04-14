@@ -1,14 +1,15 @@
 import React,{ Component } from "react";
-import {Menu,Input,Segment, MenuItem} from 'semantic-ui-react';
+import {Menu,Input,Segment, MenuItem, Dropdown, DropdonwItem} from 'semantic-ui-react';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link
   } from "react-router-dom";
-  import Login from './Login';
-  import Register from './Register'
+  import Login from './Login/Login';
+  import Register from './Register/Register'
 import MainProfilePage from "./MainProfilePage";
+import LandingPage from "./LandingPage/LandingPage";
 
 class NavBarMenu extends Component {
     constructor(props) {
@@ -18,7 +19,6 @@ class NavBarMenu extends Component {
       }
 
    
-
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
@@ -26,44 +26,54 @@ class NavBarMenu extends Component {
 
     return (
       <div>
-          <Router>
-        <Menu pointing>
-          <Menu.Item
-            name='home'
-            active={activeItem === 'home'}
-            onClick={this.handleItemClick}
-            as={Link} to="/home"
-          >
+        <Router>
+          <Menu pointing>
+            <Menu.Item
+              name="home"
+              active={activeItem === "home"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/home"
+            >
               Strona główna
-          </Menu.Item>
-          <Menu.Item
-            name='register'
-            active={activeItem === 'register'}
-            onClick={this.handleItemClick}
-            as={Link} to="/register"
-          >
+            </Menu.Item>
+
+            {/*
+            <Menu.Item
+              name="register"
+              active={activeItem === "register"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/register"
+            >
               Zarejestruj się
-          </Menu.Item>
+            </Menu.Item>
+            */}
 
-          <MenuItem
-            name='mainProfilePage'
-            active={activeItem === 'mainProfilePage'}
-            onClick={this.handleItemClick}
-            as={Link} to="/mainProfilePage"
-          >
+            <MenuItem
+              name="mainProfilePage"
+              active={activeItem === "mainProfilePage"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/mainProfilePage"
+            >
               Profil użytkownika
-          </MenuItem>
+            </MenuItem>
 
-          <Menu.Item position='right'
-          name='login'
-          active={activeItem === 'login'}
-          onClick={this.handleItemClick}
-          as={Link} to="/login">
-                Zaloguj
-          </Menu.Item>
-        </Menu>
-
-        <Switch>
+            {/*
+            <Menu.Item
+              position="right"
+              name="login"
+              active={activeItem === "login"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/login"
+            >
+              Zaloguj
+            </Menu.Item>
+            */}
+          </Menu>
+          <Switch>
             <Route path="/register">
               <Register></Register>
             </Route>
@@ -71,18 +81,15 @@ class NavBarMenu extends Component {
               <MainProfilePage></MainProfilePage>
             </Route>
             <Route path="/login">
-              <Login/>
+              <Login />
             </Route>
             <Route path="/">
-              <Home />
+              <LandingPage />
             </Route>
           </Switch>
         </Router>
-
-        
-
       </div>
-    )
+    );
   }
   
 }

@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.slick-slide {
+  padding: 10px;
+}
+
+.slick-list {
+  margin: 10px;
+}
+
+.slick-initialized .slick-track {
+  display: flex;
+  align-items: center;
+}
+
+.slick-dots {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.slick-thumb {
+  padding-left: 20px;
+  padding-right: 20px;
+}
