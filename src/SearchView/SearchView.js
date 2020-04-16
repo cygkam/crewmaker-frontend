@@ -43,6 +43,10 @@ class SearchView extends Component {
         }
       }
 
+      handleSubmit = (event) => {
+          console.log(this.state.dateTime);
+      }
+
     render(){
         return(
         <Grid textAlign='center'>
@@ -66,7 +70,7 @@ class SearchView extends Component {
                                         />
                                     </Form.Field>
                             </Form.Group>
-                            <Form.Button fluid animated color="orange">
+                            <Form.Button fluid animated color="orange" onClick={this.handleSubmit}>
                                     <Button.Content visible>Wyszukaj</Button.Content>
                                         <Button.Content hidden>
                                         <Icon name='search' />
