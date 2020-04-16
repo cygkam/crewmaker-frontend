@@ -10,6 +10,7 @@ import {
 import Login from './Login';
 import MainProfilePage from './MainProfilePage';
 import LandingPage from "./LandingPage";
+import Search from 'antd/lib/input/Search';
 
 
   function Menu() {
@@ -30,6 +31,9 @@ import LandingPage from "./LandingPage";
                 <li>
                   <Link to="/login">Login</Link>
                 </li>
+                <li>
+                  <Link to="/search">Search</Link>
+                </li>
               </ul>
             </nav>
 
@@ -47,6 +51,9 @@ import LandingPage from "./LandingPage";
               </Route>
               <Route path="/">
                 <LandingPage />
+              </Route>
+              <Route path="/search">
+                <Search/>
               </Route>
             </Switch>
           </div>
