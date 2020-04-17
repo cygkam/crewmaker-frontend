@@ -1,27 +1,27 @@
-import React,{ Component } from "react";
-import {Menu,Input,Segment, MenuItem, Dropdown, DropdonwItem} from 'semantic-ui-react';
+import React, { Component } from "react";
+import { Menu, Input, Segment, MenuItem, Dropdown, DropdonwItem } from 'semantic-ui-react';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
-  import Login from './Login/Login';
-  import Register from './Register/Register'
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Login from './Login/Login';
+import Register from './Register/Register'
 import MainProfilePage from "./MainProfilePage";
 import LandingPage from "./LandingPage/LandingPage";
 
 class NavBarMenu extends Component {
-    constructor(props) {
-        super(props); 
-        this.state = { activeItem: 'home' }
-        this.wrapper = React.createRef();
-      }
+  constructor(props) {
+    super(props);
+    this.state = { activeItem: 'home', usernameLogged: localStorage.getItem.name }
+    this.wrapper = React.createRef();
+  }
 
-   
+
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-  render() {
+  render () {
     const { activeItem } = this.state
 
     return (
@@ -91,9 +91,9 @@ class NavBarMenu extends Component {
       </div>
     );
   }
-  
+
 }
-function Home() {
-    return <h2>Home</h2>;
-  }
+function Home () {
+  return <h2>Home</h2>;
+}
 export default NavBarMenu;
