@@ -1,9 +1,10 @@
 import React,{ Component } from "react";
-import { Grid,Select, Form,Icon,Button, Segment, Header } from "semantic-ui-react";
+import { Grid,Select, Form,Icon,Button, Segment, Header, List } from "semantic-ui-react";
 import {
     DateTimeInput,
     DatesRangeInput
   } from 'semantic-ui-calendar-react';
+import eventService from "../Api/Api";
 
 
 
@@ -11,7 +12,7 @@ const sportOptions = [
     {
         key: 'Piłka nożna',
         text: 'Piłka nożna',
-        value: 'Piłka nożna'
+        value: 'Piłka nożna' // tutaj potem id przesylac
     },
     {
         key: 'Siatkówka',
@@ -33,7 +34,9 @@ class SearchView extends Component {
           date: '',
           time: '',
           dateTime: '',
-          datesRange: ''
+          datesRange: '',
+          events : [],
+          isLoading : false
         };
       }
      
@@ -44,7 +47,17 @@ class SearchView extends Component {
       }
 
       handleSubmit = (event) => {
-          console.log(this.state.dateTime);
+        this.setState({isLoading : true});
+           eventService.getAllEvents().then( (response) => {
+                this.setState({events : response})
+                this.setState({isLoading : false})
+                console.log(this.state.events);
+           }
+           ).catch( 
+               (error) => console.log("Error") 
+           );          
+            
+          //console.log(this.state.dateTime);
       }
 
     render(){
@@ -70,7 +83,9 @@ class SearchView extends Component {
                                         />
                                     </Form.Field>
                             </Form.Group>
-                            <Form.Button fluid animated color="orange" onClick={this.handleSubmit}>
+                            <Form.Button fluid animated color="orange" onClick={this.handleSubmit}
+                                        loading={this.state.isLoading}
+                            >
                                     <Button.Content visible>Wyszukaj</Button.Content>
                                         <Button.Content hidden>
                                         <Icon name='search' />
@@ -78,6 +93,22 @@ class SearchView extends Component {
                             </Form.Button>
                         </Form>
                     </Segment>
+                    {
+                        this.state.events.length > 0 && 
+                        <Segment>
+                            <List divided verticalAlign='middle'>
+                                {this.state.events.map( (event) =>
+                                <List.Item>
+                                    <List.Content>
+                                        <List.Header>
+                                            {event.eventName}
+                                        </List.Header>
+                                    </List.Content>
+                                </List.Item>
+                                )}
+                            </List>
+                        </Segment>
+                    }
                 </Grid.Column>
             </Grid.Row>
         </Grid>

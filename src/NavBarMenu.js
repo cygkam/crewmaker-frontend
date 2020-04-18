@@ -68,7 +68,7 @@ class NavBarMenu extends Component {
               as={Link}
               to="/searchPannel"
             >
-              Search
+              Wyszukaj
             </Menu.Item>
 
             {/*
