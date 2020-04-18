@@ -83,4 +83,20 @@ function getUserProfile(username) {
   });
 }
 
-export default userService;
+
+
+
+const eventService = {
+  getAllEvents
+};
+
+function getAllEvents () {
+  return request({
+    url:API_BASE_URL + "/searchevents",
+    method:"GET"
+  });
+}
+
+
+//export default userService
+export default  eventService
