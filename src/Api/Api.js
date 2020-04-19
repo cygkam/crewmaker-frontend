@@ -90,13 +90,26 @@ const eventService = {
   getAllEvents
 };
 
-function getAllEvents () {
+function getAllEvents (sportCategoryID) {
   return request({
-    url:API_BASE_URL + "/searchevents",
+    url:API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID,
     method:"GET"
   });
 }
 
 
+const sportCategoryService = {
+  getAllSportsCat
+};
+
+function getAllSportsCat() {
+  return request({
+    url:API_BASE_URL + "/sportscategories",
+    method:"GET"
+  });
+}
+
+//Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
-export default  eventService
+export default  userService;
+export { eventService, sportCategoryService};
