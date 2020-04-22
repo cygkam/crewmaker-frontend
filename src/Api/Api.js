@@ -1,12 +1,12 @@
-import {ACCESS_TOKEN, API_BASE_URL } from '../constants'
+import { ACCESS_TOKEN, API_BASE_URL } from '../constants'
 
 const userService = {
-    login,
-    signup,
-    checkUsernameAvailability,
-    checkEmailAvailability,
-    getCurrentUser,
-    getUserProfile,
+  login,
+  signup,
+  checkUsernameAvailability,
+  checkEmailAvailability,
+  getCurrentUser,
+  getUserProfile,
 };
 
 const request = (options) => {
@@ -35,7 +35,7 @@ const request = (options) => {
   );
 };
 
-function login(loginRequest) {
+function login (loginRequest) {
   return request({
     url: API_BASE_URL + "/auth/signin",
     method: "POST",
@@ -43,7 +43,7 @@ function login(loginRequest) {
   });
 }
 
-function signup(signupRequest) {
+function signup (signupRequest) {
   return request({
     url: API_BASE_URL + "/auth/signup",
     method: "POST",
@@ -51,21 +51,21 @@ function signup(signupRequest) {
   });
 }
 
-function checkUsernameAvailability(username) {
+function checkUsernameAvailability (username) {
   return request({
     url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
     method: "GET",
   });
 }
 
-function checkEmailAvailability(email) {
+function checkEmailAvailability (email) {
   return request({
     url: API_BASE_URL + "/user/checkEmailAvailability?email=" + email,
     method: "GET",
   });
 }
 
-function getCurrentUser() {
+function getCurrentUser () {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
   }
@@ -76,11 +76,23 @@ function getCurrentUser() {
   });
 }
 
-function getUserProfile(username) {
+function getUserProfile (username) {
   return request({
     url: API_BASE_URL + "/users/" + username,
     method: "GET",
   });
 }
 
+const mainProfileService = {
+  getUserProfileInfo
+};
+
+function getUserProfileInfo (username) {
+  return request({
+    url: API_BASE_URL + "/userProfile/" + username,
+    method: "GET"
+  });
+}
+
+export { mainProfileService };
 export default userService;
