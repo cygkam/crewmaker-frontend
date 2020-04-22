@@ -1,55 +1,55 @@
-import React,{Component} from 'react';
-import { Button,Label,ButtonContent,Icon, Form,Grid, GridColumn, Image,Header,Segment,Message, ButtonGroup, Modal, GridRow } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Button, Label, ButtonContent, Icon, Form, Grid, GridColumn, Image, Header, Segment, Message, ButtonGroup, Modal, GridRow } from 'semantic-ui-react'
 import UserInfo from "./UserInfo"
 import CommingEvent from "./Events/CommingEvent"
 import PassedEvent from "./Events/PassedEvent"
 
 class MainProfilePage extends Component {
 
-    render() {
-        return(
-            <Grid  textAlign='center'  >
+    render () {
+        return (
+            <Grid textAlign='center'  >
                 <Grid.Row stretched>
-                <Grid.Column width={4} >
-                    <UserInfo/>
-                </Grid.Column>
+                    <Grid.Column width={4} >
+                        <UserInfo />
+                    </Grid.Column>
 
-                <Grid.Column width={5}>
-                    <Segment fluid>
+                    <Grid.Column width={5}>
+                        <Segment fluid>
                             <Label attached='top'>Twoje aktualne wydarzenia</Label>
                             <Segment>
-                                <CommingEvent/>
+                                <CommingEvent />
                             </Segment>
                             <Segment>
-                                <CommingEvent/>
+                                <CommingEvent />
                             </Segment>
                             <Segment>
-                                <CommingEvent/>
+                                <CommingEvent />
                             </Segment>
                             <Segment>
-                                <CommingEvent/>
+                                <CommingEvent />
                             </Segment>
-                    </Segment>
-                    
-                    
-                </Grid.Column>
+                        </Segment>
 
-                <Grid.Column textAlign = 'center' width={4}>
-                    <Segment divided>
+
+                    </Grid.Column>
+
+                    <Grid.Column textAlign='center' width={4}>
+                        <Segment divided>
                             <Label attached='top'>Historia wydarzeń</Label>
                             <Segment>
-                                <PassedEvent/>
+                                <PassedEvent />
                             </Segment>
                             <Segment>
-                                <PassedEvent/>
+                                <PassedEvent />
                             </Segment>
                             <Segment>
-                                <PassedEvent/>
+                                <PassedEvent />
                             </Segment>
-                    </Segment>
-                </Grid.Column>
+                        </Segment>
+                    </Grid.Column>
                 </Grid.Row>
-          </Grid>            
+            </Grid>
         )
     }
 }
