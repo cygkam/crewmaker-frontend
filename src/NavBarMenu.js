@@ -10,6 +10,7 @@ import Login from './Login/Login';
 import Register from './Register/Register'
 import MainProfilePage from "./MainProfilePage";
 import LandingPage from "./LandingPage/LandingPage";
+import SearchView from "./SearchView/SearchView";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -60,6 +61,16 @@ class NavBarMenu extends Component {
               Profil użytkownika
             </MenuItem>
 
+            <Menu.Item
+              name="searchPannel"
+              active={activeItem==="searchPannel"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/searchPannel"
+            >
+              Wyszukaj
+            </Menu.Item>
+
             {/*
             <Menu.Item
               position="right"
@@ -72,6 +83,9 @@ class NavBarMenu extends Component {
               Zaloguj
             </Menu.Item>
             */}
+
+            
+
           </Menu>
           <Switch>
             <Route path="/register">
@@ -83,9 +97,12 @@ class NavBarMenu extends Component {
             <Route path="/login">
               <Login />
             </Route>
+            <Route path="/searchPannel">
+              <SearchView></SearchView>
+            </Route> 
             <Route path="/">
               <LandingPage />
-            </Route>
+            </Route>           
           </Switch>
         </Router>
       </div>
