@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
-import { Button,Grid, Form , GridColumn, Image,Header,Segment,Message,Checkbox, Input,  Item, Container} from 'semantic-ui-react'
+import { Button,Grid, Form, Header,Segment,Checkbox, Input,  Item} from 'semantic-ui-react'
 import { validation } from '../validationRules'
 import userService from "../Api/Api";
 import { notification } from "antd";

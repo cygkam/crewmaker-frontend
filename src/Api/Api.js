@@ -94,8 +94,6 @@ function getUserProfileInfo (username) {
   });
 }
 
-
-
 const eventService = {
   getAllEvents
 };
@@ -106,7 +104,6 @@ function getAllEvents (sportCategoryID) {
     method:"GET"
   });
 }
-
 
 const sportCategoryService = {
   getAllSportsCat
@@ -122,5 +119,5 @@ function getAllSportsCat() {
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
-export { mainProfileService,eventService, sportCategoryService };
+export { mainProfileService, eventService, sportCategoryService };
 export default userService;
