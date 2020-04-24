@@ -7,7 +7,6 @@ import {
     Route,
     Link
   } from "react-router-dom";
-import Login from './Login';
 import MainProfilePage from './MainProfilePage';
 import LandingPage from "./LandingPage";
 import Search from 'antd/lib/input/Search';
@@ -29,9 +28,6 @@ import Search from 'antd/lib/input/Search';
                   <Link to="/mainProfilePage">Profile Page</Link>
                 </li>
                 <li>
-                  <Link to="/login">Login</Link>
-                </li>
-                <li>
                   <Link to="/search">Search</Link>
                 </li>
               </ul>
@@ -42,9 +38,6 @@ import Search from 'antd/lib/input/Search';
             <Switch>
               <Route path="/register">
                 <Register></Register>
-              </Route>
-              <Route path="/login">
-                <Login />
               </Route>
               <Route path="/mainProfilePage">
                 <MainProfilePage />

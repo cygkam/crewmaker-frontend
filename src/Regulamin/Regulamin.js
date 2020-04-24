@@ -1,14 +1,9 @@
 
 import React, { Component } from "react";
-import _ from "lodash";
-import { Button, Header, Icon, Image, Modal } from "semantic-ui-react";
-//import regulamin from "./Details";
+import { Button, Icon, Modal } from "semantic-ui-react";
 
 
 class Regulamin extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
