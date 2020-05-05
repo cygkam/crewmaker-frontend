@@ -90,9 +90,9 @@ const eventService = {
   getAllEvents
 };
 
-function getAllEvents (sportCategoryID) {
+function getAllEvents (sportCategoryID, eventDate, eventTime) {
   return request({
-    url:API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID,
+    url:API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID+"&eventDate="+eventDate,
     method:"GET"
   });
 }

@@ -2,32 +2,12 @@ import React,{ Component } from "react";
 import { Grid,Select, Form,Icon,Button, Segment, Header, List } from "semantic-ui-react";
 import {
     DateTimeInput,
-    DatesRangeInput
+    DateInput,
+    DatesRangeInput,
+    TimeInput
   } from 'semantic-ui-calendar-react';
 import {eventService,sportCategoryService} from "../Api/Api";
-
-
-
-
-const sportOptions = [
-    {
-        key: 'Piłka nożna',
-        text: 'Piłka nożna',
-        value: 'Piłka nożna' // tutaj potem id przesylac
-    },
-    {
-        key: 'Siatkówka',
-        text: 'Siatkówka',
-        value: 'Siatkówka'
-    },
-    {
-        key: 'Koszykówka',
-        text: 'Koszykówka',
-        value: 'Koszykówka'
-    }
-]
-
-
+import Moment from "react-moment";
 
 
 class SearchView extends Component {
@@ -42,7 +22,8 @@ class SearchView extends Component {
           events : [],
           sportCategories : [],
           isLoading : false,
-          sportCategory : ''
+          sportCategory : '',
+          wasSubmited : false
         };
       }
      
@@ -54,10 +35,13 @@ class SearchView extends Component {
 
       handleSubmit = (event) => {
             this.setState({isLoading : true});
-           eventService.getAllEvents(this.state.sportCategory).then( (response) => {
+           eventService.getAllEvents(this.state.sportCategory, this.state.date,this.state.time).then( (response) => {
                 this.setState({events : response})
                 this.setState({isLoading : false})
                 console.log(this.state.events)
+                this.setState({wasSubmited : true});
+                console.log(this.state.time);
+                console.log(this.state.date);
            }
            ).catch( 
                (error) => console.log("Error") 
@@ -98,16 +82,25 @@ class SearchView extends Component {
                                 Wyszukaj wydarzenie!
                             </Header>
                             <Form.Group widths = 'equal'>
-                                <Form.Field><Select placeholder='Wybierz dziedzinę sportu' options={this.state.sportCategories} 
+                                <Form.Field required><Select placeholder='Wybierz dziedzinę sportu' options={this.state.sportCategories} 
                                 name="sportCategory" 
                                 value={this.state.sportCategory}
                                  onChange={this.handleChange} />
                                     </Form.Field>
+                                    <Form.Field required>
+                                        <DateInput
+                                        name="date"
+                                        placeholder="Data wydarzenia"
+                                        iconPosition='left'
+                                        value={this.state.date}
+                                        onChange={this.handleChange}
+                                        />
+                                    </Form.Field>
                                     <Form.Field>
-                                        <DateTimeInput
-                                        name="dateTime"
+                                        <TimeInput
+                                        name="time"
                                         placeholder="Czas wydarzenia"
-                                        value={this.state.dateTime}
+                                        value={this.state.time}
                                         iconPosition="left"
                                         onChange={this.handleChange}
                                         />
@@ -137,6 +130,12 @@ class SearchView extends Component {
                                                     <Grid.Column>
                                                         <Header as='h3' color='orange'>Data</Header>
                                                     </Grid.Column>
+                                                    <Grid.Column>
+                                                        <Header as='h3' color='orange'>Godzina</Header>
+                                                    </Grid.Column>
+                                                    <Grid.Column>
+                                                        <Header as='h3' color='orange'>Długość</Header>
+                                                    </Grid.Column>
                                                 </Grid.Row>
                                             </Grid>
                             <List divided verticalAlign='middle' size = 'huge'>                                      
@@ -153,7 +152,15 @@ class SearchView extends Component {
                                                         {event.eventPlaceName}
                                                     </Grid.Column>
                                                     <Grid.Column>
-                                                        {event.eventDate}
+                                                        <Moment format="DD-MM-YYYY">
+                                                            {event.eventDate}
+                                                        </Moment>
+                                                    </Grid.Column>
+                                                    <Grid.Column>
+                                                        {event.eventTime}
+                                                    </Grid.Column>
+                                                    <Grid.Column>
+                                                        {event.eventDuration}
                                                     </Grid.Column>
                                                 </Grid.Row>
                                             </Grid>
@@ -162,6 +169,12 @@ class SearchView extends Component {
                                 </List.Item>
                                 )}
                             </List>
+                        </Segment>
+                    }
+                    {
+                        this.state.events.length==0 && this.state.wasSubmited &&
+                        <Segment textAlign='center'>
+                            <Header as='h1' color='orange'>Nie znaleziono wydarzeń</Header>
                         </Segment>
                     }
                 </Grid.Column>
