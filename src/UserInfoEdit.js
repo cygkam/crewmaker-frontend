@@ -1,51 +1,134 @@
 import React, { Component } from 'react';
-import { Button, Label, Icon, Form, Grid, GridColumn, Image, Header, Segment, Input, List, Container } from 'semantic-ui-react';
+import { Button, Label, Icon, Form, Grid, GridRow, GridColumn, TextArea, Image, Header, Segment, Input, List, Container } from 'semantic-ui-react';
 import { mainProfileService } from "./Api/Api";
+import { notification} from "antd";
 
 class UserInfoEdit extends Component {
-    constructor(propos) {
-        super(propos);
-
-        this.handleLoginChange = this.handleLoginChange.bind(this);
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);  
-
+    constructor(props) {
+        super(props);
         this.state = {
-            login: propos.login,
-            email: propos.email,
-            telephone: propos.telephone,
-            description: propos.description
+          username: "login",  
+          name: "imie",
+          nazwisko: "nazwisko",
+          email: "email użytkownika",
+          photo: "https://react.semantic-ui.com/images/wireframe/image.png",
+          phoneNumber: "telefon użytkownika",
+          description: "Lorem ipsum dolor sit amet.",
         };
-    }
+      }
+    
+      componentWillMount() {
+        this.setState((props) =>({
+            username: this.props.username,
+            name: this.props.name,
+            surname: this.props.surname,
+            email: this.props.email,
+            phoneNumber: this.props.phoneNumber,
+            description: this.props.description,
+        }));
+      }
 
-    handleLoginChange(event) { 
-        this.setState({login: event.target.value}); 
-    }
-
-    handleDescriptionChange(event) { 
-        this.setState({description: event.target.value}); 
-    }
+      handleSubmit(event) {
+        event.preventDefault();
+    
+        const updateRequest = {
+          username: this.state.username.value,  
+          email: this.state.email.value,
+          name: this.state.name.value,
+          surname: this.state.surname.value,
+          phoneNumber: this.state.phoneNumber.value,
+          description: this.state.description.value
+        };
+        mainProfileService
+          .updateUser(updateRequest)
+          .then((response) => {
+            notification.success({
+              message: "Data change",
+              description:
+                "Data were correctly changed!",
+            });
+        })
+        .catch((error) => {
+          notification.error({
+            message: "Data change",
+            description:
+              error.message || "Sorry! Something went wrong.",
+          });
+        });
+      }
 
     render () {
         return (
             <Grid>
-                <Segment>
-                    <Label attached='top left'>Login</Label>
-                    <Input type="text" value={this.state.login} onChange={this.handleLoginChange}/>
-                </Segment>
-                <Segment>
-                    <Label attached="top left">O mnie</Label>
-                    <Container textAlign='left'>
-                    <Input type="text" value={this.state.description} onChange={this.handleDescriptionChange}/>
-                    </Container>
-                </Segment>
-                <Segment textAlign='left'>
-                    <Icon name='mail' />
-                    {this.state.email}
-                </Segment>
-                <Segment textAlign='left'>
-                    <Icon name='phone' />
-                    {this.state.telephone}
-                </Segment>
+                <GridColumn>
+                    <Grid.Row>
+                        <Segment>
+                            <Label attached="top">Imię</Label>
+                            <Container textAlign="left">
+                                <Input placeholder='Imię' style={{width: '100%'}}
+                                    value={this.state.name}
+                                    onChange={(e) => {this.setState({name: e.target.value})}}>
+                                </Input>
+                            </Container>
+                        </Segment>
+                        <Segment>
+                            <Label attached="top">Nazwisko</Label>
+                            <Container textAlign="left">
+                                <Input placeholder='Nazwisko' style={{width: '100%'}}
+                                value={
+                                    this.state.surname}
+                                onChange={(e) => { this.setState({surname: e.target.value}); }}>
+                                </Input>
+                            </Container>
+                        </Segment>
+                        <Segment>
+                            <Label attached="top">Email</Label>
+                            <Container textAlign="left">
+                                <Input placeholder='Email' style={{width: '100%'}}
+                                    value={this.state.email}
+                                    onChange={(e) => {this.setState({email: e.target.value})}}>
+                                </Input>
+                            </Container>
+                        </Segment>
+                        <Segment>
+                            <Label attached="top">Telefon</Label>
+                            <Container textAlign="left">
+                                <Input placeholder='Telefon' style={{width: '100%'}}
+                                    value={this.state.phoneNumber}
+                                    onChange={(e) => {this.setState({phoneNumber: e.target.value})}}>
+                                </Input>
+                            </Container>
+                        </Segment>
+                        <Segment>
+                            <Label attached="top">O mnie</Label>
+                            <Container textAlign="left">
+                                <Form>
+                                    <TextArea style={{ minHeight: '10%' }}
+                                     onChange={(e) => {this.setState({description: e.target.value})}}>
+                                        {this.state.description}
+                                    </TextArea>
+                                </Form>
+                            </Container>
+                        </Segment>
+                        <GridColumn width={1}>
+                            <Button fluid size="medium" color="green" 
+                                    style={{width: '100%', marginTop: '2px', marginBottom: '2px'}}
+                                    onClick = {
+                                    this.handleSubmit,
+                                    this.props.handler
+                                    }>
+                                <Button.Content visible>Zapisz zmiany</Button.Content>
+                            </Button>
+                        </GridColumn>
+                        <GridColumn width={1}>
+                            <Button fluid size="medium" color="grey" style={{width: '100%'}} onClick = {this.props.handler}>
+                                <Button.Content visible>Anuluj</Button.Content>
+                            </Button>
+                        </GridColumn>
+                    </Grid.Row>
+
+                    
+                </GridColumn>
             </Grid>
         )
     }

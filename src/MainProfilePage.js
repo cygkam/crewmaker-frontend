@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Label,  Grid,  Segment } from 'semantic-ui-react'
+import {Label,  Grid,  Segment, Button, Icon } from 'semantic-ui-react'
 import UserInfo from "./UserInfo"
 import CommingEvent from "./Events/CommingEvent"
 import PassedEvent from "./Events/PassedEvent"
@@ -15,7 +15,7 @@ class MainProfilePage extends Component {
     super(props);
     this.state = {
       user: null,
-      isLoading: false,
+      isLoading: true,
     };
   }
 
@@ -79,6 +79,12 @@ class MainProfilePage extends Component {
       <Grid textAlign="center">
         <Grid.Row stretched>
           <Grid.Column width={4}>
+            <Button fluid size="massive" animated color="orange" style={{maxHeight: 60}}>
+              <Button.Content visible>Znajdź ekipę</Button.Content>
+              <Button.Content hidden>
+                <Icon name="group" />
+              </Button.Content>
+            </Button>
             <UserInfo {...this.state.user}/>
           </Grid.Column>
 
