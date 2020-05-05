@@ -10,7 +10,7 @@ class MainProfilePage extends Component {
         return (
             <Grid textAlign='center'  >
                 <Grid.Row stretched>
-                    <Grid.Column width={4} >
+                    <Grid.Column width={4} >zz
                         <UserInfo />
                     </Grid.Column>
 
