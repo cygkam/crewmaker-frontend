@@ -22,7 +22,7 @@ class UserInfoView extends Component {
     this.setState((props) =>({
         username: this.props.username,
         name: this.props.name,
-        surname: this.props.name,
+        surname: this.props.surname,
         email: this.props.email,
         telephone: this.props.phoneNumber,
         description: this.props.description,

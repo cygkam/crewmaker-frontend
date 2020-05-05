@@ -32,12 +32,12 @@ class UserInfoEdit extends Component {
 
       handleSubmit(event) {    
         const updateRequest = {
-          username: this.state.username.value,  
-          email: this.state.email.value,
-          name: this.state.name.value,
-          surname: this.state.surname.value,
-          phoneNumber: this.state.phoneNumber.value,
-          description: this.state.description.value,
+          username: this.state.username,  
+          email: this.state.email,
+          name: this.state.name,
+          surname: this.state.surname,
+          phoneNumber: this.state.phoneNumber,
+          description: this.state.description,
         };
         mainProfileService
           .updateUser(updateRequest)
@@ -47,6 +47,8 @@ class UserInfoEdit extends Component {
               description:
                 "Data were correctly changed!",
             });
+            window.location.reload(true);
+
         })
         .catch((error) => {
           notification.error({
@@ -55,6 +57,7 @@ class UserInfoEdit extends Component {
               error.message || "Sorry! Something went wrong.",
           });
         });
+        this.props.handler();
       }
 
     render () {
@@ -113,8 +116,7 @@ class UserInfoEdit extends Component {
                         <GridColumn width={1}>
                             <Button fluid size="medium" color="green" 
                                     style={{width: '100%', marginTop: '2px', marginBottom: '2px'}}
-                                    onClick = {
-                                    this.handleSubmit}>
+                                    onClick = {this.handleSubmit}>
                                 <Button.Content visible>Zapisz zmiany</Button.Content>
                             </Button>
                         </GridColumn>
