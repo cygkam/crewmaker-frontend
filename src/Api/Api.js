@@ -94,5 +94,30 @@ function getUserProfileInfo (username) {
   });
 }
 
-export { mainProfileService };
+const eventService = {
+  getAllEvents
+};
+
+function getAllEvents (sportCategoryID) {
+  return request({
+    url:API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID,
+    method:"GET"
+  });
+}
+
+const sportCategoryService = {
+  getAllSportsCat
+};
+
+function getAllSportsCat() {
+  return request({
+    url:API_BASE_URL + "/sportscategories",
+    method:"GET"
+  });
+}
+
+//Sprawdzic jak exportowac dwa rozne constansy
+//export default userService
+
+export { mainProfileService, eventService, sportCategoryService };
 export default userService;

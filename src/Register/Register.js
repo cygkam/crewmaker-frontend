@@ -1,30 +1,30 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
-import { Button,Grid, Form , GridColumn, Image,Header,Segment,Message,Checkbox, Input,  Item, Container} from 'semantic-ui-react'
-import { validation } from '../validationRules'
-import userService from "../Api/Api";
-import { notification } from "antd";
-import "antd/dist/antd.css";
-import Regulamin from "../Regulamin/Regulamin"
-
 import {
-  NAME_MIN_LENGTH,
-  NAME_MAX_LENGTH,
-  USERNAME_MIN_LENGTH,
-  USERNAME_MAX_LENGTH,
-  EMAIL_MAX_LENGTH,
+  Grid,
+  Header,
+  Segment,
+  Item,
+  Icon,
+  Button,
+  Checkbox,
+} from "semantic-ui-react";
+import { validation } from "./validationRules"
+import userService from "../Api/Api";
+import { notification, Input, Form } from "antd";
+import "antd/dist/antd.less";
+import "../index.css";
+import Regulamin from "./Regulamin"
+import {
   PASSWORD_MIN_LENGTH,
   PASSWORD_MAX_LENGTH,
-  PHONE_ACCEPTED_LENGTH,
-  PHONE_MAX_LENGTH,
-  PHONE_MIN_LENGTH,
 } from "../constants";
+const FormItem = Form.Item;
 
 
 class Register extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       open: false,
       username: {
@@ -48,6 +48,7 @@ class Register extends Component {
       confirmPassword: {
         value: "",
       },
+      userAgreement: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -57,30 +58,39 @@ class Register extends Component {
     );
     this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+    this.toggleAgreement = this.toggleAgreement.bind(this);
     this.wrapper = React.createRef();
   }
 
-  toggleModal = () => {
+  handleToggleModal = () => {
     this.setState({
       open: !this.state.open,
     });
   };
 
-  handleCloseModal= () => {
+  handleCloseModal = () => {
     this.setState({
       open: false,
     });
   };
 
+  toggleAgreement = () => {
+    this.setState({
+      userAgreement: !this.state.userAgreement,
+    });
+  };
+
+  
+
   handleChange(event, valdiationFunction) {
     const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    const inputValue = target.value;
+    const inputName = target.name;
 
     this.setState({
-      [name]: {
-        value,
-        ...valdiationFunction(name),
+      [inputName]: {
+        value: inputValue,
+        ...valdiationFunction(inputValue),
       },
     });
   }
@@ -104,7 +114,19 @@ class Register extends Component {
           description:
             "Thank you! You're successfully registered. Please Login to continue!",
         });
-        this.props.history.push("/login");
+
+      this.setState({
+        username: "",
+        password: "",
+        confirmPassword: "",
+        email: "",
+        name: "",
+        surname: "",
+        phoneNumber: "",
+      });
+
+        //TODO
+        //this.props.history.push("/login");
       })
       .catch((error) => {
         notification.error({
@@ -117,10 +139,13 @@ class Register extends Component {
 
   isFormInvalid() {
     return !(
-      validation.validateName(this.state.name) === "success" &&
+      this.state.name.validateStatus === "success" &&
+      this.state.surname.validateStatus === "success" &&
       this.state.username.validateStatus === "success" &&
       this.state.email.validateStatus === "success" &&
-      this.state.password.validateStatus === "success"
+      this.state.password.validateStatus === "success" &&
+      this.state.confirmPassword.validateStatus === "success" &&
+      this.state.userAgreement === true
     );
   }
 
@@ -132,220 +157,174 @@ class Register extends Component {
             <Header as="h2" color="orange" textAlign="center">
               Zarajestruj się !
             </Header>
-            <Form size="large" onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit} autoComplete="off">
               <Segment stacked>
-                <Form.Field>
+                <FormItem
+                  style={{ marginBottom: 12 }}
+                  hasFeedback
+                  autoComplete="off"
+                  validateStatus={this.state.username.validateStatus}
+                  help={this.state.username.errorMsg}
+                >
                   <Input
-                    fluid
+                    prefix={<Icon name="user" />}
                     autoComplete="off"
-                    required
-                    validateStatus={this.state.username.validateStatus}
-                    help={this.state.username.errorMsg}
-                    value={this.state.username.value}
-                    icon="user"
-                    iconPosition="left"
                     name="username"
                     type="text"
+                    value={this.state.username.value}
                     onBlur={this.validateUsernameAvailability}
                     placeholder="Username"
                     onChange={(event) =>
-                      this.handleChange(event, this.validateUsername)
+                      this.handleChange(event, validation.validateUsername)
                     }
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Input
-                    fluid
-                    required
+                </FormItem>
+                <FormItem
+                  hasFeedback
+                  style={{ marginBottom: 12 }}
+                  autoComplete="off"
+                  validateStatus={this.state.password.validateStatus}
+                  help={this.state.password.errorMsg}
+                >
+                  <Input.Password
+                    prefix={<Icon name="lock" />}
                     autoComplete="off"
-                    validateStatus={this.state.password.validateStatus}
-                    help={this.state.password.errorMsg}
-                    icon="lock"
-                    iconPosition="left"
                     name="password"
                     placeholder="Hasło"
                     type="password"
+                    value={this.state.password.value}
                     onChange={(event) =>
                       this.handleChange(event, this.validatePassword)
                     }
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Input
-                    fluid
-                    required
+                </FormItem>
+                <FormItem
+                  hasFeedback
+                  style={{ marginBottom: 12 }}
+                  validateStatus={this.state.confirmPassword.validateStatus}
+                  help={this.state.confirmPassword.errorMsg}
+                >
+                  <Input.Password
+                    prefix={<Icon name="lock" />}
                     autoComplete="off"
-                    validateStatus={this.state.confirmPassword.validateStatus}
-                    help={this.state.confirmPassword.errorMsg}
-                    icon="lock"
-                    iconPosition="left"
+                    value={this.state.confirmPassword.value}
                     placeholder="Potwierdz hasło"
                     name="confirmPassword"
                     type="password"
                     onChange={(event) =>
-                      this.handleChange(event, this.validatePassword)
+                      this.handleChange(event, this.validateConfirmPassword)
                     }
                   />
-                </Form.Field>
-                <Form.Field>
+                </FormItem>
+                <FormItem
+                  hasFeedback
+                  style={{ marginBottom: 12 }}
+                  validateStatus={this.state.email.validateStatus}
+                  help={this.state.email.errorMsg}
+                >
                   <Input
-                    fluid
-                    required
-                    hasFeedback
-                    validateStatus={this.state.email.validateStatus}
-                    help={this.state.email.errorMsg}
-                    icon="mail"
-                    iconPosition="left"
+                    prefix={<Icon name="mail" />}
                     name="email"
                     placeholder="Adres e-mail"
                     onBlur={this.validateEmailAvailability}
+                    value={this.state.email.value}
                     onChange={(event) =>
-                      this.handleChange(event, this.validateEmail)
+                      this.handleChange(event, validation.validateEmail)
                     }
                   />
-                </Form.Field>
-                <Form.Field>
+                </FormItem>
+                <FormItem
+                  hasFeedback
+                  style={{ marginBottom: 12 }}
+                  validateStatus={this.state.name.validateStatus}
+                  help={this.state.name.errorMsg}
+                >
                   <Input
-                    fluid
-                    required
-                    validateStatus={this.state.name.validateStatus}
-                    help={this.state.name.errorMsg}
+                    prefix={<Icon name="user" />}
                     autoComplete="off"
-                    icon="user"
-                    iconPosition="left"
                     placeholder="Imię"
+                    value={this.state.name.value}
                     name="name"
                     onChange={(event) =>
-                      this.handleChange(event, this.validateName)
+                      this.handleChange(event, validation.validateName)
                     }
                   />
-                </Form.Field>
-                <Form.Field>
+                </FormItem>
+                <FormItem
+                  hasFeedback
+                  style={{ marginBottom: 12 }}
+                  validateStatus={this.state.surname.validateStatus}
+                  help={this.state.surname.errorMsg}
+                >
                   <Input
-                    fluid
-                    required
-                    validateStatus={this.state.surname.validateStatus}
-                    help={this.state.surname.errorMsg}
-                    icon="user"
+                    prefix={<Icon name="user" />}
                     autoComplete="off"
-                    iconPosition="left"
                     placeholder="Nazwisko"
+                    value={this.state.surname.value}
                     name="surname"
                     onChange={(event) =>
-                      this.handleChange(event, this.validateName)
+                      this.handleChange(event, validation.validateSurname)
                     }
                   />
-                </Form.Field>
-                <Form.Field>
+                </FormItem>
+                <FormItem
+                  hasFeedback
+                  style={{ marginBottom: 12 }}
+                  validateStatus={this.state.phoneNumber.validateStatus}
+                  help={this.state.phoneNumber.errorMsg}
+                >
                   <Input
-                    fluid
-                    icon="phone"
-                    autoComplete="off"
-                    iconPosition="left"
+                    prefix={<Icon name="phone" />}
+                    value={this.state.phoneNumber.value}
                     name="phoneNumber"
                     placeholder="Numer telefonu"
                     onChange={(event) =>
-                      this.handleChange(event, this.validatePhoneNumber)
+                      this.handleChange(event, validation.validatePhoneNumber)
                     }
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Checkbox label="Zapoznałem się z regulaminem i akceptuję wszystkie jego postanowienia oraz zezwalam na przetwarzanie moich danych osobowych do celów określonych w" />
-                  <Item as={Link} onClick={this.toggleModal}>
-                    regulaminie
-                  </Item>
-                </Form.Field>
+                </FormItem>
+                <FormItem>
+                  <Checkbox
+                    onChange={this.toggleAgreement}
+                    label={
+                      <label
+                        style={{
+                          "line-height": 16,
+                        }}
+                      >
+                        Zapoznałem się z regulaminem i akceptuję wszystkie jego
+                        postanowienia oraz zezwalam na przetwarzanie moich
+                        danych osobowych do celów określonych w{" "}
+                        <Item as={Link} onClick={this.handleToggleModal}>
+                          regulaminie
+                        </Item>
+                      </label>
+                    }
+                  />
+                </FormItem>
 
-                <Form.Field>
+                <FormItem style={{ marginBottom: 6 }}>
                   <Button
                     color="orange"
-                    fluid
                     size="large"
+                    disabled={this.isFormInvalid()}
                     onClick={this.handleSubmit}
                   >
                     Stwórz konto
                   </Button>
-                </Form.Field>
+                </FormItem>
               </Segment>
             </Form>
           </Grid.Column>
         </Grid>
-        <Regulamin isOpen={this.state.open} onClose={this.handleCloseModal}/>
+        <Regulamin isOpen={this.state.open} onClose={this.handleToggleModal} />
       </div>
     );
   }
 
-  validateName(name) {
-    if (name.length < NAME_MIN_LENGTH) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`,
-      };
-    } else if (name.length > NAME_MAX_LENGTH) {
-      return {
-        validationStatus: "error",
-        errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`,
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null,
-      };
-    }
-  }
-
-  validateEmail = (email) => {
-    if (!email) {
-      return {
-        validateStatus: "error",
-        errorMsg: "Email may not be empty",
-      };
-    }
-
-    const EMAIL_REGEX = RegExp("[^@ ]+@[^@ ]+\\.[^@ ]+");
-    if (!EMAIL_REGEX.test(email)) {
-      return {
-        validateStatus: "error",
-        errorMsg: "Email not valid",
-      };
-    }
-
-    if (email.length > EMAIL_MAX_LENGTH) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`,
-      };
-    }
-
-    return {
-      validateStatus: null,
-      errorMsg: null,
-    };
-  };
-
-  validateUsername = (username) => {
-    if (username.length < USERNAME_MIN_LENGTH) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)`,
-      };
-    } else if (username.length > USERNAME_MAX_LENGTH) {
-      return {
-        validationStatus: "error",
-        errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)`,
-      };
-    } else {
-      return {
-        validateStatus: null,
-        errorMsg: null,
-      };
-    }
-  };
-
   validateUsernameAvailability() {
-    // First check for client side errors in username
     const usernameValue = this.state.username.value;
-    const usernameValidation = this.validateUsername(usernameValue);
+    const usernameValidation = validation.validateUsername(usernameValue);
 
     if (usernameValidation.validateStatus === "error") {
       this.setState({
@@ -381,13 +360,12 @@ class Register extends Component {
             username: {
               value: usernameValue,
               validateStatus: "error",
-              errorMsg: "This username is already taken",
+              errorMsg: "Ta nazwa jest już zajęta",
             },
           });
         }
       })
       .catch((error) => {
-        // Marking validateStatus as success, Form will be recchecked at server
         this.setState({
           username: {
             value: usernameValue,
@@ -399,9 +377,8 @@ class Register extends Component {
   }
 
   validateEmailAvailability() {
-    // First check for client side errors in email
     const emailValue = this.state.email.value;
-    const emailValidation = this.validateEmail(emailValue);
+    const emailValidation = validation.validateEmail(emailValue);
 
     if (emailValidation.validateStatus === "error") {
       this.setState({
@@ -437,13 +414,12 @@ class Register extends Component {
             email: {
               value: emailValue,
               validateStatus: "error",
-              errorMsg: "This Email is already registered",
+              errorMsg: "Ten email jest już zajęty",
             },
           });
         }
       })
       .catch((error) => {
-        // Marking validateStatus as success, Form will be recchecked at server
         this.setState({
           email: {
             value: emailValue,
@@ -454,48 +430,45 @@ class Register extends Component {
       });
   }
 
-  validatePassword = (password) => {
-    if (password.length < PASSWORD_MIN_LENGTH) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)`,
-      };
-    } else if (password.length > PASSWORD_MAX_LENGTH) {
-      return {
-        validationStatus: "error",
-        errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`,
-      };
-    } else {
+  validateConfirmPassword = (confirmPassword) => {
+      if (confirmPassword !== this.state.password.value) {
+        return {
+          validateStatus: "error",
+          errorMsg: `Hasła się nie zgadzają.`,
+        };
+      }
       return {
         validateStatus: "success",
         errorMsg: null,
       };
     }
-  };
+  
+validatePassword = (password) =>{
+  if (password.length < PASSWORD_MIN_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Hasło jest za krótkie (Wymagane minimum to ${PASSWORD_MIN_LENGTH} znaki)`,
+    };
+  } else if (password.length > PASSWORD_MAX_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Hasło jest za długie (Maksimum to ${PASSWORD_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    const event = {
+      target: {
+        value: "",
+        name: "confirmPassword",
+      },
+    };
+    this.handleChange(event, this.validateConfirmPassword); 
 
-  validatePhoneNumber = (phoneNumber) => {
-    if (phoneNumber.length === PHONE_ACCEPTED_LENGTH) {
-      return {
-        validateStatus: "success",
-        errorMsg: null,
-      };
-    } else if (phoneNumber.length < PHONE_MIN_LENGTH) {
-      return {
-        validationStatus: "error",
-        errorMsg: `Phone number is incorrect (Minimum ${PHONE_MIN_LENGTH} characters allowed.)`,
-      };
-    } else if (phoneNumber.length > PHONE_MAX_LENGTH) {
-      return {
-        validationStatus: "error",
-        errorMsg: `Phone number is incorrect (Maximun ${PHONE_MAX_LENGTH} characters allowed.)`,
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null,
-      };
-    }
-  };
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+};
 }
 
 export default Register;
