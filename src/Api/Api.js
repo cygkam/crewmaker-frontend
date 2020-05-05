@@ -83,8 +83,17 @@ function getUserProfile (username) {
   });
 }
 
+function updateUser(userData) {
+  return request({
+    url: API_BASE_URL + "/updateUser",
+    method: "POST",
+    body: JSON.stringify(userData)
+  })
+}
+
 const mainProfileService = {
-  getUserProfileInfo
+  getUserProfileInfo,
+  updateUser
 };
 
 function getUserProfileInfo (username) {
