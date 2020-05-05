@@ -15,6 +15,10 @@ class Login extends Component {
       password: "",
       submitted: false,
       loading: false,
+
+      currentUser: null,
+      isAuthenticated: false,
+      isLoading: false,
     };
 
     notification.config({
@@ -32,14 +36,6 @@ class Login extends Component {
       [e.target.name]: e.target.value,
     });
 
-  handleLogin() {
-    notification.success({
-      message: "Login App",
-      description: "You're successfully logged in.",
-    });
-    //this.loadCurrentUser();
-  }
-
   handleSubmit(event) {
     event.preventDefault();
 
@@ -56,9 +52,7 @@ class Login extends Component {
       .login(loginRequest)
       .then((response) => {
         localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-        console.log(response.accessToken);
-
-        this.handleLogin();
+        this.props.onLogin();
       })
       .catch((error) => {
         if (error.status === 401) {

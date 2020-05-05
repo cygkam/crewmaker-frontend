@@ -34,3 +34,19 @@ code {
   padding-left: 20px;
   padding-right: 20px;
 }
+
+.ant-input-affix-wrapper .ant-input-prefix {
+  left: 12px;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: orange;
+  border-color: orange;
+}
+
+.ant-input:focus {
+  border-color: #57a8e9;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(87, 168, 233, .2);
+  box-shadow: 0 0 0 2px rgba(87, 168, 233, .2);
+}

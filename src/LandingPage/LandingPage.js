@@ -6,13 +6,24 @@ import {
   Segment,
   Container
 } from "semantic-ui-react";
+import { notification } from "antd";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
+import { withRouter } from 'react-router-dom';
 
 class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    notification.config({
+      placement: "topRight",
+      top: 70,
+      duration: 3,
+    });
+  }
+
 
   render() {
     var sliderMainSettings = {
@@ -37,7 +48,7 @@ class LandingPage extends Component {
                 ref={(slider) => (this.slider = slider)}
               >
                 <div>
-                  <Login />
+                  <Login onLogin={this.props.onLogin} />
                 </div>
                 <div>
                   <Register />
@@ -105,4 +116,4 @@ class LandingPage extends Component {
   }
 }
 
-export default LandingPage;
+export default withRouter(LandingPage);
