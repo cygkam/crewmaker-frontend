@@ -15,6 +15,8 @@ class UserInfoEdit extends Component {
           phoneNumber: "telefon użytkownika",
           description: "Lorem ipsum dolor sit amet.",
         };
+
+        this.handleSubmit = this.handleSubmit.bind(this)
       }
     
       componentWillMount() {
@@ -28,16 +30,14 @@ class UserInfoEdit extends Component {
         }));
       }
 
-      handleSubmit(event) {
-        event.preventDefault();
-    
+      handleSubmit(event) {    
         const updateRequest = {
           username: this.state.username.value,  
           email: this.state.email.value,
           name: this.state.name.value,
           surname: this.state.surname.value,
           phoneNumber: this.state.phoneNumber.value,
-          description: this.state.description.value
+          description: this.state.description.value,
         };
         mainProfileService
           .updateUser(updateRequest)
@@ -114,9 +114,7 @@ class UserInfoEdit extends Component {
                             <Button fluid size="medium" color="green" 
                                     style={{width: '100%', marginTop: '2px', marginBottom: '2px'}}
                                     onClick = {
-                                    this.handleSubmit,
-                                    this.props.handler
-                                    }>
+                                    this.handleSubmit}>
                                 <Button.Content visible>Zapisz zmiany</Button.Content>
                             </Button>
                         </GridColumn>
