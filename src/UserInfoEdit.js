@@ -31,6 +31,8 @@ class UserInfoEdit extends Component {
       }
 
       handleSubmit(event) {    
+          console.log(this.state);
+
         const updateRequest = {
           username: this.state.username,  
           email: this.state.email,
@@ -48,7 +50,6 @@ class UserInfoEdit extends Component {
                 "Data were correctly changed!",
             });
             window.location.reload(true);
-
         })
         .catch((error) => {
           notification.error({
