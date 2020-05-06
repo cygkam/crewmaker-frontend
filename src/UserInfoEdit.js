@@ -49,11 +49,7 @@ class UserInfoEdit extends Component {
               description:
                 "Data were correctly changed!",
             });
-<<<<<<< HEAD
-            this.props.handler();
-=======
             window.location.reload(true);
->>>>>>> 8ab54ff4ca9f21d47a69d7494aa32cb7d95c1afc
         })
         .catch((error) => {
           notification.error({
