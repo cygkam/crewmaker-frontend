@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Label, Icon, Form, Grid, GridRow, GridColumn, TextArea, Image, Header, Segment, Input, List, Container } from 'semantic-ui-react';
+import { Button, Label, Form, Grid, GridColumn, TextArea, Segment, Input, Container } from 'semantic-ui-react';
 import { mainProfileService } from "./Api/Api";
 import { notification } from "antd";
 
@@ -19,7 +19,7 @@ class UserInfoEdit extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    componentWillMount () {
+    componentDidMount () {
         this.setState((props) => ({
             username: this.props.username,
             name: this.props.name,

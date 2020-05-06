@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Button, Label, Icon, Grid, GridColumn, Image, Segment, Container } from 'semantic-ui-react';
-import { mainProfileService } from "./Api/Api";
 import UserInfoEdit from './UserInfoEdit';
 import UserInfoView from './UserInfoView';
 
@@ -16,30 +14,30 @@ class UserInfo extends Component {
   }
 
   changePanelView () {
-      this.setState({
-          isProfileInEdition: !this.state.isProfileInEdition
-          
-      })
+    this.setState({
+      isProfileInEdition: !this.state.isProfileInEdition
+
+    })
   }
 
-  componentWillMount() {
-    this.setState((props) =>({
-        username: this.props.username,
-        email: this.props.email,
-        telephone: this.props.phoneNumber,
-        description: this.props.description,
+  componentDidMount () {
+    this.setState((props) => ({
+      username: this.props.username,
+      email: this.props.email,
+      telephone: this.props.phoneNumber,
+      description: this.props.description,
     }));
   }
 
-  
 
-  render() {
-    if(this.state.isProfileInEdition) {
-        return (
-            <UserInfoEdit {...this.props} handler = {this.panelViewHandler}/>
-        )
+
+  render () {
+    if (this.state.isProfileInEdition) {
+      return (
+        <UserInfoEdit {...this.props} handler={this.panelViewHandler} />
+      )
     } else {
-        return <UserInfoView {...this.props} handler = {this.panelViewHandler}/>
+      return <UserInfoView {...this.props} handler={this.panelViewHandler} />
     }
   }
 }

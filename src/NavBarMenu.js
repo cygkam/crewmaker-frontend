@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Menu, Dropdown, Button} from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   withRouter,
@@ -47,7 +46,7 @@ class NavBarMenu extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
-  handleLogin() {
+  handleLogin () {
     notification.success({
       message: "Login App",
       description: "You're successfully logged in.",
@@ -55,7 +54,7 @@ class NavBarMenu extends Component {
     this.loadCurrentUser();
   }
 
-  loadCurrentUser() {
+  loadCurrentUser () {
     this.setState({
       isLoading: true,
     });
@@ -78,11 +77,11 @@ class NavBarMenu extends Component {
       });
   }
 
-  componentWillMount() {
+  componentDidMount () {
     this.loadCurrentUser();
   }
 
-  handleLogout() {
+  handleLogout () {
     localStorage.removeItem(ACCESS_TOKEN);
 
     this.setState({
@@ -98,50 +97,46 @@ class NavBarMenu extends Component {
     });
   }
 
-  render() {
+  render () {
     const { activeItem } = this.state;
 
     if (!this.state.isAuthenticated) {
       return (
         <div>
-          <Menu pointing/>
-            <Switch>
-              <Route
-                path="/mainProfilePage/:username"
-                render={(props) => (
-                  <MainProfilePage
-                    isAuthenticated={this.state.isAuthenticated}
-                    currentUser={this.state.currentUser}
-                    {...props}
-                  />
-                )}
-              ></Route>
-              <Route path="/searchPannel">
-                <SearchView />
-              </Route>
-              <Route
-                path="/home"
-                render={(props) => (
-                  <LandingPage onLogin={this.handleLogin} {...props} />
-                )}
-              ></Route>
-            </Switch>
+          <Menu pointing />
+          <Switch>
+            <Route
+              path="/mainProfilePage/:username"
+              render={(props) => (
+                <MainProfilePage
+                  isAuthenticated={this.state.isAuthenticated}
+                  currentUser={this.state.currentUser}
+                  {...props}
+                />
+              )}
+            ></Route>
+            <Route path="/searchPannel">
+              <SearchView />
+            </Route>
+            <Route
+              path="/home"
+              render={(props) => (
+                <LandingPage onLogin={this.handleLogin} {...props} />
+              )}
+            ></Route>
+          </Switch>
         </div>
       );
     }
 
     return (
       <div>
-        <Menu>
-          <Menu.Menu position="left">
-            <Dropdown item text="Menu">
-              <Dropdown.Menu>
-                <Dropdown.Item>English</Dropdown.Item>
-                <Dropdown.Item>Russian</Dropdown.Item>
-                <Dropdown.Item>Spanish</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Menu.Menu>
+        <Menu position="left">
+          <Menu.Item
+            name="languagePannel"
+          >
+            Wybór języka
+          </Menu.Item>
 
           <Menu.Item
             name="searchPannel"
