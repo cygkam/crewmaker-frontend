@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Label, Icon, Grid, GridColumn, Image, Segment, Container } from 'semantic-ui-react';
-import { mainProfileService } from "./Api/Api";
-import UserInfoEdit from './UserInfoEdit';
+import { Button, Label, Icon, Grid, GridColumn, Image, Segment } from 'semantic-ui-react';
 
 
 class UserInfoView extends Component {
@@ -18,18 +16,18 @@ class UserInfoView extends Component {
     };
   }
 
-  componentWillMount() {
-    this.setState((props) =>({
-        username: this.props.username,
-        name: this.props.name,
-        surname: this.props.surname,
-        email: this.props.email,
-        telephone: this.props.phoneNumber,
-        description: this.props.description,
+  componentDidMount () {
+    this.setState((props) => ({
+      username: this.props.username,
+      name: this.props.name,
+      surname: this.props.surname,
+      email: this.props.email,
+      telephone: this.props.phoneNumber,
+      description: this.props.description,
     }));
   }
 
-  render() {
+  render () {
     return (
       <Grid>
         <GridColumn>
@@ -58,7 +56,7 @@ class UserInfoView extends Component {
               <Icon name="book" />
               {this.state.description}
             </Segment>
-            <Button fluid size="small" color="grey" onClick = {this.props.handler}>
+            <Button fluid size="small" color="grey" onClick={this.props.handler}>
               <Button.Content visible>Edytuj profil</Button.Content>
             </Button>
           </Grid.Row>

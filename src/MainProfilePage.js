@@ -33,11 +33,11 @@ class MainProfilePage extends Component {
 
   }
 
-  componentWillReceiveProps (nextProps) {
+  /*componentDidUpdate (nextProps) {
     if (this.props.match.params.username !== nextProps.match.params.username) {
       this.loadUserProfile(nextProps.match.params.username);
     }
-  }
+  }*/
 
   loadUserProfile (username) {
     if (this.props.username !== null) {
@@ -119,11 +119,11 @@ class MainProfilePage extends Component {
           </Grid.Column>
 
           <Grid.Column width={5}>
-            <Segment fluid>
+            <Segment fluid="true">
               <Label attached="top">Twoje aktualne wydarzenia</Label>
 
               {this.state.events.map((event) =>
-                <Segment>
+                <Segment key={event.eventName}>
                   <CommingEvent dataFromParent={event} />
                 </Segment>
               )}
@@ -131,7 +131,7 @@ class MainProfilePage extends Component {
           </Grid.Column>
 
           <Grid.Column textAlign="center" width={4}>
-            <Segment divided>
+            <Segment divided="true">
               <Label attached="top">Historia wydarzeń</Label>
               <Segment>
                 <PassedEvent />
