@@ -9,7 +9,7 @@ class UserInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isProfileInEdition: false,
+      isProfileInEdition: false
     };
 
     this.panelViewHandler = this.changePanelView.bind(this)
@@ -18,6 +18,7 @@ class UserInfo extends Component {
   changePanelView () {
       this.setState({
           isProfileInEdition: !this.state.isProfileInEdition
+          
       })
   }
 
@@ -30,6 +31,7 @@ class UserInfo extends Component {
     }));
   }
 
+  
 
   render() {
     if(this.state.isProfileInEdition) {

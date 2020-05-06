@@ -49,7 +49,7 @@ class UserInfoEdit extends Component {
               description:
                 "Data were correctly changed!",
             });
-            this.props.handler()
+            this.props.handler();
         })
         .catch((error) => {
           notification.error({

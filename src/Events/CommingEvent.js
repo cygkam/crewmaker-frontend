@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import { Grid, GridColumn, Image,Progress, GridRow } from 'semantic-ui-react'
+import { eventService } from '../Api/Api';
 
 
 class CommingEvent extends Component {
@@ -19,7 +20,31 @@ class CommingEvent extends Component {
       };
     }
 
+    
+    componentDidMount() {
+        console.log("ID : "  +this.props.dataFromParent.eventPlaceName)
+        eventService.countEventParticipants(this.props.dataFromParent)
+        .then((response) => {
+          this.setState({
+            actuallPartcipantNumber : response
+          });
+        })
+        .catch((error) => {
+          if (error.status === 404) {
+            this.setState({
+              
+            });
+          } else {
+            this.setState({
+              
+            });
+          }
+        });
+    }
+
     render() {
+        console.log(this.props.dataFromParent)
+
         return(
             <Grid divided >
                 <GridRow>
@@ -28,18 +53,18 @@ class CommingEvent extends Component {
                         <h4>{this.state.sportName}</h4>
                     </GridColumn>
                     <GridColumn verticalAlign='center' width={4} >
-                        <h4>21:30</h4>
-                        <h4>21-03-2020</h4>
+                        <h4>{this.props.dataFromParent.eventTime}</h4>
+                        <h4>{this.props.dataFromParent.eventDate}</h4>
                     </GridColumn>
                     <GridColumn verticalAlign='center' width={4} >
-                        <h4>{this.state.actuallPartcipantNumber}/{this.state.maxPartcipantNumber}</h4>
+                        <h4>{this.state.actuallPartcipantNumber}/{this.props.dataFromParent.maxPlayers}</h4>
                         <h7>UCZESTNIKOW</h7>
-                        <Progress percent={(this.state.actuallPartcipantNumber/this.state.maxPartcipantNumber)*100}/>
+                        <Progress percent={(this.state.actuallPartcipantNumber/this.props.dataFromParent.maxPlayers)*100}/>
                     </GridColumn>
                     <GridColumn verticalAlign='center' width={4} >
-                        <h4>{this.state.placeName}</h4>
-                        <h4>{this.state.streetName + " " + this.state.streetNumber}</h4>
-                        <h4>{this.state.city}</h4>
+                        <h4>{this.props.dataFromParent.eventPlaceName}</h4>
+                        <h4>{this.props.dataFromParent.eventPlaceStreetName + " " + this.props.dataFromParent.eventPlaceStreetNumber}</h4>
+                        <h4>{this.props.dataFromParent.eventPlaceCity}</h4>
                     </GridColumn>
                 </GridRow>
             </Grid>
