@@ -33,10 +33,6 @@ class MainProfilePage extends Component {
 
   }
 
-  userUpdate (user) {
-    this.state.user = user;
-  }
-
   componentWillReceiveProps (nextProps) {
     if (this.props.match.params.username !== nextProps.match.params.username) {
       this.loadUserProfile(nextProps.match.params.username);
