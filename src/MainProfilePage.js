@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Label,  Grid,  Segment, Button, Icon } from 'semantic-ui-react'
+import { Label, Grid, Segment, Button, Icon } from 'semantic-ui-react'
 import UserInfo from "./UserInfo"
 import CommingEvent from "./Events/CommingEvent"
 import PassedEvent from "./Events/PassedEvent"
@@ -16,37 +16,34 @@ class MainProfilePage extends Component {
     this.state = {
       user: null,
       isLoading: true,
-      events : [
+      events: [
         {
-          eventName : 1
+          eventName: 1
         },
         {
-          eventName : 2
+          eventName: 2
         }
       ]
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const username = this.props.match.params.username;
     this.loadUserProfile(username);
-        
+
   }
 
-<<<<<<< HEAD
-=======
-  userUpdate(user) {
+  userUpdate (user) {
     this.state.user = user;
   }
->>>>>>> 8ab54ff4ca9f21d47a69d7494aa32cb7d95c1afc
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (this.props.match.params.username !== nextProps.match.params.username) {
       this.loadUserProfile(nextProps.match.params.username);
     }
   }
 
-  loadUserProfile(username) {
+  loadUserProfile (username) {
     if (this.props.username !== null) {
       this.setState({
         isLoading: true,
@@ -76,28 +73,28 @@ class MainProfilePage extends Component {
     }
 
     eventService.getComingUserEvents(username)
-    .then((response) => {
-      this.setState({
-        events: response,
-        isLoading: false,
+      .then((response) => {
+        this.setState({
+          events: response,
+          isLoading: false,
+        });
+      })
+      .catch((error) => {
+        if (error.status === 404) {
+          this.setState({
+            notFound: true,
+            isLoading: false,
+          });
+        } else {
+          this.setState({
+            serverError: true,
+            isLoading: false,
+          });
+        }
       });
-    })
-    .catch((error) => {
-      if (error.status === 404) {
-        this.setState({
-          notFound: true,
-          isLoading: false,
-        });
-      } else {
-        this.setState({
-          serverError: true,
-          isLoading: false,
-        });
-      }
-    });
   }
 
-  render() {
+  render () {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
@@ -116,24 +113,24 @@ class MainProfilePage extends Component {
       <Grid textAlign="center">
         <Grid.Row stretched>
           <Grid.Column width={4}>
-            <Button fluid size="massive" animated color="orange" style={{maxHeight: 60}}>
+            <Button fluid size="massive" animated color="orange" style={{ maxHeight: 60 }}>
               <Button.Content visible>Znajdź ekipę</Button.Content>
               <Button.Content hidden>
                 <Icon name="group" />
               </Button.Content>
             </Button>
-            <UserInfo {...this.state.user}/>
+            <UserInfo {...this.state.user} />
           </Grid.Column>
 
           <Grid.Column width={5}>
             <Segment fluid>
               <Label attached="top">Twoje aktualne wydarzenia</Label>
-              
-              {this.state.events.map( (event) =>
-                                <Segment>
-                                <CommingEvent dataFromParent = {event}/>
-                                </Segment>
-                                )}
+
+              {this.state.events.map((event) =>
+                <Segment>
+                  <CommingEvent dataFromParent={event} />
+                </Segment>
+              )}
             </Segment>
           </Grid.Column>
 
