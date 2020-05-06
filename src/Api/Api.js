@@ -104,13 +104,29 @@ function getUserProfileInfo (username) {
 }
 
 const eventService = {
-  getAllEvents
+  getAllEvents,
+  getComingUserEvents,
+  countEventParticipants
 };
+
+function countEventParticipants(eventID){
+  return request({
+    url:API_BASE_URL + "/counteventsparticipants?eventID=" + eventID,
+    method:"GET"
+  });
+}
 
 function getAllEvents (sportCategoryID) {
   return request({
     url:API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID,
     method:"GET"
+  });
+}
+
+function getComingUserEvents(username){
+  return request({
+    url: API_BASE_URL + "/myevents/" + username,
+    method: "GET"
   });
 }
 

@@ -3,7 +3,7 @@ import {Label,  Grid,  Segment, Button, Icon } from 'semantic-ui-react'
 import UserInfo from "./UserInfo"
 import CommingEvent from "./Events/CommingEvent"
 import PassedEvent from "./Events/PassedEvent"
-import userService from "./Api/Api";
+import userService, { eventService } from "./Api/Api";
 import NotFound from "./common/NotFound";
 import CheckAuthentication from "./common/CheckAuthentication";
 import ServerError from "./common/ServerError";
@@ -16,13 +16,23 @@ class MainProfilePage extends Component {
     this.state = {
       user: null,
       isLoading: true,
+      events : [
+        {
+          eventName : 1
+        },
+        {
+          eventName : 2
+        }
+      ]
     };
   }
 
   componentDidMount() {
     const username = this.props.match.params.username;
     this.loadUserProfile(username);
+        
   }
+
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.username !== nextProps.match.params.username) {
@@ -58,6 +68,27 @@ class MainProfilePage extends Component {
           }
         });
     }
+
+    eventService.getComingUserEvents(username)
+    .then((response) => {
+      this.setState({
+        events: response,
+        isLoading: false,
+      });
+    })
+    .catch((error) => {
+      if (error.status === 404) {
+        this.setState({
+          notFound: true,
+          isLoading: false,
+        });
+      } else {
+        this.setState({
+          serverError: true,
+          isLoading: false,
+        });
+      }
+    });
   }
 
   render() {
@@ -91,18 +122,12 @@ class MainProfilePage extends Component {
           <Grid.Column width={5}>
             <Segment fluid>
               <Label attached="top">Twoje aktualne wydarzenia</Label>
-              <Segment>
-                <CommingEvent />
-              </Segment>
-              <Segment>
-                <CommingEvent />
-              </Segment>
-              <Segment>
-                <CommingEvent />
-              </Segment>
-              <Segment>
-                <CommingEvent />
-              </Segment>
+              
+              {this.state.events.map( (event) =>
+                                <Segment>
+                                <CommingEvent dataFromParent = {event}/>
+                                </Segment>
+                                )}
             </Segment>
           </Grid.Column>
 
