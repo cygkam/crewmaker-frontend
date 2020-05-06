@@ -49,7 +49,11 @@ class UserInfoEdit extends Component {
               description:
                 "Data were correctly changed!",
             });
+<<<<<<< HEAD
             this.props.handler();
+=======
+            window.location.reload(true);
+>>>>>>> 8ab54ff4ca9f21d47a69d7494aa32cb7d95c1afc
         })
         .catch((error) => {
           notification.error({
@@ -58,6 +62,7 @@ class UserInfoEdit extends Component {
               error.message || "Sorry! Something went wrong.",
           });
         });
+        this.props.handler();
       }
 
     render () {
@@ -116,9 +121,7 @@ class UserInfoEdit extends Component {
                         <GridColumn width={1}>
                             <Button fluid size="medium" color="green" 
                                     style={{width: '100%', marginTop: '2px', marginBottom: '2px'}}
-                                    onClick = {
-                                    this.handleSubmit
-                                    }>
+                                    onClick = {this.handleSubmit}>
                                 <Button.Content visible>Zapisz zmiany</Button.Content>
                             </Button>
                         </GridColumn>
