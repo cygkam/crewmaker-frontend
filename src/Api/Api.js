@@ -116,12 +116,13 @@ function countEventParticipants(eventID){
   });
 }
 
-function getAllEvents (sportCategoryID) {
+function getAllEvents (sportCategoryID, eventDate, eventTime) {
   return request({
-    url:API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID,
+    url:API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID+"&eventDate="+eventDate,
     method:"GET"
   });
 }
+
 
 function getComingUserEvents(username){
   return request({
@@ -141,8 +142,27 @@ function getAllSportsCat() {
   });
 }
 
+const participationService = {
+  participationExists,
+  joinEvent
+}
+
+function joinEvent(eventID){
+  return request({
+    url:API_BASE_URL + "/joinevent?eventID=" +eventID,
+    method:"GET"
+  });
+}
+
+function participationExists(eventID){
+  return request({
+    url:API_BASE_URL + "/existsparticipation?eventID=" + eventID,
+    method:"GET"
+  });
+}
+
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
-export { mainProfileService, eventService, sportCategoryService };
+export { mainProfileService, eventService, sportCategoryService,participationService };
 export default userService;
