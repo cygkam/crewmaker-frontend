@@ -8,7 +8,8 @@ import {
   } from 'semantic-ui-calendar-react';
 import {eventService,sportCategoryService} from "../Api/Api";
 import Moment from "react-moment";
-
+import * as moment from 'moment';
+import EventAvaliable from "./EventsAvaliable";
 
 class SearchView extends Component {
     constructor(props) {
@@ -58,7 +59,10 @@ class SearchView extends Component {
             this.setState({sportCategories : response.map(
                 (cat) => JSON.parse('{"key" : '+cat.sportsCategoryID+', "text" : "' + cat.sportsCategoryName  +'", "value" :'+ cat.sportsCategoryID+ '}')            
             )})
-            console.log(this.state.sportCategories)
+            console.log(this.state.sportCategories[0].text)
+            
+            
+         
         }
         ).catch(
             (error) => console.log("ERROR")
@@ -66,9 +70,12 @@ class SearchView extends Component {
     }
 
     
-     componentDidMount() {
+     componentWillMount() {
          this.fetchSportCategory();
          console.log("Mounted component");
+         this.setState({
+            date : moment().format("DD-MM-YYYY"),
+        })
      }
 
     render(){
@@ -82,10 +89,11 @@ class SearchView extends Component {
                                 Wyszukaj wydarzenie!
                             </Header>
                             <Form.Group widths = 'equal'>
-                                <Form.Field required><Select placeholder='Wybierz dziedzinę sportu' options={this.state.sportCategories} 
+                                <Form.Field required><Select options={this.state.sportCategories} 
                                 name="sportCategory" 
                                 value={this.state.sportCategory}
-                                 onChange={this.handleChange} />
+                                placeholder= "Wybierz kategorię"
+                                onChange={this.handleChange} />
                                     </Form.Field>
                                     <Form.Field required>
                                         <DateInput
@@ -119,54 +127,15 @@ class SearchView extends Component {
                     {
                         this.state.events.length > 0 && 
                         <Segment textAlign = 'left'>
-                            <Grid columns='equal' verticalAlign='middle' textAlign='center' >
-                                                <Grid.Row>
-                                                    <Grid.Column>
-                                                        <Header as='h3' color='orange'>Nazwa wydarzenia</Header>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Header as='h3' color='orange'>Miejsce wydarzenia</Header>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Header as='h3' color='orange'>Data</Header>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Header as='h3' color='orange'>Godzina</Header>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Header as='h3' color='orange'>Długość</Header>
-                                                    </Grid.Column>
-                                                </Grid.Row>
-                                            </Grid>
                             <List divided verticalAlign='middle' size = 'huge'>                                      
                                 {this.state.events.map( (event) =>
-                                <List.Item>
-                                    <List.Content>
-                                        <List.Header>
-                                            <Grid columns='equal' divided>
-                                                <Grid.Row>
-                                                    <Grid.Column>
-                                                        {event.eventName}
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        {event.eventPlaceName}
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Moment format="DD-MM-YYYY">
-                                                            {event.eventDate}
-                                                        </Moment>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        {event.eventTime}
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        {event.eventDuration}
-                                                    </Grid.Column>
-                                                </Grid.Row>
-                                            </Grid>
-                                        </List.Header>
-                                    </List.Content>
-                                </List.Item>
+                                <Segment>
+
+                                    <EventAvaliable key = {event.eventID} dataFromParent={event}>
+
+                                </EventAvaliable>
+                                </Segment>
+                                
                                 )}
                             </List>
                         </Segment>
