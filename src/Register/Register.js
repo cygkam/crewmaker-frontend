@@ -80,8 +80,6 @@ class Register extends Component {
     });
   };
 
-  
-
   handleChange(event, valdiationFunction) {
     const target = event.target;
     const inputValue = target.value;
