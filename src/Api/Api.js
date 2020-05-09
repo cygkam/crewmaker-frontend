@@ -141,8 +141,27 @@ function getAllSportsCat() {
   });
 }
 
+const participationService = {
+  participationExists,
+  joinEvent,
+};
+
+function joinEvent(eventID) {
+  return request({
+    url: API_BASE_URL + "/joinevent?eventID=" + eventID,
+    method: "GET",
+  });
+}
+
+function participationExists(eventID) {
+  return request({
+    url: API_BASE_URL + "/existsparticipation?eventID=" + eventID,
+    method: "GET",
+  });
+}
+
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
-export { mainProfileService, eventService, sportCategoryService };
+export { mainProfileService, eventService, sportCategoryService, participationService };
 export default userService;

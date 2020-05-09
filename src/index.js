@@ -6,11 +6,12 @@ import * as serviceWorker from './serviceWorker';
 import NavBarMenu from './NavBarMenu';
 import { BrowserRouter as Router } from "react-router-dom";
 
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
     <Router>
-      <NavBarMenu />
+      <NavBarMenu/>
       </Router>
     </React.StrictMode>,
   

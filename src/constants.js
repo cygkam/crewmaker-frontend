@@ -1,6 +1,8 @@
 export const API_BASE_URL = "http://localhost:8080/api";
+//export const API_BASE_URL = "https://stark-ocean-53762.herokuapp.com/api";
 
 export const ACCESS_TOKEN = "accessToken";
+export const USER = "user";
 
 export const NAME_MIN_LENGTH = 3;
 export const NAME_MAX_LENGTH = 40;
