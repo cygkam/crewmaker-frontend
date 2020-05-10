@@ -8,71 +8,39 @@ import NotFound from "./common/NotFound";
 import CheckAuthentication from "./common/CheckAuthentication";
 import ServerError from "./common/ServerError";
 import LoadingIndicator from "./common/LoadingIndicator";
-
+import { USER } from "./constants";
 
 class MainProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: null,
-      isLoading: true,
+      isLoading: false,
+      isLoadingEvents: true,
       events: [
         {
-          eventName: 1
+          eventName: 1,
         },
         {
-          eventName: 2
-        }
-      ]
+          eventName: 2,
+        },
+      ],
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const username = this.props.match.params.username;
-    this.loadUserProfile(username);
-
+    this.loadEvents(username);
   }
 
-  /*componentDidUpdate (nextProps) {
-    if (this.props.match.params.username !== nextProps.match.params.username) {
-      this.loadUserProfile(nextProps.match.params.username);
-    }
-  }*/
-
-  loadUserProfile (username) {
-    if (this.props.username !== null) {
-      this.setState({
-        isLoading: true,
-      });
-
-      userService
-        .getUserProfile(username)
-        .then((response) => {
-          this.setState({
-            user: response,
-            isLoading: false,
-          });
-        })
-        .catch((error) => {
-          if (error.status === 404) {
-            this.setState({
-              notFound: true,
-              isLoading: false,
-            });
-          } else {
-            this.setState({
-              serverError: true,
-              isLoading: false,
-            });
-          }
-        });
-    }
-
-    eventService.getComingUserEvents(username)
+  loadEvents(username) {
+    eventService
+      .getComingUserEvents(username)
       .then((response) => {
         this.setState({
           events: response,
           isLoading: false,
+          isLoadingEvents: false,
         });
       })
       .catch((error) => {
@@ -90,7 +58,7 @@ class MainProfilePage extends Component {
       });
   }
 
-  render () {
+  render() {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
@@ -106,45 +74,56 @@ class MainProfilePage extends Component {
       return <CheckAuthentication {...this.props} />;
     }
     return (
-      <Grid textAlign="center">
-        <Grid.Row stretched>
-          <Grid.Column width={4}>
-            <Button fluid size="massive" animated color="orange" style={{ maxHeight: 60 }}>
-              <Button.Content visible>Znajdź ekipę</Button.Content>
-              <Button.Content hidden>
-                <Icon name="group" />
-              </Button.Content>
-            </Button>
-            <UserInfo {...this.state.user} />
-          </Grid.Column>
+      <Grid
+        textAlign="center"
+        stackable
+        columns={3}
+      >
+        <Grid.Column mobile={32} tablet={8} computer={4}>
+          <Button
+            fluid
+            size="massive"
+            animated
+            color="orange"
+            style={{ maxHeight: 60 }}
+          >
+            <Button.Content visible>Znajdź ekipę</Button.Content>
+            <Button.Content hidden>
+              <Icon name="group" />
+            </Button.Content>
+          </Button>
+          <UserInfo {...this.props} />
+        </Grid.Column>
 
-          <Grid.Column width={5}>
-            <Segment fluid="true">
-              <Label attached="top">Twoje aktualne wydarzenia</Label>
+        <Grid.Column mobile={32} tablet={8} computer={5}>
+          <Segment fluid="true">
+            <Label attached="top">Twoje aktualne wydarzenia</Label>
 
-              {this.state.events.map((event) =>
-                <Segment key={event.eventName}>
-                  <CommingEvent dataFromParent={event} />
-                </Segment>
-              )}
+            {this.state.events.map((event) => (
+              <Segment key={event.eventName}>
+                <CommingEvent
+                  dataFromParent={event}
+                  isLoading={this.state.isLoadingEvents}
+                />
+              </Segment>
+            ))}
+          </Segment>
+        </Grid.Column>
+
+        <Grid.Column textAlign="center" mobile={32} tablet={8} computer={5}>
+          <Segment divided="true">
+            <Label attached="top">Historia wydarzeń</Label>
+            <Segment>
+              <PassedEvent />
             </Segment>
-          </Grid.Column>
-
-          <Grid.Column textAlign="center" width={4}>
-            <Segment divided="true">
-              <Label attached="top">Historia wydarzeń</Label>
-              <Segment>
-                <PassedEvent />
-              </Segment>
-              <Segment>
-                <PassedEvent />
-              </Segment>
-              <Segment>
-                <PassedEvent />
-              </Segment>
+            <Segment>
+              <PassedEvent />
             </Segment>
-          </Grid.Column>
-        </Grid.Row>
+            <Segment>
+              <PassedEvent />
+            </Segment>
+          </Segment>
+        </Grid.Column>
       </Grid>
     );
   }

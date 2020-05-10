@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, GridColumn, Image, Progress, GridRow } from 'semantic-ui-react'
 import { eventService } from '../Api/Api';
-
+import LoadingIndicator from "../common/LoadingIndicator";
 
 class CommingEvent extends Component {
   constructor(propos) {
@@ -44,6 +44,11 @@ class CommingEvent extends Component {
   }
 
   render () {
+    if (this.props.isLoading) {
+      return <LoadingIndicator />;
+    }
+
+
     return (
       <Grid divided >
         <GridRow>

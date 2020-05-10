@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   withRouter,
-  Link
 } from "react-router-dom";
 import MainProfilePage from "./MainProfilePage";
 import LandingPage from "./LandingPage/LandingPage";
@@ -13,7 +12,8 @@ import {
   notification,
 } from "antd";
 import userService from "./Api/Api";
-import { ACCESS_TOKEN } from "./constants";
+import { ACCESS_TOKEN, USER } from "./constants";
+import Drawer from "./Drawer";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class NavBarMenu extends Component {
       top: 70,
       duration: 3,
     });
+
   }
 
   toggleCollapsed = () => {
@@ -46,7 +47,7 @@ class NavBarMenu extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
-  handleLogin () {
+  handleLogin() {
     notification.success({
       message: "Login App",
       description: "You're successfully logged in.",
@@ -54,7 +55,7 @@ class NavBarMenu extends Component {
     this.loadCurrentUser();
   }
 
-  loadCurrentUser () {
+  loadCurrentUser() {
     this.setState({
       isLoading: true,
     });
@@ -77,13 +78,13 @@ class NavBarMenu extends Component {
       });
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.loadCurrentUser();
   }
 
-  handleLogout () {
+  handleLogout() {
     localStorage.removeItem(ACCESS_TOKEN);
-
+    localStorage.removeItem(USER);
     this.setState({
       currentUser: null,
       isAuthenticated: false,
@@ -97,12 +98,14 @@ class NavBarMenu extends Component {
     });
   }
 
-  render () {
+
+  render() {
     const { activeItem } = this.state;
 
     if (!this.state.isAuthenticated) {
       return (
         <div>
+      
           <Menu pointing />
           <Switch>
             <Route
@@ -131,37 +134,11 @@ class NavBarMenu extends Component {
 
     return (
       <div>
-        <Menu position="left">
-          <Menu.Item
-            name="languagePannel"
-          >
-            Wybór języka
-          </Menu.Item>
-
-          <Menu.Item
-            name="searchPannel"
-            active={activeItem === "searchPannel"}
-            onClick={this.handleItemClick}
-            as={Link}
-            to="/searchPannel"
-          >
-            Wyszukaj
-          </Menu.Item>
-
-          <Menu.Item
-            name="mainProfilePage"
-            active={activeItem === "mainProfilePage"}
-            onClick={this.handleItemClick}
-            as={Link}
-            to={{ pathname: `/mainProfilePage/${this.state.currentUser.username}` }}
-          >
-            Mój profil
-          </Menu.Item>
-
-          <Menu.Item position="right" onClick={this.handleLogout}>
-            Wyloguj
-          </Menu.Item>
-        </Menu>
+          <Drawer
+            isAuthenticated={this.state.isAuthenticated}
+            currentUser={this.state.currentUser}
+            onLogout={this.handleLogout}
+          />
         <div>
           <Switch>
             <Route
