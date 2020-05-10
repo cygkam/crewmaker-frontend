@@ -50,3 +50,12 @@ code {
   -webkit-box-shadow: 0 0 0 2px rgba(87, 168, 233, .2);
   box-shadow: 0 0 0 2px rgba(87, 168, 233, .2);
 }
+
+.MuiPaper-paper {
+  top: "auto";
+  z-index: -10;
+}
+
+.MuiDrawer-paperAnchorLeft{
+  top: "auto";
+}

@@ -144,25 +144,25 @@ function getAllSportsCat() {
 
 const participationService = {
   participationExists,
-  joinEvent
-}
+  joinEvent,
+};
 
-function joinEvent(eventID){
+function joinEvent(eventID) {
   return request({
-    url:API_BASE_URL + "/joinevent?eventID=" +eventID,
-    method:"GET"
+    url: API_BASE_URL + "/joinevent?eventID=" + eventID,
+    method: "GET",
   });
 }
 
-function participationExists(eventID){
+function participationExists(eventID) {
   return request({
-    url:API_BASE_URL + "/existsparticipation?eventID=" + eventID,
-    method:"GET"
+    url: API_BASE_URL + "/existsparticipation?eventID=" + eventID,
+    method: "GET",
   });
 }
 
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
-export { mainProfileService, eventService, sportCategoryService,participationService };
+export { mainProfileService, eventService, sportCategoryService, participationService };
 export default userService;

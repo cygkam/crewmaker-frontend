@@ -148,7 +148,6 @@ class SearchView extends Component {
                     }
                 </Grid.Column>
             </Grid.Row>
-            
         </Grid>
         );
     }
