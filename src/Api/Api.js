@@ -161,8 +161,37 @@ function participationExists(eventID) {
   });
 }
 
+
+const eventViewService = {
+  getEventInfo,
+  getPlaceInfo,
+  getParicipants,
+};
+
+function getEventInfo(eventID) {
+  return request({
+    url: API_BASE_URL + "/event?eventId=" + eventID,
+    method: "GET",
+  });
+}
+
+function getPlaceInfo(placeID) {
+  return request({
+    url: API_BASE_URL + "/placeInfo?placeID=" + placeID,
+    method: "GET",
+  });
+}
+
+function getParicipants(eventID, participantsType) {
+  return request({
+    url: API_BASE_URL + "/eventParticipants?eventID=" + eventID + "participantsType?type=" + participantsType,
+    method: "GET"
+  });
+}
+
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
-export { mainProfileService, eventService, sportCategoryService, participationService };
+
+export { mainProfileService, eventService, sportCategoryService, participationService, eventViewService };
 export default userService;

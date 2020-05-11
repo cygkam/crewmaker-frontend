@@ -9,6 +9,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import SearchIcon from "@material-ui/icons/Search";
+import Group from "@material-ui/icons/Group";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
@@ -201,6 +202,17 @@ export default function MiniDrawer(props) {
               <MeetingRoomIcon />
             </ListItemIcon>
             <ListItemText primary={"Wyloguj"} />
+          </ListItem>
+          <ListItem
+            button
+            key={"Wydarzenie"}
+            component={Link}
+            to={`/eventView`}
+          >
+            <ListItemIcon>
+              <Group/>
+            </ListItemIcon>
+            <ListItemText primary={"Wydarzenie"} />
           </ListItem>
         </List>
         <Divider />
