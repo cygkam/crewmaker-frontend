@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Grid, GridColumn, Image, Progress, GridRow,Button } from 'semantic-ui-react'
 import { eventService, participationService } from '../Api/Api';
 import { ACCESS_TOKEN, API_BASE_URL } from '../constants'
+import { Link } from "react-router-dom";
+
 
 
 class EventAvaliable extends Component {
@@ -9,7 +11,7 @@ class EventAvaliable extends Component {
     super(propos);
 
     this.state = {
-        eventID : 0,
+      eventID : 0,
       sportName: 'Piłka nożna',
       sportIconLink: 'https://ecsmedia.pl/c/serwetki-pilka-nozna-33-cm-20-sztuk-w-iext54112696.jpg',
       eventDate: '',
@@ -132,36 +134,40 @@ class EventAvaliable extends Component {
 
   render () {
     return (
-      <Grid divided >
-        <GridRow>
-          <GridColumn textAlign='center' verticalAlign='middle' width={2}>
-            <Image src={this.state.sportIconLink} />
-            <h4>{this.state.sportName}</h4>
-          </GridColumn>
-          <GridColumn verticalAlign='middle' width={3} >
-            <h4>{this.state.eventTime}</h4>
-            <h5>{this.state.eventDate}</h5>
-          </GridColumn>
-          <GridColumn verticalAlign='middle' width={4} >
-            <h4>{this.state.actuallPartcipantNumber}/{this.state.maxPartcipantNumber}</h4>
-            <h6>UCZESTNIKOW</h6>
-            <Progress percent={(this.state.actuallPartcipantNumber / this.state.maxPartcipantNumber) * 100} />
-          </GridColumn>
-          <GridColumn verticalAlign='middle' width={4} >
-            <h4>{this.state.placeName}</h4>
-            <h4>{this.state.streetName + " " + this.state.streetNumber}</h4>
-            <h4>{this.state.city}</h4>
-          </GridColumn>
-          <GridColumn textAlign='center' verticalAlign='middle' width={3}>
-            <Button color='orange' disabled={this.state.actuallPartcipantNumber>= this.state.maxPartcipantNumber || this.state.joinned}
-            onClick={this.joinEvent}
-            loading={this.state.isLoading}
-            >
-                <Button.Content visible>Dołącz do wydarzenia</Button.Content>
-            </Button>
-          </GridColumn>
-        </GridRow>
-      </Grid>
+      <Link to={`/eventView/${this.state.eventID}`}>
+        <Grid divided >
+          <GridRow>
+            <GridColumn textAlign='center' verticalAlign='middle' width={2}>
+              <Image src={this.state.sportIconLink} />
+              <h4>{this.state.sportName}</h4>
+            </GridColumn>
+            <GridColumn verticalAlign='middle' width={3} >
+              <h4>{this.state.eventTime}</h4>
+              <h5>{this.state.eventDate}</h5>
+            </GridColumn>
+            <GridColumn verticalAlign='middle' width={4} >
+              <h4>{this.state.actuallPartcipantNumber}/{this.state.maxPartcipantNumber}</h4>
+              <h6>UCZESTNIKOW</h6>
+              <Progress percent={(this.state.actuallPartcipantNumber / this.state.maxPartcipantNumber) * 100} />
+            </GridColumn>
+            <GridColumn verticalAlign='middle' width={4} >
+              <h4>{this.state.placeName}</h4>
+              <h4>{this.state.streetName + " " + this.state.streetNumber}</h4>
+              <h4>{this.state.city}</h4>
+            </GridColumn>
+            <GridColumn textAlign='center' verticalAlign='middle' width={3}>
+              <Link>
+                <Button color='orange' disabled={this.state.actuallPartcipantNumber>= this.state.maxPartcipantNumber || this.state.joinned}
+                onClick={this.joinEvent}
+                loading={this.state.isLoading}
+                >
+                    <Button.Content visible>Dołącz do wydarzenia</Button.Content>
+                </Button>
+              </Link>
+            </GridColumn>
+          </GridRow>
+        </Grid>
+      </Link>
     )
   }
 }

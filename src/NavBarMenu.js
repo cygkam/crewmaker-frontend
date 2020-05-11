@@ -14,6 +14,7 @@ import {
 import userService from "./Api/Api";
 import { ACCESS_TOKEN, USER } from "./constants";
 import Drawer from "./Drawer";
+import EventView from "./EventDetailView/EventView";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -160,6 +161,12 @@ class NavBarMenu extends Component {
                 <LandingPage onLogin={this.handleLogin} {...props} />
               )}
             ></Route>
+            <Route 
+              path="/eventView/:eventID"
+              render={(props) => (
+                <EventView {...props}/>
+              )}>
+            </Route>
           </Switch>
         </div>
       </div>

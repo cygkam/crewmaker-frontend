@@ -35,7 +35,7 @@ class UserInfoView extends Component {
 
     return (
       <Grid>
-        <GridColumn>
+        <GridColumn width='100%'>
           <Grid.Row>
             <Segment>
               <Label attached="top">{this.props.username}</Label>
