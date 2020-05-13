@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   nested: {
-    paddingLeft: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(4),
   },
   drawerClose: {
     transition: theme.transitions.create("width", {
@@ -103,9 +103,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-  
 
-export default function MiniDrawer(props) {
+
+export default function MiniDrawer (props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -164,8 +164,8 @@ export default function MiniDrawer(props) {
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
-              <ChevronLeftIcon />
-            )}
+                <ChevronLeftIcon />
+              )}
           </IconButton>
         </div>
         <Divider />
@@ -210,7 +210,7 @@ export default function MiniDrawer(props) {
             to={`/eventView`}
           >
             <ListItemIcon>
-              <Group/>
+              <Group />
             </ListItemIcon>
             <ListItemText primary={"Wydarzenie"} />
           </ListItem>

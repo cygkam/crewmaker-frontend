@@ -3,12 +3,11 @@ import { Label, Grid, Segment, Button, Icon } from 'semantic-ui-react'
 import UserInfo from "./UserInfo"
 import CommingEvent from "./Events/CommingEvent"
 import PassedEvent from "./Events/PassedEvent"
-import userService, { eventService } from "./Api/Api";
+import { eventService } from "./Api/Api";
 import NotFound from "./common/NotFound";
 import CheckAuthentication from "./common/CheckAuthentication";
 import ServerError from "./common/ServerError";
 import LoadingIndicator from "./common/LoadingIndicator";
-import { USER } from "./constants";
 
 class MainProfilePage extends Component {
   constructor(props) {
@@ -28,12 +27,12 @@ class MainProfilePage extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const username = this.props.match.params.username;
     this.loadEvents(username);
   }
 
-  loadEvents(username) {
+  loadEvents (username) {
     eventService
       .getComingUserEvents(username)
       .then((response) => {
@@ -58,7 +57,17 @@ class MainProfilePage extends Component {
       });
   }
 
-  render() {
+  sortByDate (date1, date2) {
+    if (date1.eventDate < date2.eventDate) {
+      return -1;
+    }
+    if (date1.eventDate > date2.eventDate) {
+      return 1;
+    }
+    return 0;
+  }
+
+  render () {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
@@ -98,8 +107,9 @@ class MainProfilePage extends Component {
         <Grid.Column mobile={32} tablet={8} computer={5}>
           <Segment fluid="true">
             <Label attached="top">Twoje aktualne wydarzenia</Label>
-
-            {this.state.events.map((event) => (
+            {this.state.events.filter(function (event) {
+              return (new Date(event.eventDate) >= new Date())
+            }).sort(this.sortByDate).map((event) => (
               <Segment key={event.eventName}>
                 <CommingEvent
                   dataFromParent={event}
@@ -113,15 +123,16 @@ class MainProfilePage extends Component {
         <Grid.Column textAlign="center" mobile={32} tablet={8} computer={5}>
           <Segment divided="true">
             <Label attached="top">Historia wydarzeń</Label>
-            <Segment>
-              <PassedEvent />
-            </Segment>
-            <Segment>
-              <PassedEvent />
-            </Segment>
-            <Segment>
-              <PassedEvent />
-            </Segment>
+            {this.state.events.filter(function (event) {
+              return (new Date(event.eventDate) < new Date())
+            }).sort(this.sortByDate).map((event) => (
+              <Segment key={event.eventName}>
+                <PassedEvent
+                  dataFromParent={event}
+                  isLoading={this.state.isLoadingEvents}
+                />
+              </Segment>
+            ))}
           </Segment>
         </Grid.Column>
       </Grid>

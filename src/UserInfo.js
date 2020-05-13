@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import UserInfoEdit from './UserInfoEdit';
 import UserInfoView from './UserInfoView';
-import userService, { eventService } from "./Api/Api";
+import userService from "./Api/Api";
 import { USER } from "./constants";
 
 
@@ -17,13 +17,13 @@ class UserInfo extends Component {
     this.panelViewHandler = this.changePanelView.bind(this);
   }
 
-  changePanelView() {
+  changePanelView () {
     this.setState({
       isProfileInEdition: !this.state.isProfileInEdition,
     });
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const username = this.props.match.params.username;
     this.loadUserProfile(username);
   }
@@ -32,7 +32,7 @@ class UserInfo extends Component {
     this.setState({ user: updatedUser });
   };
 
-  loadUserProfile(username) {
+  loadUserProfile (username) {
     if (!localStorage.getItem(USER)) {
       userService
         .getUserProfile(username)
@@ -65,7 +65,7 @@ class UserInfo extends Component {
     }
   }
 
-  render() {
+  render () {
     if (this.state.isProfileInEdition) {
       return (
         <UserInfoEdit

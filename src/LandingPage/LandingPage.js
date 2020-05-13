@@ -25,7 +25,7 @@ class LandingPage extends Component {
   }
 
 
-  render() {
+  render () {
     var sliderMainSettings = {
       dots: false,
       speed: 1000,
@@ -55,7 +55,7 @@ class LandingPage extends Component {
                 </div>
                 <div>
                   <Segment>
-                    <Label attached="top center">Informacje</Label>
+                    <Label attached="top">Informacje</Label>
                     <Container textAlign="center">
                       <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
