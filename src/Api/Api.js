@@ -189,9 +189,20 @@ function getParicipants (eventID) {
   });
 }
 
+const userOpinionService = {
+  getOpinions
+}
+
+function getOpinions(username) {
+  return request({
+    url: API_BASE_URL + "/useropinions?username=" + username,
+    method: "GET"
+  });
+}
+
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
 
-export { mainProfileService, eventService, sportCategoryService, participationService, eventViewService };
+export { mainProfileService, eventService, sportCategoryService, participationService, eventViewService, userOpinionService };
 export default userService;

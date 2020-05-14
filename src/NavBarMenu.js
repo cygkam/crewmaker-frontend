@@ -15,6 +15,7 @@ import userService from "./Api/Api";
 import { ACCESS_TOKEN, USER } from "./constants";
 import Drawer from "./Drawer";
 import EventView from "./EventDetailView/EventView";
+import UserOpinionsPage from "./OpinionsPage/UserOpinionsPage";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -164,6 +165,12 @@ class NavBarMenu extends Component {
               render={(props) => (
                 <EventView {...props} />
               )}>
+            </Route>
+            <Route
+            path="/useropinions/:username"
+            render={(props) =>(
+              <UserOpinionsPage {...props}/>
+            )}>              
             </Route>
           </Switch>
         </div>
