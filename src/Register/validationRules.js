@@ -6,7 +6,17 @@ import {
   EMAIL_MAX_LENGTH,
   PHONE_ACCEPTED_LENGTH,
   SURNAME_MAX_LENGTH,
-  SURNAME_MIN_LENGTH
+  SURNAME_MIN_LENGTH,
+  EVENTPLACE_DESCRIPTION_MIN_LENGTH,
+  EVENTPLACE_DESCRIPTION_MAX_LENGTH,
+  EVENTPLACE_NAME_MIN_LENGTH,
+  EVENTPLACE_NAME_MAX_LENGTH,
+  EVENTPLACE_CITY_MIN_LENGTH,
+  EVENTPLACE_CITY_MAX_LENGTH,
+  EVENTPLACE_POSTALCODE_ACCEPTED_LENGTH,
+  EVENTPLACE_STREET_MIN_LENGTH,
+  EVENTPLACE_STREET_MAX_LENGTH,
+  EVENTPLACE_STREETNUMBER_MAX_LENGTH,
 } from "../constants";
 
 export const validation = {
@@ -14,7 +24,13 @@ export const validation = {
     validateEmail,
     validateUsername,
     validateSurname,
-    validatePhoneNumber
+    validatePhoneNumber,
+    validateEventPlaceDescription,
+    validateEventPlaceName,
+    validateEventPlacePostalCode,
+    validateEventPlaceStreet,
+    validateEventPlaceCity,
+    validateEventPlaceStreetNumber
 };
 
 
@@ -131,5 +147,143 @@ function validateUsername(username) {
   }
 };
 
-export default validation;
+function validateEventPlaceDescription(name) {
+  if (name.length < EVENTPLACE_DESCRIPTION_MIN_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Opis miejsca jest za krótki (Wymagane minimum to ${EVENTPLACE_DESCRIPTION_MIN_LENGTH} znaki)`,
+    };
+  } else if (name.length > EVENTPLACE_DESCRIPTION_MAX_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Opis miejsca jest za długi (Maksimum to ${EVENTPLACE_DESCRIPTION_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
 
+function validateEventPlaceName(name) {
+  if (name.length < EVENTPLACE_NAME_MIN_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Nazwa miejsca jest za krótka (Wymagane minimum to ${EVENTPLACE_NAME_MIN_LENGTH} znaki)`,
+    };
+  } else if (name.length > EVENTPLACE_NAME_MAX_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Nazwa miejsca jest za długa (Maksimum to ${EVENTPLACE_NAME_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
+function validateEventPlaceCity(city) {
+  if (city.length < EVENTPLACE_CITY_MIN_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Nazwa miejscowości jest za krótka (Wymagane minimum to ${EVENTPLACE_CITY_MIN_LENGTH} znaki)`,
+    };
+  } else if (city.length > EVENTPLACE_CITY_MAX_LENGTH) {
+           return {
+             validateStatus: "error",
+             errorMsg: `Nazwa miejscowości jest za długa (Maksimum to ${EVENTPLACE_CITY_MAX_LENGTH} znaków)`,
+           };
+         } else {
+           return {
+             validateStatus: "success",
+             errorMsg: null,
+           };
+         }
+}
+
+
+function validateEventPlacePostalCode(postalCode) {
+  if (!postalCode) {
+    return {
+      validateStatus: "error",
+      errorMsg: "Pole kod pocztowy nie może być puste",
+    };
+  }
+
+  const POSTALCODE_REGEX = RegExp(
+    "^\\d{2}[- ]{0,1}\\d{3}$"
+  );
+  if (!POSTALCODE_REGEX.test(postalCode)) {
+    return {
+      validateStatus: "error",
+      errorMsg: "Niepoprawny kod pocztowy",
+    };
+  }
+
+  if (postalCode.length > EVENTPLACE_POSTALCODE_ACCEPTED_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Kod pocztowy jest za długi (Maksimum to ${EVENTPLACE_POSTALCODE_ACCEPTED_LENGTH} znaków)`,
+    };
+  }
+
+  return {
+    validateStatus: "success",
+    errorMsg: null,
+  };
+};
+
+
+function validateEventPlaceStreet(street) {
+  if (street.length < EVENTPLACE_STREET_MIN_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Nazwa ulicy jest za krótka (Wymagane minimum to ${EVENTPLACE_STREET_MIN_LENGTH} znaki)`,
+    };
+  } else if (street.length > EVENTPLACE_STREET_MAX_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Nazwa ulicy jest za długa (Maksimum to ${EVENTPLACE_STREET_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
+function validateEventPlaceStreetNumber(streetNumber) {
+if (!streetNumber) {
+  return {
+    validateStatus: "error",
+    errorMsg: "NUmer budynku lub lokalu nie może być pusty",
+  };
+}
+
+  const STREETNUMBER_REGEX = RegExp("^\\d*[A-Z]?\\/?\\d+[A-Z]?$");
+  if (!STREETNUMBER_REGEX.test(streetNumber)) {
+    return {
+      validateStatus: "error",
+      errorMsg: "Niepoprawny numer",
+    };
+  }
+
+  if (streetNumber.length > EVENTPLACE_STREETNUMBER_MAX_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Numer jest za długi (Maksimum to ${EVENTPLACE_STREETNUMBER_MAX_LENGTH} znaków)`,
+    };
+  }
+
+  return {
+    validateStatus: "success",
+    errorMsg: null,
+  };
+}
+
+
+export default validation;

@@ -88,7 +88,7 @@ class MainProfilePage extends Component {
         stackable
         columns={3}
       >
-        <Grid.Column mobile={32} tablet={8} computer={4}>
+        <Grid.Column mobile={16} tablet={8} computer={4}>
           <Button
             fluid
             size="massive"
@@ -104,7 +104,7 @@ class MainProfilePage extends Component {
           <UserInfo {...this.props} />
         </Grid.Column>
 
-        <Grid.Column mobile={32} tablet={8} computer={5}>
+        <Grid.Column mobile={16} tablet={8} computer={5}>
           <Segment fluid="true">
             <Label attached="top">Twoje aktualne wydarzenia</Label>
             {this.state.events.filter(function (event) {
@@ -120,7 +120,7 @@ class MainProfilePage extends Component {
           </Segment>
         </Grid.Column>
 
-        <Grid.Column textAlign="center" mobile={32} tablet={8} computer={5}>
+        <Grid.Column textAlign="center" mobile={16} tablet={8} computer={5}>
           <Segment divided="true">
             <Label attached="top">Historia wydarzeń</Label>
             {this.state.events.filter(function (event) {

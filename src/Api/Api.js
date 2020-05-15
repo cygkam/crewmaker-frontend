@@ -161,7 +161,6 @@ function participationExists (eventID) {
   });
 }
 
-
 const eventViewService = {
   getEventInfo,
   getPlaceInfo,
@@ -189,9 +188,28 @@ function getParicipants (eventID) {
   });
 }
 
+const eventPlaceService = {
+  newEventPlace,
+};
+
+function newEventPlace(newEventPlaceRequest) {
+  return request({
+    url: API_BASE_URL + "/neweventplace",
+    method: "POST",
+    body: JSON.stringify(newEventPlaceRequest),
+  });
+}
+
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
 
-export { mainProfileService, eventService, sportCategoryService, participationService, eventViewService };
+export {
+  mainProfileService,
+  eventService,
+  sportCategoryService,
+  participationService,
+  eventViewService,
+  eventPlaceService,
+};
 export default userService;
