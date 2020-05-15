@@ -59,19 +59,19 @@ class EventView extends Component {
                     stackable
                     columns={3}
                 >
-                    <Grid.Column mobile={32} tablet={8} computer={3}>
+                    <Grid.Column mobile={16} tablet={8} computer={3}>
                         <Segment>
                             <Label textAlign='center' attached="top" color="orange">Informacje o wydarzeniu</Label>
                             <EventData {...this.state.event} />
                         </Segment>
                     </Grid.Column>
-                    <Grid.Column mobile={32} tablet={8} computer={8} >
+                    <Grid.Column mobile={16} tablet={8} computer={8} >
                         <Segment>
                             <Label textAlign='center' attached="top" color="orange">Informacje o miejscu</Label>
                             <EventPlace {...this.state.event} />
                         </Segment>
                     </Grid.Column>
-                    <Grid.Column textAlign="left" mobile={32} tablet={8} computer={3}>
+                    <Grid.Column textAlign="left" mobile={16} tablet={8} computer={3}>
                         <Segment>
                             <Label textAlign='center' attached="top" color="orange">Uczestnicy</Label>
                             <Participant />

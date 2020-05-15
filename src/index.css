@@ -59,3 +59,15 @@ code {
 .MuiDrawer-paperAnchorLeft{
   top: "auto";
 }
+
+.steps-content {
+  margin-top: 16px;
+  border-radius: 2px;
+  background-color: #fafafa;
+  min-height: 200px;
+  text-align: center;
+}
+
+.steps-action {
+  margin-top: 24px;
+}

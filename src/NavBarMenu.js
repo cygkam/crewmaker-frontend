@@ -8,6 +8,7 @@ import {
 import MainProfilePage from "./MainProfilePage";
 import LandingPage from "./LandingPage/LandingPage";
 import SearchView from "./SearchView/SearchView";
+import EventPlaceForm from "./EventPlace/EventPlaceForm";
 import {
   notification,
 } from "antd";
@@ -104,7 +105,6 @@ class NavBarMenu extends Component {
     if (!this.state.isAuthenticated) {
       return (
         <div>
-
           <Menu pointing />
           <Switch>
             <Route
@@ -161,10 +161,12 @@ class NavBarMenu extends Component {
             ></Route>
             <Route
               path="/eventView/:eventID"
-              render={(props) => (
-                <EventView {...props} />
-              )}>
-            </Route>
+              render={(props) => <EventView {...props} />}
+            ></Route>
+            <Route
+              path="/addNewEventPlace"
+              render={(props) => <EventPlaceForm {...props} />}
+            ></Route>
           </Switch>
         </div>
       </div>

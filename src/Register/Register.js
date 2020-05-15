@@ -80,7 +80,7 @@ class Register extends Component {
     });
   };
 
-  handleChange(event, valdiationFunction) {
+  handleChange(event, validationFunction) {
     const target = event.target;
     const inputValue = target.value;
     const inputName = target.name;
@@ -88,7 +88,7 @@ class Register extends Component {
     this.setState({
       [inputName]: {
         value: inputValue,
-        ...valdiationFunction(inputValue),
+        ...validationFunction(inputValue),
       },
     });
   }
@@ -101,7 +101,7 @@ class Register extends Component {
       password: this.state.password.value,
       email: this.state.email.value,
       name: this.state.name.value,
-      surname: this.state.username.value,
+      surname: this.state.surname.value,
       phoneNumber: this.state.phoneNumber.value,
     };
     userService

@@ -9,7 +9,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import SearchIcon from "@material-ui/icons/Search";
-import Group from "@material-ui/icons/Group";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
@@ -20,7 +19,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import PersonIcon from "@material-ui/icons/Person";
+import PlaceIcon from "@material-ui/icons/Place";
 import ReactLogo from "./logo.svg";
+import EventIcon from "@material-ui/icons/Event";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import Collapse from "@material-ui/core/Collapse";
+import { Icon} from '@iconify/react';
+import stadiumIcon from '@iconify/icons-mdi/stadium';
 
 const drawerWidth = 240;
 
@@ -109,6 +116,11 @@ export default function MiniDrawer (props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [collapsed, setCollapsed] = React.useState(false);
+
+  const handleCollapse = () => {
+    setCollapsed(!collapsed);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -129,7 +141,6 @@ export default function MiniDrawer (props) {
       >
         <Toolbar>
           <IconButton
-            color="orange"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -164,8 +175,8 @@ export default function MiniDrawer (props) {
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
-                <ChevronLeftIcon />
-              )}
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
@@ -194,6 +205,23 @@ export default function MiniDrawer (props) {
           </ListItem>
           <ListItem
             button
+            key={"Wydarzenie"}
+            component={Link}
+            to={`/eventView`}
+          >
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Wydarzenie"} />
+          </ListItem>
+          <ListItem button key={""} component={Link} to={`/addNewEventPlace`}>
+            <ListItemIcon>
+              <PlaceIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={"Nowy obiekt"} />
+          </ListItem>
+          <ListItem
+            button
             key={"Wyloguj"}
             component={Link}
             onClick={props.onLogout}
@@ -203,19 +231,25 @@ export default function MiniDrawer (props) {
             </ListItemIcon>
             <ListItemText primary={"Wyloguj"} />
           </ListItem>
-          <ListItem
-            button
-            key={"Wydarzenie"}
-            component={Link}
-            to={`/eventView`}
-          >
-            <ListItemIcon>
-              <Group />
-            </ListItemIcon>
-            <ListItemText primary={"Wydarzenie"} />
-          </ListItem>
         </List>
         <Divider />
+        <ListItem button onClick={handleCollapse}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Panel administratora" />
+          {collapsed ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={collapsed} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <Icon icon={stadiumIcon} width="2em" height="2em" />
+              </ListItemIcon>
+              <ListItemText primary="Zatwierdź obiekty" />
+            </ListItem>
+          </List>
+        </Collapse>
       </Drawer>
     </div>
   );
