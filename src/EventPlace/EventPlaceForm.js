@@ -5,6 +5,8 @@ import EventPlaceDetailsForm from "./EventPlaceDetailsForm"
 import EventPlaceLocationForm from "./EventPlaceLocationForm";
 import EventPlaceSumUpForm from "./EventPlaceSumUpForm";
 import { eventPlaceService } from "../Api/Api";
+import { USER } from "../constants";
+
 const { Step } = Steps;
 
 
@@ -113,12 +115,13 @@ class EventPlaceForm extends React.Component {
           eventPlaceStreetNumber: "",
         });
 
-        //TODO
-        //this.props.history.push("/login");
+        const user =  JSON.parse(localStorage.getItem(USER).toString());
+
+        this.props.history.push(`/mainProfilePage/${user.username}`);
       })
       .catch((error) => {
         notification.error({
-          message: "Login App",
+          message: "New event place",
           description:
             error.message || "Sorry! Something went wrong. Please try again!",
         });
