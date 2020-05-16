@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Image } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
+import MainProfilePage from "../MainProfilePage";
+
 
 class Participant extends Component {
     constructor(props) {
@@ -22,13 +24,26 @@ class Participant extends Component {
 
     render() {
         return(
-            <Link to={`/mainProfilePage/${this.state.username}`} >
-                <Image
-                    src={this.state.image}
-                    size='medium'
-                    label={{content: this.state.name, attached: 'bottom', size: 'medium'}}
-                />
-            </Link>
+            <div>
+                <Link to={`/mainProfilePage/${this.state.username}`} >
+                    <Image
+                        src={this.state.image}
+                        size='medium'
+                        label={{content: this.state.name, attached: 'bottom', size: 'medium'}}
+                    />
+                </Link>
+                <Route
+                    path="/mainProfilePage/:username"
+                    render={(props) => (
+                    <MainProfilePage
+                        isAuthenticated={this.state.isAuthenticated}
+                        currentUser={this.state.username}
+                        {...props}
+                    />
+                )}
+                ></Route>
+            </div>
+           
         )
     }
 }
