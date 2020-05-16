@@ -1,5 +1,5 @@
 import React from "react";
-import { Steps, message, notification } from "antd";
+import { Steps, notification } from "antd";
 import { Grid, Button } from "semantic-ui-react";
 import EventPlaceDetailsForm from "./EventPlaceDetailsForm"
 import EventPlaceLocationForm from "./EventPlaceLocationForm";

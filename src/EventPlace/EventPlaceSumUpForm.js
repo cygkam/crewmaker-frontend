@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   Grid,
   Segment,
-  Container,
   Checkbox,
 } from "semantic-ui-react";
 import { Form, Typography } from "antd";
