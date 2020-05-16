@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { Grid, GridColumn, Image, GridRow } from 'semantic-ui-react'
-
+import { Grid, GridColumn, Image, GridRow } from 'semantic-ui-react';
+import LoadingIndicator from "../common/LoadingIndicator";
+import { Link } from "react-router-dom";
+import { eventService } from '../Api/Api';
 
 class PassedEvent extends Component {
     constructor(propos) {
         super(propos);
 
         this.state = {
+            eventID: 13,
             sportName: 'Piłka nożna',
             sportIconLink: 'https://ecsmedia.pl/c/serwetki-pilka-nozna-33-cm-20-sztuk-w-iext54112696.jpg',
             eventDate: '',
@@ -19,25 +22,54 @@ class PassedEvent extends Component {
         };
     }
 
+    componentDidMount () {
+        if (this.props.dataFromParent.eventID !== undefined) {
+            eventService.countEventParticipants(this.props.dataFromParent.eventID)
+                .then((response) => {
+                    this.setState({
+                        eventID: this.props.dataFromParent.eventID,
+                        actuallPartcipantNumber: response
+                    });
+                })
+                .catch((error) => {
+                    if (error.status === 404) {
+                        this.setState({
+                            actuallPartcipantNumber: 1
+                        });
+                    } else {
+                        this.setState({
+                            actuallPartcipantNumber: 1
+                        });
+                    }
+                });
+        }
+    }
+
     render () {
+        if (this.props.isLoading) {
+            return <LoadingIndicator />;
+        }
+
         return (
-            <Grid divided >
-                <GridRow>
-                    <GridColumn verticalAlign='middle' width={4}>
-                        <Image src={this.state.sportIconLink} />
-                        <h4>{this.state.sportName}</h4>
-                    </GridColumn>
-                    <GridColumn verticalAlign='middle' width={6} >
-                        <h4>21:30</h4>
-                        <h4>21-03-2020</h4>
-                    </GridColumn>
-                    <GridColumn verticalAlign='middle' width={6} >
-                        <h4>{this.state.placeName}</h4>
-                        <h4>{this.state.streetName + " " + this.state.streetNumber}</h4>
-                        <h4>{this.state.city}</h4>
-                    </GridColumn>
-                </GridRow>
-            </Grid>
+            <Link to={`/eventView/${this.state.eventID}`} >
+                <Grid divided >
+                    <GridRow>
+                        <GridColumn verticalAlign='middle' width={4}>
+                            <Image src={this.state.sportIconLink} />
+                            <h4>{this.state.sportName}</h4>
+                        </GridColumn>
+                        <GridColumn verticalAlign='middle' width={6} >
+                            <h4>{this.props.dataFromParent.eventTime}</h4>
+                            <h5>{this.props.dataFromParent.eventDate}</h5>
+                        </GridColumn>
+                        <GridColumn verticalAlign='middle' width={6} >
+                            <h4>{this.props.dataFromParent.eventPlaceName}</h4>
+                            <h4>{this.props.dataFromParent.eventPlaceStreetName + " " + this.props.dataFromParent.eventPlaceStreetNumber}</h4>
+                            <h4>{this.props.dataFromParent.eventPlaceCity}</h4>
+                        </GridColumn>
+                    </GridRow>
+                </Grid>
+            </Link>
         )
     }
 }
