@@ -16,6 +16,7 @@ import userService from "./Api/Api";
 import { ACCESS_TOKEN, USER } from "./constants";
 import Drawer from "./Drawer";
 import EventView from "./EventDetailView/EventView";
+import NewEventPlaceAccept from "./AdminPanel/EventPlaceAcceptingPanel/NewEventPlaceAccept"
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -26,12 +27,14 @@ class NavBarMenu extends Component {
       isAuthenticated: false,
       isLoading: false,
       collapsed: false,
+      userAuthorities: [],
     };
     this.wrapper = React.createRef();
 
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleCheckAuthority = this.handleCheckAuthority.bind(this);
 
     notification.config({
       placement: "topRight",
@@ -57,6 +60,12 @@ class NavBarMenu extends Component {
     this.loadCurrentUser();
   }
 
+  handleCheckAuthority(){
+      return this.state.userAuthorities.some(
+        (e) => e.authority === "ROLE_ADMIN"
+      );
+  };
+
   loadCurrentUser () {
     this.setState({
       isLoading: true,
@@ -68,8 +77,8 @@ class NavBarMenu extends Component {
           currentUser: response,
           isAuthenticated: true,
           isLoading: false,
+          userAuthorities: response.authorities
         });
-
         this.props.history.push(`/mainProfilePage/${response.username}`);
       })
       .catch((error) => {
@@ -136,6 +145,7 @@ class NavBarMenu extends Component {
         <Drawer
           isAuthenticated={this.state.isAuthenticated}
           currentUser={this.state.currentUser}
+          authorities={this.handleCheckAuthority()}
           onLogout={this.handleLogout}
         />
         <div>
@@ -167,6 +177,15 @@ class NavBarMenu extends Component {
               path="/addNewEventPlace"
               render={(props) => <EventPlaceForm {...props} />}
             ></Route>
+
+            {this.handleCheckAuthority() ? (
+                <Route
+                  path="/newEventPlaceAccept"
+                  render={(props) => <NewEventPlaceAccept {...props} />}
+                ></Route>
+            ) : (
+              <React.Fragment />
+            )}
           </Switch>
         </div>
       </div>

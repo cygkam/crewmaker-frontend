@@ -190,13 +190,31 @@ function getParicipants (eventID) {
 
 const eventPlaceService = {
   newEventPlace,
+  getEventPlace,
 };
 
 function newEventPlace(newEventPlaceRequest) {
   return request({
-    url: API_BASE_URL + "/neweventplace",
+    url: API_BASE_URL + "/newEventPlace",
     method: "POST",
     body: JSON.stringify(newEventPlaceRequest),
+  });
+}
+
+
+function getEventPlace(activePage, size, filtering, sorting) {
+  return request({
+    url:
+      API_BASE_URL +
+      "/getEventPlace?activePage=" +
+      activePage +
+      "&size=" +
+      size +
+      "&filtering=" +
+      filtering +
+      "&sorting=" +
+      sorting,
+    method: "GET",
   });
 }
 
