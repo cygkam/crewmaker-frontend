@@ -83,7 +83,7 @@ function getUserProfile (username) {
   });
 }
 
-function updateUser(userData) {
+function updateUser (userData) {
   return request({
     url: API_BASE_URL + "/updateUser",
     method: "POST",
@@ -109,22 +109,22 @@ const eventService = {
   countEventParticipants
 };
 
-function countEventParticipants(eventID){
+function countEventParticipants (eventID) {
   return request({
-    url:API_BASE_URL + "/counteventsparticipants?eventID=" + eventID,
-    method:"GET"
+    url: API_BASE_URL + "/counteventsparticipants?eventID=" + eventID,
+    method: "GET"
   });
 }
 
 function getAllEvents (sportCategoryID, eventDate, eventTime) {
   return request({
-    url:API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID+"&eventDate="+eventDate,
-    method:"GET"
+    url: API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID + "&eventDate=" + eventDate,
+    method: "GET"
   });
 }
 
 
-function getComingUserEvents(username){
+function getComingUserEvents (username) {
   return request({
     url: API_BASE_URL + "/myevents/" + username,
     method: "GET"
@@ -135,10 +135,10 @@ const sportCategoryService = {
   getAllSportsCat
 };
 
-function getAllSportsCat() {
+function getAllSportsCat () {
   return request({
-    url:API_BASE_URL + "/sportscategories",
-    method:"GET"
+    url: API_BASE_URL + "/sportscategories",
+    method: "GET"
   });
 }
 
@@ -147,14 +147,14 @@ const participationService = {
   joinEvent,
 };
 
-function joinEvent(eventID) {
+function joinEvent (eventID) {
   return request({
     url: API_BASE_URL + "/joinevent?eventID=" + eventID,
     method: "GET",
   });
 }
 
-function participationExists(eventID) {
+function participationExists (eventID) {
   return request({
     url: API_BASE_URL + "/existsparticipation?eventID=" + eventID,
     method: "GET",
@@ -168,21 +168,21 @@ const eventViewService = {
   getParicipants,
 };
 
-function getEventInfo(eventID) {
+function getEventInfo (eventID) {
   return request({
     url: API_BASE_URL + "/event?eventId=" + eventID,
     method: "GET",
   });
 }
 
-function getPlaceInfo(placeID) {
+function getPlaceInfo (placeID) {
   return request({
     url: API_BASE_URL + "/placeInfo?placeID=" + placeID,
     method: "GET",
   });
 }
 
-function getParicipants(eventID) {
+function getParicipants (eventID) {
   return request({
     url: API_BASE_URL + "/eventParticipants?eventID=" + eventID,
     method: "GET"

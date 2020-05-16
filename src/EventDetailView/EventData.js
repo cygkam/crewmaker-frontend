@@ -3,9 +3,10 @@ import {Button, Segment, Image, Grid, Label, Container} from "semantic-ui-react"
 import { eventService, participationService } from '../Api/Api';
 import LoadingIndicator from "../common/LoadingIndicator";
 
+
 class EventData extends Component {
     constructor(props) {
-      super(props);
+        super(props);
 
       this.state = {
           eventId: "",
@@ -129,6 +130,7 @@ class EventData extends Component {
           }
         });
       }
+
 
     render() {
         let button;

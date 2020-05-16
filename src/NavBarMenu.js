@@ -48,7 +48,7 @@ class NavBarMenu extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
-  handleLogin() {
+  handleLogin () {
     notification.success({
       message: "Login App",
       description: "You're successfully logged in.",
@@ -56,7 +56,7 @@ class NavBarMenu extends Component {
     this.loadCurrentUser();
   }
 
-  loadCurrentUser() {
+  loadCurrentUser () {
     this.setState({
       isLoading: true,
     });
@@ -79,11 +79,11 @@ class NavBarMenu extends Component {
       });
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.loadCurrentUser();
   }
 
-  handleLogout() {
+  handleLogout () {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(USER);
     this.setState({
@@ -100,13 +100,11 @@ class NavBarMenu extends Component {
   }
 
 
-  render() {
-    const { activeItem } = this.state;
-
+  render () {
     if (!this.state.isAuthenticated) {
       return (
         <div>
-      
+
           <Menu pointing />
           <Switch>
             <Route
@@ -135,11 +133,11 @@ class NavBarMenu extends Component {
 
     return (
       <div>
-          <Drawer
-            isAuthenticated={this.state.isAuthenticated}
-            currentUser={this.state.currentUser}
-            onLogout={this.handleLogout}
-          />
+        <Drawer
+          isAuthenticated={this.state.isAuthenticated}
+          currentUser={this.state.currentUser}
+          onLogout={this.handleLogout}
+        />
         <div>
           <Switch>
             <Route
@@ -161,10 +159,10 @@ class NavBarMenu extends Component {
                 <LandingPage onLogin={this.handleLogin} {...props} />
               )}
             ></Route>
-            <Route 
+            <Route
               path="/eventView/:eventID"
               render={(props) => (
-                <EventView {...props}/>
+                <EventView {...props} />
               )}>
             </Route>
           </Switch>

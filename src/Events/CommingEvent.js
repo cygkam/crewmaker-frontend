@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, GridColumn, Image, Progress, GridRow } from 'semantic-ui-react'
+import { Grid, GridColumn, Image, Progress, GridRow } from 'semantic-ui-react';
 import { eventService } from '../Api/Api';
 import LoadingIndicator from "../common/LoadingIndicator";
 import { Link } from "react-router-dom";
@@ -77,7 +77,7 @@ class CommingEvent extends Component {
           </GridRow>
         </Grid>
       </Link>
-      
+
     )
   }
 }
