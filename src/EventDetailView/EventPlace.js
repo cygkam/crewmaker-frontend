@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Segment, Grid, Image, Label, Button} from "semantic-ui-react";
+import {Segment, Grid, Image, Label} from "semantic-ui-react";
 
 class EventPlace extends Component {
     constructor(props) {
@@ -75,11 +75,6 @@ class EventPlace extends Component {
                 <Grid.Row>
                     <Grid.Column width={8}>
                         <Image src={this.state.placePhoto}/>
-                    </Grid.Column>
-                    <Grid.Column width={8}>
-                        <Button color='orange' >
-                            <Button.Content visible>Dołącz do wydarzenia</Button.Content>
-                        </Button>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
