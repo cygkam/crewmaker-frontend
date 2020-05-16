@@ -182,9 +182,9 @@ function getPlaceInfo(placeID) {
   });
 }
 
-function getParicipants(eventID, participantsType) {
+function getParicipants(eventID) {
   return request({
-    url: API_BASE_URL + "/eventParticipants?eventID=" + eventID + "participantsType?type=" + participantsType,
+    url: API_BASE_URL + "/eventParticipants?eventID=" + eventID,
     method: "GET"
   });
 }
