@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Label, Grid, Segment, Button, Icon } from 'semantic-ui-react'
-import Participant from "./Participant"
 import EventData from "./EventData"
 import EventPlace from "./EventPlace"
 import { eventViewService } from "../Api/Api"
 import LoadingIndicator from "../common/LoadingIndicator";
+import Participant from './Participant';
 
 
 class EventView extends Component {
@@ -13,15 +13,15 @@ class EventView extends Component {
       this.state = {
           isLoading: true,
           event: null,
-          praticipants: "",
-          participantsQueue: "",
+          participants: [],
       }
       
     }
 
     componentDidMount() {
         const eventId = this.props.match.params.eventID;
-        this.loadEventData(eventId)
+        this.loadEventData(eventId);
+        this.loadParticipants(eventId);
     }
     
     loadEventData(eventID) {
@@ -49,6 +49,32 @@ class EventView extends Component {
         });
     }
 
+    loadParticipants(eventId) {
+        eventViewService
+        .getParicipants(eventId)
+        .then((response) => {
+            this.setState({
+                participants: response,
+                isLoading: false,
+            });
+            console.log(response);
+            console.log("SUKCES")
+        })
+        .catch((error) => {
+          if (error.status === 404) {
+            this.setState({
+              notFound: true,
+              isLoading: false,
+            });
+          } else {
+            this.setState({
+              serverError: true,
+              isLoading: false,
+            });
+          }
+        });
+    }
+
     render() {
         if (this.state.isLoading) {
             return <LoadingIndicator />;
@@ -59,22 +85,30 @@ class EventView extends Component {
                     stackable
                     columns={3}
                 > 
-                    <Grid.Column mobile={32} tablet={8} computer={3}>
+                    <Grid.Column mobile={32} tablet={8} computer={4}>
                         <Segment>
                             <Label textAlign='center' attached="top" color="orange">Informacje o wydarzeniu</Label>
                             <EventData {...this.state.event}/>
                         </Segment>
                     </Grid.Column>
-                    <Grid.Column mobile={32} tablet={8} computer={8} >
+                    <Grid.Column mobile={32} tablet={8} computer={6} >
                         <Segment>
                             <Label textAlign='center' attached="top" color="orange">Informacje o miejscu</Label>
                             <EventPlace {...this.state.event}/>
                         </Segment>
                     </Grid.Column>
-                    <Grid.Column textAlign="left" mobile={32} tablet={8} computer={3}>
+                    <Grid.Column textAlign="left" mobile={32} tablet={8} computer={4}>
                         <Segment>
                             <Label textAlign='center' attached="top" color="orange">Uczestnicy</Label>
-                            <Participant/>
+                                <Grid >
+                                    <Grid.Row columns={3}>
+                                    {this.state.participants.map((participant) => (
+                                        <Grid.Column >
+                                        <Participant dataFromParent={participant}/>
+                                        </Grid.Column>
+                                    ))}
+                                    </Grid.Row>
+                                </Grid>
                         </Segment>
                     </Grid.Column>
                 </Grid>)

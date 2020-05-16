@@ -29,7 +29,7 @@ class EventData extends Component {
         })
         if(this.props.cyclic) {
           this.setState({
-            cyclePeriod: this.props.cycleType + " " + this.props.cyclePeriod
+            cyclePeriod: this.props.cycleType + " " + this.props.cycleLength
           })
         } else {
           this.setState({cyclePeriod: 'Wydarzenie jednorazowe'})
