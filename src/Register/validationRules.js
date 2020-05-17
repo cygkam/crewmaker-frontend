@@ -14,7 +14,9 @@ export const validation = {
     validateEmail,
     validateUsername,
     validateSurname,
-    validatePhoneNumber
+    validatePhoneNumber,
+    validateTitle,
+    validateMessage
 };
 
 
@@ -130,6 +132,45 @@ function validateUsername(username) {
     };
   }
 };
+
+function validateTitle(title) {
+  if (title.length <= 0) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Tytuł nie może być pusty !`,
+    };
+  } else if (title.length > 255) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Tytuł jest za długi !`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
+function validateMessage(message) {
+  if (message.length <= 0) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Wiadomość nie może być pusta !`,
+    };
+  } else if (message.length > 255) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Wiadomość jest za długa !`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
 
 export default validation;
 
