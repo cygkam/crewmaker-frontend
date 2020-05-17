@@ -203,6 +203,17 @@ function getOpinions(username) {
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
+const eventPlaceOpinionService =  {
+  sendEventPlaceOpinion
+}
 
-export { mainProfileService, eventService, sportCategoryService, participationService, eventViewService, userOpinionService };
+function sendEventPlaceOpinion (eventPlaceOpinion) {
+  return request({
+    url: API_BASE_URL + "/addeventplaceopinion",
+    method: "POST",
+    body: JSON.stringify(eventPlaceOpinion)
+  })
+}
+
+export { mainProfileService, eventService, sportCategoryService, participationService, eventViewService, userOpinionService, eventPlaceOpinionService };
 export default userService;

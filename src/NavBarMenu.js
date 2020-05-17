@@ -16,6 +16,7 @@ import { ACCESS_TOKEN, USER } from "./constants";
 import Drawer from "./Drawer";
 import EventView from "./EventDetailView/EventView";
 import UserOpinionsPage from "./OpinionsPage/UserOpinionsPage";
+import PlaceOpinionForm from "./PlaceOpinion/PlaceOpinionForm";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -171,6 +172,13 @@ class NavBarMenu extends Component {
             render={(props) =>(
               <UserOpinionsPage {...props}/>
             )}>              
+            </Route>
+            <Route
+            path="/eventplaceopinonform/:eventPlaceID"
+              render={ (props) =>
+              (<PlaceOpinionForm {...props}/>
+                )}
+            >
             </Route>
           </Switch>
         </div>
