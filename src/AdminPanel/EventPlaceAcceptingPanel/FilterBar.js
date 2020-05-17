@@ -25,6 +25,8 @@ const filteringOptions = [
   { key: "1", value: "ACC", text: "Zaakceptowane" },
   { key: "2", value: "NOTACC", text: "Niezaakceptowane" },
   { key: "3", value: "ALL", text: "Wszystkie" },
+  { key: "4", value: "ARCH", text: "Zarchiwizowane" },
+  { key: "5", value: "NOTARCH", text: "Niezarchiwizowane" },
 ];
 
 

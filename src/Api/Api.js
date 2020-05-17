@@ -191,6 +191,8 @@ function getParicipants (eventID) {
 const eventPlaceService = {
   newEventPlace,
   getEventPlace,
+  acceptEventPlace,
+  archiveEventPlace,
 };
 
 function newEventPlace(newEventPlaceRequest) {
@@ -200,7 +202,6 @@ function newEventPlace(newEventPlaceRequest) {
     body: JSON.stringify(newEventPlaceRequest),
   });
 }
-
 
 function getEventPlace(activePage, size, filtering, sorting) {
   return request({
@@ -214,6 +215,25 @@ function getEventPlace(activePage, size, filtering, sorting) {
       filtering +
       "&sorting=" +
       sorting,
+    method: "GET",
+  });
+}
+
+
+function acceptEventPlace(eventPlaceID) {
+  return request({
+    url: API_BASE_URL + "/acceptEventPlace?eventPlaceID=" + eventPlaceID,
+    method: "GET",
+  });
+}
+
+
+function archiveEventPlace(eventPlaceID, currentArchiveStatus) {
+  return request({
+    url: API_BASE_URL + "/archiveEventPlace?eventPlaceID=" + 
+    eventPlaceID +
+    "&currentArchiveStatus=" +
+    currentArchiveStatus,
     method: "GET",
   });
 }

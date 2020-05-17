@@ -85,7 +85,7 @@ class NewEventPlaceAccept extends Component {
   render() {
     return (
       <Grid textAlign="center">
-        <Grid.Column width={9}>
+        <Grid.Column mobile={16} tablet={14} computer={8}>
           <Segment padded>
             <FilterBar
               isLoading={this.state.isLoading}
