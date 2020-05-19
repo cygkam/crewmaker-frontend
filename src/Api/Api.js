@@ -145,11 +145,19 @@ function getAllSportsCat () {
 const participationService = {
   participationExists,
   joinEvent,
+  leaveEvent
 };
 
 function joinEvent (eventID) {
   return request({
     url: API_BASE_URL + "/joinevent?eventID=" + eventID,
+    method: "GET",
+  });
+}
+
+function leaveEvent (eventID) {
+  return request({
+    url: API_BASE_URL + "/leaveevent?eventID=" + eventID,
     method: "GET",
   });
 }

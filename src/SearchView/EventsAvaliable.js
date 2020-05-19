@@ -109,6 +109,31 @@ class EventAvaliable extends Component {
       });
   }
 
+  leaveEvent = () => {
+    console.log("Leaving event : " + this.state.eventID);
+    this.setState({ isLoading: true });
+    participationService.leaveEvent(this.state.eventID)
+      .then((response) => {
+        this.setState({
+          joinned: false,
+          isLoading: false
+        });
+        console.log(this.state.eventID + " joinned : " + this.state.joinned);
+        this.updateParticipants()
+      })
+      .catch((error) => {
+        if (error.status === 404) {
+          this.setState({
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+      });
+  }
+
   updateParticipants () {
 
     console.log("updating participants");
@@ -132,6 +157,28 @@ class EventAvaliable extends Component {
   }
 
   render () {
+
+    let button = null;
+    if(!this.state.joinned) {
+      button = <Link>
+                  <Button color='orange' disabled={this.state.actuallPartcipantNumber >= this.state.maxPartcipantNumber}
+                    onClick={this.joinEvent}
+                    loading={this.state.isLoading}
+                  >
+                    <Button.Content visible>Dołącz do wydarzenia</Button.Content>
+                  </Button>
+                </Link>
+    } else {
+      button = <Link>
+                <Button color='red'
+                  onClick={this.leaveEvent}
+                  loading={this.state.isLoading}
+                >
+                  <Button.Content visible>Opuść wydarzenie</Button.Content>
+                </Button>
+              </Link>
+    }
+
     return (
       <Link to={`/eventView/${this.state.eventID}`}>
         <Grid divided >
@@ -155,14 +202,7 @@ class EventAvaliable extends Component {
               <h4>{this.state.city}</h4>
             </GridColumn>
             <GridColumn textAlign='center' verticalAlign='middle' width={3}>
-              <Link>
-                <Button color='orange' disabled={this.state.actuallPartcipantNumber >= this.state.maxPartcipantNumber || this.state.joinned}
-                  onClick={this.joinEvent}
-                  loading={this.state.isLoading}
-                >
-                  <Button.Content visible>Dołącz do wydarzenia</Button.Content>
-                </Button>
-              </Link>
+              {button}
             </GridColumn>
           </GridRow>
         </Grid>
