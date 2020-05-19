@@ -108,6 +108,31 @@ class EventData extends Component {
             }
           });
     }
+
+    leaveEvent = () => {
+      console.log("Leaving event : " + this.state.eventId);
+      this.setState({ isLoading: true });
+      participationService.leaveEvent(this.state.eventId)
+        .then((response) => {
+          this.setState({
+            joinned: false,
+            isLoading: false
+          });
+          console.log(this.state.eventID + " joinned : " + this.state.joinned);
+          this.updateParticipants()
+        })
+        .catch((error) => {
+          if (error.status === 404) {
+            this.setState({
+              isLoading: false
+            });
+          } else {
+            this.setState({
+              isLoading: false
+            });
+          }
+        });
+    }
     
     updateParticipants (){
     
@@ -136,7 +161,7 @@ class EventData extends Component {
         let button;
         if(!this.state.joinned) {
             button = <Button color='orange' size='huge' 
-                             disabled={this.state.actuallPartcipantNumber>= this.state.maxPartcipantNumber || this.state.joinned}
+                             disabled={this.state.actuallPartcipantNumber>= this.state.maxPartcipantNumber}
                              onClick={this.joinEvent}
                              loading={this.state.isLoading}>
                             <Button.Content visible>Dołącz do wydarzenia</Button.Content>
@@ -144,6 +169,7 @@ class EventData extends Component {
         } else {
             button = <Button color='red' size='huge' 
                              loading={this.state.isLoading}
+                             onClick={this.leaveEvent}
                              >
                             <Button.Content visible>Zrezygnuj z wydarzenia</Button.Content>
                      </Button>
