@@ -16,6 +16,8 @@ import userService from "./Api/Api";
 import { ACCESS_TOKEN, USER } from "./constants";
 import Drawer from "./Drawer";
 import EventView from "./EventDetailView/EventView";
+import UserOpinionsPage from "./OpinionsPage/UserOpinionsPage";
+import PlaceOpinionForm from "./PlaceOpinion/PlaceOpinionForm";
 import NewEventPlaceAccept from "./AdminPanel/EventPlaceAcceptingPanel/NewEventPlaceAccept"
 
 class NavBarMenu extends Component {
@@ -186,6 +188,20 @@ class NavBarMenu extends Component {
             ) : (
               <React.Fragment />
             )}
+            
+            <Route
+            path="/useropinions/:username"
+            render={(props) =>(
+              <UserOpinionsPage {...props}/>
+            )}>              
+            </Route>
+            <Route
+            path="/eventplaceopinonform/:eventPlaceID"
+              render={ (props) =>
+              (<PlaceOpinionForm {...props}/>
+                )}
+            >
+            </Route>
           </Switch>
         </div>
       </div>

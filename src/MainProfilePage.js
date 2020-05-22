@@ -8,6 +8,7 @@ import NotFound from "./common/NotFound";
 import CheckAuthentication from "./common/CheckAuthentication";
 import ServerError from "./common/ServerError";
 import LoadingIndicator from "./common/LoadingIndicator";
+import { Link } from "react-router-dom";
 
 class MainProfilePage extends Component {
   constructor(props) {
@@ -102,6 +103,25 @@ class MainProfilePage extends Component {
             </Button.Content>
           </Button>
           <UserInfo {...this.props} />
+          <br></br>
+
+          <Link to={'/useropinions/'+this.props.match.params.username}>
+          <Button
+            fluid
+            size="small"
+            animated
+            color="grey"
+            style={{ maxHeight: 60 }}
+            
+          >
+            <Button.Content visible>Opinie</Button.Content>
+            <Button.Content hidden>
+              <Icon name="thumbs up" />
+            </Button.Content>
+          </Button>
+          </Link>
+          
+
         </Grid.Column>
 
         <Grid.Column mobile={16} tablet={8} computer={5}>

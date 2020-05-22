@@ -188,6 +188,17 @@ function getParicipants (eventID) {
   });
 }
 
+const userOpinionService = {
+  getOpinions
+}
+
+function getOpinions(username) {
+  return request({
+    url: API_BASE_URL + "/useropinions?username=" + username,
+    method: "GET"
+  });
+}
+
 const eventPlaceService = {
   newEventPlace,
   getEventPlace,
@@ -241,6 +252,19 @@ function archiveEventPlace(eventPlaceID, currentArchiveStatus) {
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
+const eventPlaceOpinionService =  {
+  sendEventPlaceOpinion
+}
+
+
+
+function sendEventPlaceOpinion (eventPlaceOpinion) {
+  return request({
+    url: API_BASE_URL + "/addeventplaceopinion",
+    method: "POST",
+    body: JSON.stringify(eventPlaceOpinion)
+  })
+}
 
 export {
   mainProfileService,
@@ -249,5 +273,8 @@ export {
   participationService,
   eventViewService,
   eventPlaceService,
+userOpinionService,
+eventPlaceOpinionService,
 };
+
 export default userService;
