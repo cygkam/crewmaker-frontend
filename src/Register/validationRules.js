@@ -31,6 +31,8 @@ export const validation = {
     validateEventPlaceStreet,
     validateEventPlaceCity,
     validateEventPlaceStreetNumber
+    validateTitle,
+    validateMessage
 };
 
 
@@ -165,6 +167,47 @@ function validateEventPlaceDescription(name) {
     };
   }
 }
+
+function validateTitle(title) {
+  if (title.length <= 0) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Tytuł nie może być pusty !`,
+    };
+  } else if (title.length > 255) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Tytuł jest za długi !`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
+function validateMessage(message) {
+  if (message.length <= 0) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Wiadomość nie może być pusta !`,
+    };
+  } else if (message.length > 255) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Wiadomość jest za długa !`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
+
+export default validation;
 
 function validateEventPlaceName(name) {
   if (name.length < EVENTPLACE_NAME_MIN_LENGTH) {
