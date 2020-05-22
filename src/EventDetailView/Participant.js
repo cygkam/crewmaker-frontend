@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Image } from "semantic-ui-react";
+import { Link, Route } from "react-router-dom";
+import MainProfilePage from "../MainProfilePage";
+
 
 class Participant extends Component {
     constructor(props) {
@@ -7,18 +10,40 @@ class Participant extends Component {
 
       this.state = {
           image: "https://react.semantic-ui.com/images/wireframe/image.png",
+          username: "",
           name: "Maciej"
       }
     }
 
+    componentDidMount() {
+        this.setState({
+            username: this.props.dataFromParent.username,
+            name: this.props.dataFromParent.name
+        })
+    }
+
     render() {
         return(
-            <Image
-                src={this.state.image}
-                size='medium'
-                textAlign='center'
-                label={{content: this.state.name, attached: 'bottom', size: 'huge'}}
-            />
+            <div>
+                <Link to={`/mainProfilePage/${this.state.username}`} >
+                    <Image
+                        src={this.state.image}
+                        size='medium'
+                        label={{content: this.state.name, attached: 'bottom', size: 'medium'}}
+                    />
+                </Link>
+                <Route
+                    path="/mainProfilePage/:username"
+                    render={(props) => (
+                    <MainProfilePage
+                        isAuthenticated={this.state.isAuthenticated}
+                        currentUser={this.state.username}
+                        {...props}
+                    />
+                )}
+                ></Route>
+            </div>
+           
         )
     }
 }
