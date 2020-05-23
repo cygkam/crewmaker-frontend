@@ -179,29 +179,23 @@ class NavBarMenu extends Component {
               path="/addNewEventPlace"
               render={(props) => <EventPlaceForm {...props} />}
             ></Route>
+            <Route
+              path="/useropinions/:username"
+              render={(props) => <UserOpinionsPage {...props} />}
+            ></Route>
+            <Route
+              path="/eventplaceopinonform/:eventPlaceID"
+              render={(props) => <PlaceOpinionForm {...props} />}
+            ></Route>
 
             {this.handleCheckAuthority() ? (
-                <Route
-                  path="/newEventPlaceAccept"
-                  render={(props) => <NewEventPlaceAccept {...props} />}
-                ></Route>
+              <Route
+                path="/newEventPlaceAccept"
+                render={(props) => <NewEventPlaceAccept {...props} />}
+              ></Route>
             ) : (
               <React.Fragment />
             )}
-            
-            <Route
-            path="/useropinions/:username"
-            render={(props) =>(
-              <UserOpinionsPage {...props}/>
-            )}>              
-            </Route>
-            <Route
-            path="/eventplaceopinonform/:eventPlaceID"
-              render={ (props) =>
-              (<PlaceOpinionForm {...props}/>
-                )}
-            >
-            </Route>
           </Switch>
         </div>
       </div>
