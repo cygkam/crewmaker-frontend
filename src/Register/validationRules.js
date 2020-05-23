@@ -30,7 +30,7 @@ export const validation = {
     validateEventPlacePostalCode,
     validateEventPlaceStreet,
     validateEventPlaceCity,
-    validateEventPlaceStreetNumber
+    validateEventPlaceStreetNumber,
     validateTitle,
     validateMessage
 };
@@ -60,7 +60,6 @@ function validatePhoneNumber(phoneNumber){
 
 };
 
-
 function validateName(name) {
   if (name.length < NAME_MIN_LENGTH) {
     return {
@@ -78,7 +77,7 @@ function validateName(name) {
       errorMsg: null,
     };
   }
-}
+};
 
 function validateSurname(surname) {
   if (surname.length < SURNAME_MIN_LENGTH) {
@@ -97,7 +96,7 @@ function validateSurname(surname) {
       errorMsg: null,
     };
   }
-}
+};
 
 function validateEmail(email) {
   if (!email) {
@@ -166,7 +165,7 @@ function validateEventPlaceDescription(name) {
       errorMsg: null,
     };
   }
-}
+};
 
 function validateTitle(title) {
   if (title.length <= 0) {
@@ -185,7 +184,7 @@ function validateTitle(title) {
       errorMsg: null,
     };
   }
-}
+};
 
 function validateMessage(message) {
   if (message.length <= 0) {
@@ -204,10 +203,7 @@ function validateMessage(message) {
       errorMsg: null,
     };
   }
-}
-
-
-export default validation;
+};
 
 function validateEventPlaceName(name) {
   if (name.length < EVENTPLACE_NAME_MIN_LENGTH) {
@@ -226,7 +222,7 @@ function validateEventPlaceName(name) {
       errorMsg: null,
     };
   }
-}
+};
 
 function validateEventPlaceCity(city) {
   if (city.length < EVENTPLACE_CITY_MIN_LENGTH) {
@@ -245,7 +241,7 @@ function validateEventPlaceCity(city) {
              errorMsg: null,
            };
          }
-}
+};
 
 
 function validateEventPlacePostalCode(postalCode) {
@@ -297,7 +293,7 @@ function validateEventPlaceStreet(street) {
       errorMsg: null,
     };
   }
-}
+};
 
 function validateEventPlaceStreetNumber(streetNumber) {
 if (!streetNumber) {
@@ -326,7 +322,6 @@ if (!streetNumber) {
     validateStatus: "success",
     errorMsg: null,
   };
-}
-
+};
 
 export default validation;
