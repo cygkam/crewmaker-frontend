@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Label, Icon, Grid, GridColumn, Image, Segment } from 'semantic-ui-react';
 import LoadingIndicator from "./common/LoadingIndicator";
+import userService from "./Api/Api";
+import { USER_IMAGE } from "./constants";
 
 class UserInfoView extends Component {
   constructor(props) {
@@ -11,13 +13,14 @@ class UserInfoView extends Component {
       name: "imie",
       surname: "nazwisko",
       email: "email użytkownika",
-      photo: "https://react.semantic-ui.com/images/wireframe/image.png",
+      userProfileImage:
+        "https://react.semantic-ui.com/images/wireframe/image.png",
       phoneNumber: "telefon użytkownika",
       description: "Lorem ipsum dolor sit amet.",
     };
   }
 
-  componentDidMount () {
+  componentDidMount(props) {
     this.setState((props) => ({
       username: this.props.username,
       name: this.props.name,
@@ -25,25 +28,30 @@ class UserInfoView extends Component {
       email: this.props.email,
       phoneNumber: this.props.phoneNumber,
       description: this.props.description,
+      userProfileImage: this.props.userProfileImage,
     }));
   }
 
-  render () {
+  render() {
     if (this.props.isLoading) {
       return <LoadingIndicator />;
     }
 
     return (
       <Grid>
-        <GridColumn width='16'>
+        <GridColumn width="16">
           <Grid.Row>
             <Segment>
               <Label attached="top">{this.props.username}</Label>
-              <Image
-                fluid
-                src={this.state.photo}
-                style={{ minHeight: "200px", minWidth: "200px" }}
-              />
+              {this.props.isLoadingImage ? (
+                <LoadingIndicator />
+              ) : (
+                <Image
+                  fluid
+                  src={this.props.userProfileImage}
+                  style={{ minHeight: "200px", minWidth: "200px" }}
+                />
+              )}
             </Segment>
             <Segment textAlign="left">
               <Icon name="user" />

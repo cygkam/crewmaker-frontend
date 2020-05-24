@@ -13,7 +13,7 @@ import {
   notification,
 } from "antd";
 import userService from "./Api/Api";
-import { ACCESS_TOKEN, USER } from "./constants";
+import { ACCESS_TOKEN, USER, USER_IMAGE } from "./constants";
 import Drawer from "./Drawer";
 import EventView from "./EventDetailView/EventView";
 import UserOpinionsPage from "./OpinionsPage/UserOpinionsPage";
@@ -98,6 +98,7 @@ class NavBarMenu extends Component {
   handleLogout () {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(USER);
+    localStorage.removeItem(USER_IMAGE);
     this.setState({
       currentUser: null,
       isAuthenticated: false,

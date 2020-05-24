@@ -7,6 +7,7 @@ const userService = {
   checkEmailAvailability,
   getCurrentUser,
   getUserProfile,
+  getUserProfileImage,
 };
 
 const request = (options) => {
@@ -34,6 +35,7 @@ const request = (options) => {
     })
   );
 };
+
 
 function login (loginRequest) {
   return request({
@@ -82,6 +84,14 @@ function getUserProfile (username) {
     method: "GET",
   });
 }
+
+function getUserProfileImage(username) {
+  return request({
+    url: API_BASE_URL + "/usersProfileImage/" + username,
+    method: "GET",
+  });
+}
+
 
 function updateUser (userData) {
   return request({
