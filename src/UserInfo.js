@@ -27,7 +27,7 @@ class UserInfo extends Component {
   }
 
   componentDidMount() {
-    const username = this.props.match.params.username;
+    const username = this.props.username
     this.loadUserProfile(username);
     this.loadUserProfileImage(username);
   }
@@ -39,40 +39,32 @@ class UserInfo extends Component {
   };
 
   loadUserProfile(username) {
-    if (!localStorage.getItem(USER)) {
-      userService
-        .getUserProfile(username)
-        .then((response) => {
+    userService
+      .getUserProfile(username)
+      .then((response) => {
+        this.setState({
+          user: response,
+          isLoading: false,
+        });
+        console.log(response);
+        localStorage.setItem(USER, JSON.stringify(response));
+      })
+      .catch((error) => {
+        if (error.status === 404) {
           this.setState({
-            user: response,
+            notFound: true,
             isLoading: false,
           });
-          console.log(response);
-          localStorage.setItem(USER, JSON.stringify(response));
-        })
-        .catch((error) => {
-          if (error.status === 404) {
-            this.setState({
-              notFound: true,
-              isLoading: false,
-            });
-          } else {
-            this.setState({
-              serverError: true,
-              isLoading: false,
-            });
-          }
-        });
-    } else {
-      this.setState({
-        user: JSON.parse(localStorage.getItem(USER).toString()),
-        isLoading: false,
+        } else {
+          this.setState({
+            serverError: true,
+            isLoading: false,
+          });
+        }
       });
-    }
-  }
+    } 
 
   loadUserProfileImage(username) {
-    if (!localStorage.getItem(USER_IMAGE)) {
       userService
         .getUserProfileImage(username)
         .then((response) => {
@@ -99,14 +91,7 @@ class UserInfo extends Component {
             });
           }
         });
-    } else {
-      this.setState({
-        userProfileImage:
-          JSON.parse(localStorage.getItem(USER_IMAGE).toString()),
-        isLoadingImage: false,
-      });
     }
-  }
 
   render() {
     if (this.state.isProfileInEdition) {
@@ -127,6 +112,7 @@ class UserInfo extends Component {
           isLoadingImage={this.state.isLoadingImage}
           userProfileImage={this.state.userProfileImage}
           handler={this.panelViewHandler}
+          currentUser = {this.props.currentUser}
         />
       );
     }
