@@ -35,6 +35,18 @@ class UserInfoView extends Component {
       return <LoadingIndicator />;
     }
 
+    let button = null;
+    if(this.props.currentUser === this.props.username) {
+      button =  <Button
+                  fluid
+                  size="small"
+                  color="grey"
+                  onClick={this.props.handler}
+                >
+                  <Button.Content visible>Edytuj profil</Button.Content>
+                </Button>
+    }
+
     return (
       <Grid>
         <GridColumn width="16">
@@ -70,14 +82,7 @@ class UserInfoView extends Component {
               <Icon name="book" />
               {this.props.description}
             </Segment>
-            <Button
-              fluid
-              size="small"
-              color="grey"
-              onClick={this.props.handler}
-            >
-              <Button.Content visible>Edytuj profil</Button.Content>
-            </Button>
+            {button}
           </Grid.Row>
         </GridColumn>
       </Grid>

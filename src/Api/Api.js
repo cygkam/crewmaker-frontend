@@ -291,8 +291,8 @@ export {
   participationService,
   eventViewService,
   eventPlaceService,
-userOpinionService,
-eventPlaceOpinionService,
+  userOpinionService,
+  eventPlaceOpinionService,
 };
 
 export default userService;
