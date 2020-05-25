@@ -29,13 +29,10 @@ class UserInfo extends Component {
   componentDidMount() {
     const username = this.props.match.params.username;
     this.loadUserProfile(username);
-    
-  }
-
-  componentWillReceiveProps(props){
-    const username = props.match.params.username;
     this.loadUserProfileImage(username);
   }
+
+
 
   handleChange = (updatedUser) => {
     this.setState({ user: updatedUser });
@@ -85,7 +82,7 @@ class UserInfo extends Component {
           });
           localStorage.setItem(
             USER_IMAGE,
-            JSON.stringify(this.state.userProfileImage)
+            JSON.stringify("data:image/jpeg;base64," + response.binaryData)
           );
         })
         .catch((error) => {
@@ -104,9 +101,8 @@ class UserInfo extends Component {
         });
     } else {
       this.setState({
-        userProfileImage: JSON.parse(
-          localStorage.getItem(USER_IMAGE).toString()
-        ),
+        userProfileImage:
+          JSON.parse(localStorage.getItem(USER_IMAGE).toString()),
         isLoadingImage: false,
       });
     }
@@ -117,6 +113,8 @@ class UserInfo extends Component {
       return (
         <UserInfoEdit
           {...this.state.user}
+          isLoadingImage={this.state.isLoadingImage}
+          userProfileImage={this.state.userProfileImage}
           handler={this.panelViewHandler}
           onChange={this.handleChange}
         />

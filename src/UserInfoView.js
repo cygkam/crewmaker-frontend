@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Label, Icon, Grid, GridColumn, Image, Segment } from 'semantic-ui-react';
 import LoadingIndicator from "./common/LoadingIndicator";
-import userService from "./Api/Api";
-import { USER_IMAGE } from "./constants";
 
 class UserInfoView extends Component {
   constructor(props) {
@@ -48,8 +46,11 @@ class UserInfoView extends Component {
               ) : (
                 <Image
                   fluid
+                  bordered
+                  rounded
+                  centered
                   src={this.props.userProfileImage}
-                  style={{ minHeight: "200px", minWidth: "200px" }}
+                  style={{ maxHeight: "200px", maxWidth: "200px" }}
                 />
               )}
             </Segment>

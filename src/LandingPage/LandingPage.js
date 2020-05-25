@@ -4,7 +4,8 @@ import {
   Label,
   Grid,
   Segment,
-  Container
+  Container,
+  Image
 } from "semantic-ui-react";
 import { notification } from "antd";
 import "slick-carousel/slick/slick.css";
@@ -13,6 +14,7 @@ import Slider from "react-slick";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import { withRouter } from 'react-router-dom';
+import main from "../main.svg"
 
 class LandingPage extends Component {
   constructor(props) {
@@ -40,8 +42,11 @@ class LandingPage extends Component {
 
     return (
       <Container>
-        <Grid textAlign="center" verticalAlign="middle">
-          <Grid.Row>
+        <Grid stackable textAlign="center" verticalAlign="middle">
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <Image src={main} />
+            </Grid.Column>
             <Grid.Column style={{ maxWidth: 450 }}>
               <Slider
                 {...sliderMainSettings}
