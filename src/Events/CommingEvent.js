@@ -21,11 +21,11 @@ import volleyball from "../Icons/colorScale/volleyball.svg";
 
 
 class CommingEvent extends Component {
-  constructor(propos) {
-    super(propos);
+  constructor(props) {
+    super(props);
 
     this.state = {
-      eventID: "",
+      eventID: this.props.dataFromParent.eventID,
       sportName: "Piłka nożna",
       sportIconLink:
         "https://ecsmedia.pl/c/serwetki-pilka-nozna-33-cm-20-sztuk-w-iext54112696.jpg",
