@@ -43,7 +43,7 @@ class PlaceOpinionForm extends Component {
           .then((response) => {
             notification.success({
               message: "Data change",
-              description: "Data were correctly changed!",
+              description: "Data were correctly added!",
             });
          })
           .catch((error) => {
