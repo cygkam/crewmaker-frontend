@@ -144,9 +144,8 @@ class MainProfilePage extends Component {
                     .map((event) => (
                       <Segment key={event.eventName}>
                         <CommingEvent
-  
+    
                           dataFromParent={event}
-                          isLoading={this.state.isLoadingEvents}
                         />
                       </Segment>
                     ))}
