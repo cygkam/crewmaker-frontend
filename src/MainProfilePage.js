@@ -39,7 +39,6 @@ class MainProfilePage extends Component {
       .then((response) => {
         this.setState({
           events: response,
-          isLoading: false,
           isLoadingEvents: false,
         });
       })
@@ -47,12 +46,12 @@ class MainProfilePage extends Component {
         if (error.status === 404) {
           this.setState({
             notFound: true,
-            isLoading: false,
+            isLoadingEvents: false,
           });
         } else {
           this.setState({
             serverError: true,
-            isLoading: false,
+            isLoadingEvents: false,
           });
         }
       });
@@ -84,11 +83,7 @@ class MainProfilePage extends Component {
       return <CheckAuthentication {...this.props} />;
     }
     return (
-      <Grid
-        textAlign="center"
-        stackable
-        columns={3}
-      >
+      <Grid textAlign="center" stackable columns={3}>
         <Grid.Column mobile={16} tablet={8} computer={4}>
           <Button
             fluid
@@ -105,54 +100,70 @@ class MainProfilePage extends Component {
           <UserInfo {...this.props} />
           <br></br>
 
-          <Link to={'/useropinions/'+this.props.match.params.username}>
-          <Button
-            fluid
-            size="small"
-            animated
-            color="grey"
-            style={{ maxHeight: 60 }}
-            
-          >
-            <Button.Content visible>Opinie</Button.Content>
-            <Button.Content hidden>
-              <Icon name="thumbs up" />
-            </Button.Content>
-          </Button>
+          <Link to={"/useropinions/" + this.props.match.params.username}>
+            <Button
+              fluid
+              size="small"
+              animated
+              color="grey"
+              style={{ maxHeight: 60 }}
+            >
+              <Button.Content visible>Opinie</Button.Content>
+              <Button.Content hidden>
+                <Icon name="thumbs up" />
+              </Button.Content>
+            </Button>
           </Link>
-          
-
         </Grid.Column>
 
         <Grid.Column mobile={16} tablet={8} computer={5}>
           <Segment fluid="true">
             <Label attached="top">Twoje aktualne wydarzenia</Label>
-            {this.state.events.filter(function (event) {
-              return (new Date(event.eventDate) >= new Date())
-            }).sort(this.sortByDate).map((event) => (
-              <Segment key={event.eventName}>
-                <CommingEvent
-                  dataFromParent={event}
-                  isLoading={this.state.isLoadingEvents}
-                />
-              </Segment>
-            ))}
+            {this.state.isLoadingEvents ? (
+              <LoadingIndicator />
+            ) : (
+              <React.Fragment>
+                {this.state.events
+                  .filter(function (event) {
+                    return new Date(event.eventDate) >= new Date();
+                  })
+                  .sort(this.sortByDate)
+                  .map((event) => (
+                    <Segment key={event.eventName}>
+                      <CommingEvent
+
+                        dataFromParent={event}
+                        isLoading={this.state.isLoadingEvents}
+                      />
+                    </Segment>
+                  ))}
+              </React.Fragment>
+            )}
           </Segment>
         </Grid.Column>
 
         <Grid.Column textAlign="center" mobile={16} tablet={8} computer={5}>
           <Segment divided="true">
             <Label attached="top">Historia wydarzeń</Label>
-            {this.state.events.filter(function (event) {
-              return (new Date(event.eventDate) < new Date())
-            }).sort(this.sortByDate).map((event) => (
-              <Segment key={event.eventName}>
-                <PassedEvent
-                  dataFromParent={event}
-                  isLoading={this.state.isLoadingEvents}
-                />
-              </Segment>
-            ))}
+            {this.state.isLoadingEvents ? (
+              <LoadingIndicator />
+            ) : (
+              <React.Fragment>
+                {this.state.events
+                  .filter(function (event) {
+                    return new Date(event.eventDate) < new Date();
+                  })
+                  .sort(this.sortByDate)
+                  .map((event) => (
+                    <Segment key={event.eventName}>
+                      <PassedEvent
+                        dataFromParent={event}
+                        isLoading={this.state.isLoadingEvents}
+                      />
+                    </Segment>
+                  ))}
+              </React.Fragment>
+            )}
           </Segment>
         </Grid.Column>
       </Grid>
