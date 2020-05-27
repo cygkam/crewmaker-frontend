@@ -159,7 +159,13 @@ class EventData extends Component {
 
     render() {
         let button;
-        if(!this.state.joinned) {
+        if (new Date(this.props.eventDate) <= new Date()) {
+            button = <Button color='grey' size='huge' 
+                            disabled>
+                            <Button.Content visible>Wydarzenie minęło</Button.Content>
+                    </Button>
+        }
+        else if(!this.state.joinned) {
             button = <Button color='orange' size='huge' 
                              disabled={this.state.actuallPartcipantNumber>= this.state.maxPartcipantNumber}
                              onClick={this.joinEvent}
