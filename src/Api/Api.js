@@ -207,13 +207,30 @@ function getParicipants (eventID) {
 }
 
 const userOpinionService = {
-  getOpinions
+  getOpinions,
+  getOpinion,
+  newUserOpinion
 }
 
-function getOpinions(username) {
+function getOpinion(username, currentUser) {
   return request({
-    url: API_BASE_URL + "/useropinions?username=" + username,
+    url: API_BASE_URL + "/useropinion?username=" + username + "&currentUser=" + currentUser,
     method: "GET"
+  });
+}
+
+function getOpinions(username, currentUser) {
+  return request({
+    url: API_BASE_URL + "/useropinions?username=" + username + "&currentUser=" + currentUser,
+    method: "GET"
+  });
+}
+
+function newUserOpinion(newUserOpinionRequest) {
+  return request({
+    url: API_BASE_URL + "/newUserOpinion",
+    method: "POST",
+    body: JSON.stringify(newUserOpinionRequest),
   });
 }
 

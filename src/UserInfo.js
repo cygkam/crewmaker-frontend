@@ -32,8 +32,6 @@ class UserInfo extends Component {
     this.loadUserProfileImage(username);
   }
 
-
-
   handleChange = (updatedUser) => {
     this.setState({ user: updatedUser });
   };
