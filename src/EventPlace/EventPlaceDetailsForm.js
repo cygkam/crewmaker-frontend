@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { Grid, Segment, Image} from "semantic-ui-react";
+import React, { Component } from 'react';
+import { Grid, Segment } from "semantic-ui-react";
 import { validation } from "../Register/validationRules"
 import { Input, Form, Typography } from "antd";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -111,7 +111,7 @@ class EventPlaceDetailsForm extends Component {
   }
 
 
-  render() {
+  render () {
     return (
       <Grid textAlign="center">
         <Grid.Column mobile={16} tablet={16} computer={12}>
@@ -182,7 +182,7 @@ class EventPlaceDetailsForm extends Component {
                       key={key}
                     >
                       <Tooltip title={item.tooltip}>
-                        <img height="60" width="60" src={item.icon} />
+                        <img height="60" width="60" src={item.icon} alt="" />
                       </Tooltip>
                     </ToggleButton>
                   ))}
