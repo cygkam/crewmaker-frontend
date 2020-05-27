@@ -182,7 +182,7 @@ class NavBarMenu extends Component {
             ></Route>
             <Route
               path="/useropinions/:username"
-              render={(props) => <UserOpinionsPage {...props} />}
+              render={(props) => <UserOpinionsPage {...props} currentUser={this.state.currentUser}/>}
             ></Route>
             <Route
               path="/eventplaceopinonform/:eventPlaceID"
