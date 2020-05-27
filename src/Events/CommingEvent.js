@@ -36,6 +36,7 @@ class CommingEvent extends Component {
       streetName: "Nazwa ulicy",
       streetNumber: "numer",
       city: "Miasto",
+      isLoading: true
     };
   }
 
@@ -45,6 +46,7 @@ class CommingEvent extends Component {
         .countEventParticipants(this.props.dataFromParent.eventID)
         .then((response) => {
           this.setState({
+            isLoading: false,
             eventID: this.props.dataFromParent.eventID,
             actuallPartcipantNumber: response,
           });
@@ -52,10 +54,12 @@ class CommingEvent extends Component {
         .catch((error) => {
           if (error.status === 404) {
             this.setState({
+              isLoading: false,
               actuallPartcipantNumber: 1,
             });
           } else {
             this.setState({
+              isLoading: false,
               actuallPartcipantNumber: 1,
             });
           }
@@ -101,10 +105,10 @@ class CommingEvent extends Component {
   }
 
   render() {
-    if (this.props.isLoading) {
+    if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
-
+    
     return (
       <Link to={`/eventView/${this.state.eventID}`}>
         <Grid divided>
