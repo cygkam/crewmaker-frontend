@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimmer, Segment, Grid, Header, Button, Icon, Loader } from 'semantic-ui-react';
+import { Segment, Grid, Header, Button, Icon } from 'semantic-ui-react';
 import { userOpinionService } from '../Api/Api';
 import LoadingIndicator from "../common/LoadingIndicator";
 import UserOpinion from "./UserOpinion"
@@ -39,9 +39,9 @@ class UserOpinionsPage extends Component {
         this.loadOpinion(about, current);
     }
 
-    loadOpinons (username) {
+    loadOpinons (username, current) {
         userOpinionService
-            .getOpinions(username)
+            .getOpinions(username, current)
             .then((response) => {
                 this.setState({
                     opinions: response,
@@ -61,8 +61,9 @@ class UserOpinionsPage extends Component {
                         isLoading: false,
                     });
                 }
-            }
-        }
+            });
+    }
+
 
     loadOpinion (username, current) {
         userOpinionService
@@ -167,30 +168,6 @@ class UserOpinionsPage extends Component {
                             }
 
                             {this.state.opinions.length === 0 && this.state.currentUserOpinion == null &&
-                                <Segment>
-
-                                    <Header textAlign='center' as='h1' color='orange'>
-                                        Opinie o uzytkowniku {this.state.aboutUsername}
-                                        <Button floated='right' animated color='orange'>
-                                            <Button.Content visible>Dodaj opinię</Button.Content>
-                                            <Button.Content hidden>
-                                                <Icon name='plus' />
-                                            </Button.Content>
-                                        </Button>
-                                    </Header>
-
-
-                                </Segment>
-
-                            {this.state.opinions.length > 0 &&
-                                this.state.opinions.map(
-                                    (opinion =>
-                                        <UserOpinion key={opinion.userOpinionID} opinionData={opinion}>
-                                        </UserOpinion>)
-                                )
-                            }
-
-                            {this.state.opinions.length === 0 &&
                                 <Segment>
                                     <Header as='h1' color='orange'>
                                         Brak opinii o użytkowniku
