@@ -85,7 +85,7 @@ function getUserProfile (username) {
   });
 }
 
-function getUserProfileImage(username) {
+function getUserProfileImage (username) {
   return request({
     url: API_BASE_URL + "/usersProfileImage/" + username,
     method: "GET",
@@ -113,10 +113,19 @@ function getUserProfileInfo (username) {
   });
 }
 
+function newEvent (newEventRequest) {
+  return request({
+    url: API_BASE_URL + "/newEvent",
+    method: "POST",
+    body: JSON.stringify(newEventRequest),
+  });
+}
+
 const eventService = {
   getAllEvents,
   getComingUserEvents,
-  countEventParticipants
+  countEventParticipants,
+  newEvent
 };
 
 function countEventParticipants (eventID) {
@@ -141,8 +150,16 @@ function getComingUserEvents (username) {
   });
 }
 
+function getSportCategoriesForPlace (eventPlaceID) {
+  return request({
+    url: API_BASE_URL + "/sportscategoriesplaces?eventPlaceID=" + eventPlaceID,
+    method: "GET"
+  });
+}
+
 const sportCategoryService = {
-  getAllSportsCat
+  getAllSportsCat,
+  getSportCategoriesForPlace
 };
 
 function getAllSportsCat () {
@@ -210,9 +227,23 @@ const userOpinionService = {
   getOpinions
 }
 
-function getOpinions(username) {
+function getOpinions (username) {
   return request({
     url: API_BASE_URL + "/useropinions?username=" + username,
+    method: "GET"
+  });
+}
+
+function getEventPlaces () {
+  return request({
+    url: API_BASE_URL + "/eventPlaces",
+    method: "GET"
+  });
+}
+
+function getCyclics () {
+  return request({
+    url: API_BASE_URL + "/cyclics",
     method: "GET"
   });
 }
@@ -222,9 +253,11 @@ const eventPlaceService = {
   getEventPlace,
   acceptEventPlace,
   archiveEventPlace,
+  getEventPlaces,
+  getCyclics
 };
 
-function newEventPlace(newEventPlaceRequest) {
+function newEventPlace (newEventPlaceRequest) {
   return request({
     url: API_BASE_URL + "/newEventPlace",
     method: "POST",
@@ -232,7 +265,7 @@ function newEventPlace(newEventPlaceRequest) {
   });
 }
 
-function getEventPlace(activePage, size, filtering, sorting) {
+function getEventPlace (activePage, size, filtering, sorting) {
   return request({
     url:
       API_BASE_URL +
@@ -249,7 +282,7 @@ function getEventPlace(activePage, size, filtering, sorting) {
 }
 
 
-function acceptEventPlace(eventPlaceID) {
+function acceptEventPlace (eventPlaceID) {
   return request({
     url: API_BASE_URL + "/acceptEventPlace?eventPlaceID=" + eventPlaceID,
     method: "GET",
@@ -257,12 +290,12 @@ function acceptEventPlace(eventPlaceID) {
 }
 
 
-function archiveEventPlace(eventPlaceID, currentArchiveStatus) {
+function archiveEventPlace (eventPlaceID, currentArchiveStatus) {
   return request({
-    url: API_BASE_URL + "/archiveEventPlace?eventPlaceID=" + 
-    eventPlaceID +
-    "&currentArchiveStatus=" +
-    currentArchiveStatus,
+    url: API_BASE_URL + "/archiveEventPlace?eventPlaceID=" +
+      eventPlaceID +
+      "&currentArchiveStatus=" +
+      currentArchiveStatus,
     method: "GET",
   });
 }
@@ -270,7 +303,7 @@ function archiveEventPlace(eventPlaceID, currentArchiveStatus) {
 //Sprawdzic jak exportowac dwa rozne constansy
 //export default userService
 
-const eventPlaceOpinionService =  {
+const eventPlaceOpinionService = {
   sendEventPlaceOpinion
 }
 
@@ -291,8 +324,8 @@ export {
   participationService,
   eventViewService,
   eventPlaceService,
-userOpinionService,
-eventPlaceOpinionService,
+  userOpinionService,
+  eventPlaceOpinionService,
 };
 
 export default userService;

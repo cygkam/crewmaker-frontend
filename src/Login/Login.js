@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {Form,Grid, Header, Segment} from 'semantic-ui-react';
+import { Form, Grid, Header, Segment } from 'semantic-ui-react';
 import { notification } from 'antd';
 import "antd/dist/antd.css";
-import  userService from "../Api/Api";
+import userService from "../Api/Api";
 
-import {ACCESS_TOKEN} from '../constants';
+import { ACCESS_TOKEN } from '../constants';
 
 class Login extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class Login extends Component {
       [e.target.name]: e.target.value,
     });
 
-  handleSubmit(event) {
+  handleSubmit (event) {
     event.preventDefault();
 
     if (!(this.state.username && this.state.password)) {
@@ -71,7 +71,7 @@ class Login extends Component {
       });
   }
 
-  render() {
+  render () {
     return (
       <Grid verticalAlign="middle" textAlign="center">
         <Grid.Column style={{ maxWidth: 500 }}>
@@ -81,6 +81,7 @@ class Login extends Component {
           <Form size="large">
             <Segment stacked>
               <Form.Input
+                id="username"
                 fluid
                 icon="user"
                 iconPosition="left"
@@ -90,6 +91,7 @@ class Login extends Component {
                 onChange={this.handleChange}
               ></Form.Input>
               <Form.Input
+                id="password"
                 fluid
                 icon="lock"
                 iconPosition="left"
@@ -99,6 +101,7 @@ class Login extends Component {
                 onChange={this.handleChange}
               ></Form.Input>
               <Form.Button
+                id="loginButton"
                 color="orange"
                 fluid
                 size="large"

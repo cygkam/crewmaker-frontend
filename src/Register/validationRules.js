@@ -20,23 +20,24 @@ import {
 } from "../constants";
 
 export const validation = {
-    validateName,
-    validateEmail,
-    validateUsername,
-    validateSurname,
-    validatePhoneNumber,
-    validateEventPlaceDescription,
-    validateEventPlaceName,
-    validateEventPlacePostalCode,
-    validateEventPlaceStreet,
-    validateEventPlaceCity,
-    validateEventPlaceStreetNumber,
-    validateTitle,
-    validateMessage
+  validateName,
+  validateEmail,
+  validateUsername,
+  validateSurname,
+  validatePhoneNumber,
+  validateEventPlaceDescription,
+  validateEventPlaceName,
+  validateEventPlacePostalCode,
+  validateEventPlaceStreet,
+  validateEventPlaceCity,
+  validateEventPlaceStreetNumber,
+  validateTitle,
+  validateMessage,
+  validateEventMaxPlayers
 };
 
 
-function validatePhoneNumber(phoneNumber){
+function validatePhoneNumber (phoneNumber) {
   const PHONEPL_REGEX = RegExp(
     "(?:1[2-8]|2[2-69]|3[2-49]|4[1-68]|5[0-9]|6[0-35-9]|[7-8][1-9]|9[145])\\d{7}"
   );
@@ -47,20 +48,20 @@ function validatePhoneNumber(phoneNumber){
       errorMsg: "Niepoprawny numer telefonu",
     };
   } else if (phoneNumber.length !== PHONE_ACCEPTED_LENGTH) {
-           return {
-             validateStatus: "error",
-             errorMsg: `Długość numer telefonu jest niepoprawna (Wymagane  to ${PHONE_ACCEPTED_LENGTH} znaki)`,
-           };
-         } else {
-           return {
-             validateStatus: "success",
-             errorMsg: null,
-           };
-         }
+    return {
+      validateStatus: "error",
+      errorMsg: `Długość numer telefonu jest niepoprawna (Wymagane  to ${PHONE_ACCEPTED_LENGTH} znaki)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
 
 };
 
-function validateName(name) {
+function validateName (name) {
   if (name.length < NAME_MIN_LENGTH) {
     return {
       validateStatus: "error",
@@ -79,7 +80,7 @@ function validateName(name) {
   }
 };
 
-function validateSurname(surname) {
+function validateSurname (surname) {
   if (surname.length < SURNAME_MIN_LENGTH) {
     return {
       validateStatus: "error",
@@ -98,7 +99,7 @@ function validateSurname(surname) {
   }
 };
 
-function validateEmail(email) {
+function validateEmail (email) {
   if (!email) {
     return {
       validateStatus: "error",
@@ -129,7 +130,7 @@ function validateEmail(email) {
   };
 };
 
-function validateUsername(username) {
+function validateUsername (username) {
   if (username.length < USERNAME_MIN_LENGTH) {
     return {
       validateStatus: "error",
@@ -148,7 +149,7 @@ function validateUsername(username) {
   }
 };
 
-function validateEventPlaceDescription(name) {
+function validateEventPlaceDescription (name) {
   if (name.length < EVENTPLACE_DESCRIPTION_MIN_LENGTH) {
     return {
       validateStatus: "error",
@@ -167,7 +168,7 @@ function validateEventPlaceDescription(name) {
   }
 };
 
-function validateTitle(title) {
+function validateTitle (title) {
   if (title.length <= 0) {
     return {
       validateStatus: "error",
@@ -186,7 +187,7 @@ function validateTitle(title) {
   }
 };
 
-function validateMessage(message) {
+function validateMessage (message) {
   if (message.length <= 0) {
     return {
       validateStatus: "error",
@@ -205,7 +206,7 @@ function validateMessage(message) {
   }
 };
 
-function validateEventPlaceName(name) {
+function validateEventPlaceName (name) {
   if (name.length < EVENTPLACE_NAME_MIN_LENGTH) {
     return {
       validateStatus: "error",
@@ -224,27 +225,27 @@ function validateEventPlaceName(name) {
   }
 };
 
-function validateEventPlaceCity(city) {
+function validateEventPlaceCity (city) {
   if (city.length < EVENTPLACE_CITY_MIN_LENGTH) {
     return {
       validateStatus: "error",
       errorMsg: `Nazwa miejscowości jest za krótka (Wymagane minimum to ${EVENTPLACE_CITY_MIN_LENGTH} znaki)`,
     };
   } else if (city.length > EVENTPLACE_CITY_MAX_LENGTH) {
-           return {
-             validateStatus: "error",
-             errorMsg: `Nazwa miejscowości jest za długa (Maksimum to ${EVENTPLACE_CITY_MAX_LENGTH} znaków)`,
-           };
-         } else {
-           return {
-             validateStatus: "success",
-             errorMsg: null,
-           };
-         }
+    return {
+      validateStatus: "error",
+      errorMsg: `Nazwa miejscowości jest za długa (Maksimum to ${EVENTPLACE_CITY_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
 };
 
 
-function validateEventPlacePostalCode(postalCode) {
+function validateEventPlacePostalCode (postalCode) {
   if (!postalCode) {
     return {
       validateStatus: "error",
@@ -276,7 +277,7 @@ function validateEventPlacePostalCode(postalCode) {
 };
 
 
-function validateEventPlaceStreet(street) {
+function validateEventPlaceStreet (street) {
   if (street.length < EVENTPLACE_STREET_MIN_LENGTH) {
     return {
       validateStatus: "error",
@@ -295,13 +296,13 @@ function validateEventPlaceStreet(street) {
   }
 };
 
-function validateEventPlaceStreetNumber(streetNumber) {
-if (!streetNumber) {
-  return {
-    validateStatus: "error",
-    errorMsg: "NUmer budynku lub lokalu nie może być pusty",
-  };
-}
+function validateEventPlaceStreetNumber (streetNumber) {
+  if (!streetNumber) {
+    return {
+      validateStatus: "error",
+      errorMsg: "NUmer budynku lub lokalu nie może być pusty",
+    };
+  }
 
   const STREETNUMBER_REGEX = RegExp("^\\d*[A-Z]?\\/?\\d+[A-Z]?$");
   if (!STREETNUMBER_REGEX.test(streetNumber)) {
@@ -312,6 +313,35 @@ if (!streetNumber) {
   }
 
   if (streetNumber.length > EVENTPLACE_STREETNUMBER_MAX_LENGTH) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Numer jest za długi (Maksimum to ${EVENTPLACE_STREETNUMBER_MAX_LENGTH} znaków)`,
+    };
+  }
+
+  return {
+    validateStatus: "success",
+    errorMsg: null,
+  };
+};
+
+function validateEventMaxPlayers (playersNumber) {
+  if (!playersNumber) {
+    return {
+      validateStatus: "error",
+      errorMsg: "Liczba graczy nie może być pusta",
+    };
+  }
+
+  const STREETNUMBER_REGEX = RegExp("^\\d*[A-Z]?\\/?\\d+[A-Z]?$");
+  if (!STREETNUMBER_REGEX.test(playersNumber)) {
+    return {
+      validateStatus: "error",
+      errorMsg: "Niepoprawny numer",
+    };
+  }
+
+  if (playersNumber.length > EVENTPLACE_STREETNUMBER_MAX_LENGTH) {
     return {
       validateStatus: "error",
       errorMsg: `Numer jest za długi (Maksimum to ${EVENTPLACE_STREETNUMBER_MAX_LENGTH} znaków)`,
