@@ -26,8 +26,9 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
-import { Icon} from '@iconify/react';
+import { Icon } from '@iconify/react';
 import stadiumIcon from '@iconify/icons-mdi/stadium';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 
 const drawerWidth = 240;
 
@@ -52,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   logo: {
-    margin: "auto",
     textAlign: "center",
     width: 50,
     height: 50,
@@ -127,138 +127,144 @@ export default function MiniDrawer (props) {
     setOpen(false);
   };
 
-    return (
-      <div className={classes.root} style={{ paddingTop: 64 }}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          className={clsx(classes.appBar, {
-            [classes.appBarShift]: open,
-          })}
-        >
-          <Toolbar>
-            <IconButton
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              className={clsx(classes.menuButton, {
-                [classes.hide]: open,
-              })}
-            >
-              <MenuIcon />
-            </IconButton>
-            <img src={ReactLogo} className={classes.logo} alt="logo" />
-            <Header as="h1" color="orange" textAlign="center">
-              CrewMaker
-            </Header>
-          </Toolbar>
-        </AppBar>
+  return (
+    <div className={classes.root} style={{ paddingTop: 64 }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar>
+          <IconButton
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: open,
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
+          <img src={ReactLogo} className={classes.logo} alt="logo" style={{ margin: "auto", marginRight: 5 }} />
+          <Header as="h1" color="orange" textAlign="center" style={{ margin: "auto", marginLeft: 5 }}>
+            CrewMaker
+          </Header>
+        </Toolbar>
+      </AppBar>
 
-        <Drawer
-          variant="permanent"
-          className={clsx(classes.drawer, {
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
+        classes={{
+          paper: clsx({
             [classes.drawerOpen]: open,
             [classes.drawerClose]: !open,
-          })}
-          classes={{
-            paper: clsx({
-              [classes.drawerOpen]: open,
-              [classes.drawerClose]: !open,
-            }),
-          }}
-        >
-          <div className={classes.toolbar}>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "rtl" ? (
-                <ChevronRightIcon />
-              ) : (
+          }),
+        }}
+      >
+        <div className={classes.toolbar}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
                 <ChevronLeftIcon />
               )}
-            </IconButton>
-          </div>
-          <Divider />
-          <List>
-            <ListItem
-              button
-              key={"Mój profil"}
-              component={Link}
-              to={`/mainProfilePage/${props.currentUser.username}`}
-            >
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          <ListItem
+            button
+            key={"Mój profil"}
+            component={Link}
+            to={`/mainProfilePage/${props.currentUser.username}`}
+          >
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Mój profil"} />
+          </ListItem>
+          <ListItem
+            button
+            key={"Wyszukaj"}
+            component={Link}
+            to={`/searchPannel`}
+          >
+            <ListItemIcon>
+              <SearchIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Wyszukaj"} />
+          </ListItem>
+          <ListItem
+            button
+            key={"Wydarzenie"}
+            component={Link}
+            to={`/eventView`}
+          >
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Wydarzenie"} />
+          </ListItem>
+          <ListItem button key={""} component={Link} to={`/addNewEventPlace`}>
+            <ListItemIcon>
+              <PlaceIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={"Nowy obiekt"} />
+          </ListItem>
+          <ListItem button key={""} component={Link} to={`/addNewEvent`}>
+            <ListItemIcon>
+              <PostAddIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={"Nowe wydarzenie"} />
+          </ListItem>
+          <ListItem
+            button
+            key={"Wyloguj"}
+            component={Link}
+            onClick={props.onLogout}
+          >
+            <ListItemIcon>
+              <MeetingRoomIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Wyloguj"} />
+          </ListItem>
+        </List>
+        {props.authorities ? (
+          <React.Fragment>
+            <Divider />
+            <ListItem button onClick={handleCollapse}>
               <ListItemIcon>
-                <PersonIcon />
+                <DashboardIcon />
               </ListItemIcon>
-              <ListItemText primary={"Mój profil"} />
+              <ListItemText primary="Panel administratora" />
+              {collapsed ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <ListItem
-              button
-              key={"Wyszukaj"}
-              component={Link}
-              to={`/searchPannel`}
-            >
-              <ListItemIcon>
-                <SearchIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Wyszukaj"} />
-            </ListItem>
-            <ListItem
-              button
-              key={"Wydarzenie"}
-              component={Link}
-              to={`/eventView`}
-            >
-              <ListItemIcon>
-                <EventIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Wydarzenie"} />
-            </ListItem>
-            <ListItem button key={""} component={Link} to={`/addNewEventPlace`}>
-              <ListItemIcon>
-                <PlaceIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText primary={"Nowy obiekt"} />
-            </ListItem>
-            <ListItem
-              button
-              key={"Wyloguj"}
-              component={Link}
-              onClick={props.onLogout}
-            >
-              <ListItemIcon>
-                <MeetingRoomIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Wyloguj"} />
-            </ListItem>
-          </List>
-          {props.authorities ? (
-            <React.Fragment>
-              <Divider />
-              <ListItem button onClick={handleCollapse}>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Panel administratora" />
-                {collapsed ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-              <Collapse in={collapsed} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  <ListItem
-                    button
-                    className={classes.nested}
-                    component={Link}
-                    to={`/newEventPlaceAccept`}
-                  >
-                    <ListItemIcon>
-                      <Icon icon={stadiumIcon} width="2em" height="2em" />
-                    </ListItemIcon>
-                    <ListItemText primary="Zatwierdź obiekty" />
-                  </ListItem>
-                </List>
-              </Collapse>
-            </React.Fragment>
-          ) : (
+            <Collapse in={collapsed} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem
+                  button
+                  className={classes.nested}
+                  component={Link}
+                  to={`/newEventPlaceAccept`}
+                >
+                  <ListItemIcon>
+                    <Icon icon={stadiumIcon} width="2em" height="2em" />
+                  </ListItemIcon>
+                  <ListItemText primary="Zatwierdź obiekty" />
+                </ListItem>
+              </List>
+            </Collapse>
+          </React.Fragment>
+        ) : (
             <React.Fragment />
           )}
-        </Drawer>
-      </div>
-    );   
+      </Drawer>
+    </div>
+  );
 }

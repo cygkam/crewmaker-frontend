@@ -5,8 +5,8 @@ import {
   GridRow,
   Button,
 } from "semantic-ui-react";
-import {eventPlaceService} from "../../Api/Api"
-import {notification} from "antd";
+import { eventPlaceService } from "../../Api/Api"
+import { notification } from "antd";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -149,8 +149,8 @@ class EventPlaceCard extends Component {
     this.handleToggleArchiveEventPlace = this.handleToggleArchiveEventPlace.bind(this);
   }
 
-  
-  handleToggleArchiveEventPlace() {
+
+  handleToggleArchiveEventPlace () {
     eventPlaceService
       .archiveEventPlace(this.state.eventPlaceID, this.state.isArchived)
       .then((response) => {
@@ -172,7 +172,7 @@ class EventPlaceCard extends Component {
       });
   }
 
-  handleAcceptEventPlace() {
+  handleAcceptEventPlace () {
     eventPlaceService
       .acceptEventPlace(this.state.eventPlaceID)
       .then((response) => {
@@ -195,7 +195,7 @@ class EventPlaceCard extends Component {
       });
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.setState({
       eventPlaceID: this.props.eventPlaceDetails.eventPlaceID,
       eventPlaceName: this.props.eventPlaceDetails.eventPlaceName,
@@ -214,7 +214,7 @@ class EventPlaceCard extends Component {
     });
   }
 
-  render() {
+  render () {
     return (
       <Grid divided>
         <GridRow
@@ -287,6 +287,7 @@ class EventPlaceCard extends Component {
                       src={
                         toggleSportsCategories[item.sportsCategoryId - 1].icon
                       }
+                      alt=""
                     />
                   </Tooltip>
                 </React.Fragment>
@@ -313,15 +314,15 @@ class EventPlaceCard extends Component {
                   <Button.Content visible>Zatwierdź propozycję</Button.Content>
                 </Button>
               ) : (
-                <Button
-                  positive
-                  size="small"
-                  disabled={this.state.isAccepted}
-                  onClick={this.handleAcceptEventPlace}
-                >
-                  <Button.Content visible>Zatwierdź propozycję</Button.Content>
-                </Button>
-              )}
+                  <Button
+                    positive
+                    size="small"
+                    disabled={this.state.isAccepted}
+                    onClick={this.handleAcceptEventPlace}
+                  >
+                    <Button.Content visible>Zatwierdź propozycję</Button.Content>
+                  </Button>
+                )}
             </Grid.Row>
             <Grid.Row>
               <FormControlLabel
