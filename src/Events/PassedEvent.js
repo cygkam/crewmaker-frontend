@@ -24,7 +24,7 @@ class PassedEvent extends Component {
     super(propos);
 
     this.state = {
-      eventID: 13,
+      eventID: this.props.dataFromParent.eventID,
       sportName: "Piłka nożna",
       sportIconLink:
         "https://ecsmedia.pl/c/serwetki-pilka-nozna-33-cm-20-sztuk-w-iext54112696.jpg",
