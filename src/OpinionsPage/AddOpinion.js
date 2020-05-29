@@ -18,6 +18,7 @@ class AddOpinion extends Component {
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleMessageChange = this.handleMessageChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
       }
     
     handleTitleChange(event) {    
@@ -29,13 +30,22 @@ class AddOpinion extends Component {
         this.setState({message: event.target.value}); 
         this.checkIfCommentIsValid();
     }
-    handleRate = (e, {rating}) =>{
-            this.setState({ grade: rating
-        })
+
+    handleRate = (event,{ rating, maxRating }) => {
+        this.setState(
+            {
+                grade : rating
+            }
+        )
     }
 
+    handleChange (updateRequest) {
+        // Here, we invoke the callback with the new value
+        this.props.onChange(updateRequest);
+      };
+
     checkIfCommentIsValid = () => {
-        if(!this.state.title || !this.state.message) {
+        if(this.state.title == "" || this.state.message == "") {
             this.setState({
                 isOpinionIncorrect: true
             })
@@ -46,8 +56,11 @@ class AddOpinion extends Component {
         }
     }
 
-    componentWillMount() {
-
+    componentDidMount() {
+        this.setState({
+            userAuthor: this.props.currentUser,
+            userAbout: this.props.aboutUser
+        })
         if (this.props.opinionData !== null) {
             this.setState({
                 userOpinionID : this.props.opinionData.userOpinionID,
@@ -65,24 +78,28 @@ class AddOpinion extends Component {
 
     handleSubmit() {
         const newOpinionRequest = {
-          userAuthor: this.props.currentUser,
-          userAbout: this.props.aboutUser,
-          opinionTitle: this.state.title,
-          opinionGrade: this.state.grade,
-          opinionMessage: this.state.message
+          userAuthor: this.state.userAuthor,
+          userAbout: this.state.userAbout,
+          title: this.state.title,
+          message: this.state.message,
+          grade: this.state.grade
         };
+
+        this.handleChange(newOpinionRequest);
+
         userOpinionService
-          .newUserOpiion(newOpinionRequest)
+          .newUserOpinion(newOpinionRequest)
           .then((response) => {
             notification.success({
               message: "New opinion",
               description:
                 "Thank you! Your opinion has been added.",
             });
+            this.props.handler();
           })
           .catch((error) => {
             notification.error({
-              message: "New event place",
+              message: "New user opinion",
               description:
                 error.message || "Sorry! Something went wrong. Please try again!",
             });
@@ -96,7 +113,7 @@ class AddOpinion extends Component {
                     <Grid.Row>
                         <Segment width = {5} textAlign='left' color='orange' padded>
                             <Form>
-                                <Form.Field>
+                                <Form.Field required> 
                                     <label>Tytuł</label>
                                     <input placeholder='Treść tytułu...' 
                                     onChange={this.handleTitleChange}
@@ -107,11 +124,12 @@ class AddOpinion extends Component {
                                     control={TextArea}
                                     label='Treść'
                                     placeholder='Treść opinii...' 
+                                    required
                                     onChange={this.handleMessageChange}
+                                    value={this.state.message}
                                     > 
-                                    {this.state.message}
                                 </Form.Field>
-                                <Button color='orange' disabled={this.state.isOpinionIncorrect} type='Wystaw opinię' onClick={this.handleSubmit} >Submit</Button>
+                                <Button color='orange' disabled={this.state.isOpinionIncorrect} onClick={this.handleSubmit} >Wystaw opinię</Button>
                             </Form>
                         </Segment>
                     </Grid.Row>
