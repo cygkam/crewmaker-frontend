@@ -27,6 +27,12 @@ class UserOpinionsPage extends Component {
         })
     }
 
+    handleCommentChange = (newComment) => {
+        this.setState({ 
+            currentUserOpinion: newComment
+        });
+      };
+
     componentDidMount () {
         const about = this.props.match.params.username;
         const current = this.props.currentUser.username;
@@ -35,11 +41,11 @@ class UserOpinionsPage extends Component {
             currentUser: current
         })
         console.log("Username " + this.state.aboutUsername);
-        this.loadOpinons(about, current);
+        this.loadOpinions(about, current);
         this.loadOpinion(about, current);
     }
 
-    loadOpinons(username, current){
+    loadOpinions(username, current){
         userOpinionService
         .getOpinions(username, current)
         .then((response) => {
@@ -70,10 +76,10 @@ class UserOpinionsPage extends Component {
         .getOpinion(username, current)
         .then((response) => {
             this.setState({
-              opinion: response,
-              isLoading: false,
+                currentUserOpinion: response,
+                isLoading: false,
             });
-            console.log(this.state.opinions);
+            console.log(this.state.currentUserOpinion)
           })
           .catch((error) => {
             if (error.status === 404) {
@@ -112,15 +118,22 @@ class UserOpinionsPage extends Component {
                 </Button>   
         }
 
+        let userOpinion = null;
+        if(this.state.currentUserOpinion != null && !this.state.opinionAdding) {
+            userOpinion = <UserOpinion key={this.state.currentUserOpinion.userOpinionID} opinionData={this.state.currentUserOpinion}></UserOpinion>
+        } else if(this.state.opinionAdding) {
+            userOpinion = <AddOpinion aboutUser={this.state.aboutUsername} currentUser={this.state.currentUser}
+                            opinionData={this.state.currentUserOpinion} handler={this.opinionEditionHandler} onChange={this.handleCommentChange}></AddOpinion>
+        }
         
-
         let opinionsHeader = 
-            <Segment>
-                <Header textAlign='center' as='h1' color='orange'>
-                    Opinie o uzytkowniku {this.state.aboutUsername} 
-                    {opinionButton}               
-                </Header>
-            </Segment>
+        <Segment>
+            <Header textAlign='center' as='h1' color='orange'>
+                Opinie o uzytkowniku {this.state.aboutUsername} 
+                {opinionButton}               
+            </Header>
+            {userOpinion}
+        </Segment>
 
         if(this.state.currentUser === this.state.aboutUsername) {
             opinionsHeader = 
@@ -129,24 +142,7 @@ class UserOpinionsPage extends Component {
                         Opinie o Tobie
                     </Header>
                 </Segment>
-        } else if(this.state.currentUserOpinion != null) {
-            opinionsHeader =
-                <Segment>
-                    <Header textAlign='center' as='h1' color='orange'>
-                        Opinie o uzytkowniku {this.state.aboutUsername} 
-                        {opinionButton}                  
-                    </Header>
-                </Segment>
         }
-
-        let userOpinion = null;
-        if(this.state.currentUserOpinion != null) {
-            userOpinion = <UserOpinion key={this.state.currentUserOpinion.userOpinionID} opinionData={this.state.currentUserOpinion}></UserOpinion>
-        } else if(this.state.currentUserOpinion != null || this.state.opinionAdding) {
-            userOpinion = <AddOpinion aboutUser={this.state.aboutUsername} currentUser={this.state.currentUser}
-                            opinionData={this.state.currentUserOpinion} onChange={this.handleChange}></AddOpinion>
-        }
-        
 
         if(this.state.isLoading){
             return  <LoadingIndicator></LoadingIndicator>
@@ -157,8 +153,6 @@ class UserOpinionsPage extends Component {
                     <Grid.Column width={10} verticalAlign='middle'>
                         {opinionsHeader}
                         
-                        {userOpinion}
-
                         {this.state.opinions.length>0&&
                         this.state.opinions.map(
                             (opinion =>

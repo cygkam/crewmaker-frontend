@@ -38,6 +38,7 @@ class UserOpinion extends Component {
                                 <Comment.Metadata>
                                 <Rating size='huge' icon='heart' disabled defaultRating={this.state.grade} maxRating={5}></Rating>
                                 </Comment.Metadata>
+                                <br/>
                                 <Comment.Text>
                                     <Container>
                                         <p>
