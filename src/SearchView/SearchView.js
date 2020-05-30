@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Select, Form, Icon, Button, Segment, Header, List } from "semantic-ui-react";
+import { Grid, Select, Form, Icon, Button, Segment, Header, List, Input } from "semantic-ui-react";
 import {
     DateInput,
     TimeInput
@@ -22,7 +22,8 @@ class SearchView extends Component {
             isLoading: false,
             sportCategory: '1',
             wasSubmited: false,
-            defaultSportCategory : ''
+            defaultSportCategory : '',
+            eventCity : ''
         };
     }
 
@@ -35,7 +36,8 @@ class SearchView extends Component {
     handleSubmit = (event) => {
         this.setState({ isLoading: true });
         console.log("TIME : " + this.state.time)
-        eventService.getAllEvents(this.state.sportCategory, this.state.date, this.state.time).then((response) => {
+        console.log("Place : " + this.state.eventCity)
+        eventService.getAllEvents(this.state.sportCategory, this.state.date, this.state.time, this.state.eventCity).then((response) => {
             this.setState({ events: response })
             this.setState({ isLoading: false })
             console.log(this.state.events)
@@ -117,6 +119,13 @@ class SearchView extends Component {
                                             iconPosition="left"
                                             onChange={this.handleChange}
                                         />
+                                    </Form.Field>
+                                    <Form.Field>
+                                        <Input
+                                        placeholder="Miasto"
+                                        onChange={this.handleChange}
+                                        name='eventCity'>
+                                        </Input>
                                     </Form.Field>
                                     <Form.Button fluid animated color="orange" onClick={this.handleSubmit}
                                         loading={this.state.isLoading}
