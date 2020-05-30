@@ -227,7 +227,6 @@ function getOpinions(username, currentUser) {
 }
 
 function newUserOpinion(newUserOpinionRequest) {
-  console.log(newUserOpinionRequest)
   return request({
     url: API_BASE_URL + "/newUserOpinion",
     method: "POST",

@@ -26,6 +26,7 @@ class UserOpinion extends Component {
     }
    
     render() {
+        const currentGrade = this.state.grade;
         return(
             <Grid textAlign = 'center'>
                 <Grid.Column >
@@ -36,7 +37,7 @@ class UserOpinion extends Component {
                             <Comment.Content>
                                 <Comment.Author><Header as='h3'>{this.state.userAuthorName}</Header></Comment.Author>
                                 <Comment.Metadata>
-                                <Rating size='huge' icon='heart' disabled defaultRating={this.state.grade} maxRating={5}></Rating>
+                                <Rating size='huge' icon='heart' rating={currentGrade} maxRating={5}></Rating>
                                 </Comment.Metadata>
                                 <br/>
                                 <Comment.Text>

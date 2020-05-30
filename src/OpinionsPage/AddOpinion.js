@@ -22,13 +22,19 @@ class AddOpinion extends Component {
       }
     
     handleTitleChange(event) {    
-        this.setState({title: event.target.value}); 
-        this.checkIfCommentIsValid();
+        const charCount = event.target.value.length;
+        if(charCount >= 60) return;
+        else {
+            this.setState({title: event.target.value}); 
+        }
     }
 
     handleMessageChange(event) {    
-        this.setState({message: event.target.value}); 
-        this.checkIfCommentIsValid();
+        const charCount = event.target.value.length;
+        if(charCount >= 255) return;
+        else {
+            this.setState({message: event.target.value}); 
+        }
     }
 
     handleRate = (event,{ rating, maxRating }) => {
@@ -44,19 +50,7 @@ class AddOpinion extends Component {
         this.props.onChange(updateRequest);
       };
 
-    checkIfCommentIsValid = () => {
-        if(this.state.title == "" || this.state.message == "") {
-            this.setState({
-                isOpinionIncorrect: true
-            })
-        } else {
-            this.setState({
-                isOpinionIncorrect: false
-            })
-        }
-    }
-
-    componentDidMount() {
+    componentWillMount() {
         this.setState({
             userAuthor: this.props.currentUser,
             userAbout: this.props.aboutUser
@@ -78,7 +72,7 @@ class AddOpinion extends Component {
 
     handleSubmit() {
         const newOpinionRequest = {
-          userAuthor: this.state.userAuthor,
+          opinionAuthorName: this.state.userAuthor,
           userAbout: this.state.userAbout,
           title: this.state.title,
           message: this.state.message,
@@ -107,6 +101,10 @@ class AddOpinion extends Component {
       }
    
     render() {
+        const enabled =
+          this.state.title.length > 0 &&
+          this.state.message.length > 0;    
+
         return(
             <Grid textAlign = 'center'>
                 <Grid.Column >
@@ -129,7 +127,7 @@ class AddOpinion extends Component {
                                     value={this.state.message}
                                     > 
                                 </Form.Field>
-                                <Button color='orange' disabled={this.state.isOpinionIncorrect} onClick={this.handleSubmit} >Wystaw opinię</Button>
+                                <Button color='orange' disabled={!enabled} onClick={this.handleSubmit} >Wystaw opinię</Button>
                             </Form>
                         </Segment>
                     </Grid.Row>

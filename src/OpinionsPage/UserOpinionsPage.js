@@ -31,6 +31,7 @@ class UserOpinionsPage extends Component {
         this.setState({ 
             currentUserOpinion: newComment
         });
+        console.log(this.state.currentUserOpinion)
       };
 
     componentDidMount () {
