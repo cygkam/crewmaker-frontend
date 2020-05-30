@@ -137,7 +137,7 @@ function countEventParticipants (eventID) {
 
 function getAllEvents (sportCategoryID, eventDate, eventTime) {
   return request({
-    url: API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID + "&eventDate=" + eventDate,
+    url: API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID + "&eventDate=" + eventDate + "&time="+eventTime+":00",
     method: "GET"
   });
 }

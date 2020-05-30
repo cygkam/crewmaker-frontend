@@ -20,8 +20,9 @@ class SearchView extends Component {
             events: [],
             sportCategories: [],
             isLoading: false,
-            sportCategory: '',
-            wasSubmited: false
+            sportCategory: '1',
+            wasSubmited: false,
+            defaultSportCategory : ''
         };
     }
 
@@ -33,6 +34,7 @@ class SearchView extends Component {
 
     handleSubmit = (event) => {
         this.setState({ isLoading: true });
+        console.log("TIME : " + this.state.time)
         eventService.getAllEvents(this.state.sportCategory, this.state.date, this.state.time).then((response) => {
             this.setState({ events: response })
             this.setState({ isLoading: false })
@@ -49,6 +51,7 @@ class SearchView extends Component {
         //console.log(this.state.dateTime);
     }
 
+   
 
     fetchSportCategory () {
         sportCategoryService.getAllSportsCat().then((response) => {
@@ -59,8 +62,9 @@ class SearchView extends Component {
                 )
             })
             console.log(this.state.sportCategories[0].text)
-
-
+            this.setState({
+                sportCategory : this.state.sportCategories[0].key
+            })
 
         }
         ).catch(
@@ -74,6 +78,7 @@ class SearchView extends Component {
         console.log("Mounted component");
         this.setState({
             date: moment().format("DD-MM-YYYY"),
+            time: moment().format("hh:mm")
         })
     }
 
@@ -92,6 +97,7 @@ class SearchView extends Component {
                                         name="sportCategory"
                                         value={this.state.sportCategory}
                                         placeholder="Wybierz kategorię"
+                                        selection
                                         onChange={this.handleChange} />
                                     </Form.Field>
                                     <Form.Field required>
