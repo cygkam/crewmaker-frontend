@@ -135,9 +135,9 @@ function countEventParticipants (eventID) {
   });
 }
 
-function getAllEvents (sportCategoryID, eventDate, eventTime) {
+function getAllEvents (sportCategoryID, eventDate, eventTime,eventCity) {
   return request({
-    url: API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID + "&eventDate=" + eventDate + "&time="+eventTime+":00",
+    url: API_BASE_URL + "/searchevents?categoryid=" + sportCategoryID + "&eventDate=" + eventDate + "&time="+eventTime+":00"+"&eventCity="+eventCity,
     method: "GET"
   });
 }
