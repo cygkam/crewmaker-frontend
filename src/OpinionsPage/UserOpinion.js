@@ -37,7 +37,7 @@ class UserOpinion extends Component {
                             <Comment.Content>
                                 <Comment.Author><Header as='h3'>{this.state.userAuthorName}</Header></Comment.Author>
                                 <Comment.Metadata>
-                                <Rating size='huge' icon='heart' rating={currentGrade} maxRating={5}></Rating>
+                                <Rating disabled size='huge' icon='heart' rating={currentGrade} maxRating={5}></Rating>
                                 </Comment.Metadata>
                                 <br/>
                                 <Comment.Text>

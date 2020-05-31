@@ -2,6 +2,7 @@ import React,{ Component } from 'react'
 import { Grid, Segment, Form, Rating, Button, TextArea } from 'semantic-ui-react';
 import { userOpinionService } from '../Api/Api';
 import { notification } from "antd";
+import { validation } from "../Register/validationRules"
 
 class AddOpinion extends Component {
     constructor(props){
@@ -10,33 +11,20 @@ class AddOpinion extends Component {
             userOpinionID : 0,
             userAuthor: "",
             userAbout: "",
-            title : "",
-            message : "",
+            title : {
+                value: ""
+            },
+            message : {
+                value: ""
+            },
             grade : 3,
             isOpinionIncorrect: true,
         }
 
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleMessageChange = this.handleMessageChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.isFormInvalid = this.isFormInvalid.bind(this);
       }
     
-    handleTitleChange(event) {    
-        const charCount = event.target.value.length;
-        if(charCount >= 60) return;
-        else {
-            this.setState({title: event.target.value}); 
-        }
-    }
-
-    handleMessageChange(event) {    
-        const charCount = event.target.value.length;
-        if(charCount >= 255) return;
-        else {
-            this.setState({message: event.target.value}); 
-        }
-    }
-
     handleRate = (event,{ rating, maxRating }) => {
         this.setState(
             {
@@ -58,12 +46,29 @@ class AddOpinion extends Component {
         if (this.props.opinionData !== null) {
             this.setState({
                 userOpinionID : this.props.opinionData.userOpinionID,
-                title : this.props.opinionData.title,
-                message : this.props.opinionData.message,
+                title : {
+                    value: this.props.opinionData.title
+                },
+                message : {
+                    value: this.props.opinionData.message
+                },
                 grade : this.props.opinionData.grade
             })
         }
     }
+
+    handleFieldChange(event, validationFunction) {
+        const target = event.target;
+        const inputValue = target.value;
+        const inputName = target.name;
+    
+        this.setState({
+          [inputName]: {
+            value: inputValue,
+            ...validationFunction(inputValue),
+          },
+        });
+      }
 
     handleChange (opinionRequest) {
         // Here, we invoke the callback with the new value
@@ -74,8 +79,8 @@ class AddOpinion extends Component {
         const newOpinionRequest = {
           opinionAuthorName: this.state.userAuthor,
           userAbout: this.state.userAbout,
-          title: this.state.title,
-          message: this.state.message,
+          title: this.state.title.value,
+          message: this.state.message.value,
           grade: this.state.grade
         };
 
@@ -85,9 +90,9 @@ class AddOpinion extends Component {
           .newUserOpinion(newOpinionRequest)
           .then((response) => {
             notification.success({
-              message: "New opinion",
+              message: "Nowa opinia!",
               description:
-                "Thank you! Your opinion has been added.",
+                "Dziękujemy! Twoja opinia została dodana pomyślnie.",
             });
             this.props.handler();
           })
@@ -95,15 +100,80 @@ class AddOpinion extends Component {
             notification.error({
               message: "New user opinion",
               description:
-                error.message || "Sorry! Something went wrong. Please try again!",
+                error.message || "Przeprasza, coś poszło nie tak. Spróbuj jeszcze raz!",
             });
           });
       }
+
+    isFormInvalid() {
+    return !(
+        (this.state.title.validateStatus === "success" || this.state.title.validateStatus == null) &&
+        (this.state.message.validateStatus === "success" || this.state.message.validateStatus == null)
+        ); 
+    }
    
     render() {
-        const enabled =
-          this.state.title.length > 0 &&
-          this.state.message.length > 0;    
+        let titleInput = null 
+        if(this.state.title.validateStatus == "success" || this.state.title.validateStatus == null ) {
+            titleInput =
+                <Form.Input 
+                    required
+                    autoComplete="off"
+                    label="Tytuł"
+                    placeholder="Treść tytułu..."
+                    name="title"
+                    onChange={(event) =>
+                        this.handleFieldChange(event, validation.validateUserOpinionTitle)
+                    }
+                    value={this.state.title.value}
+                />
+            } else {
+              titleInput = 
+                <Form.Input 
+                    required
+                    autoComplete="off"
+                    label="Tytuł"
+                    error={{ content: this.state.title.errorMsg, pointing: 'below' }}
+                    placeholder="Treść tytułu..."
+                    name="title"
+                    onChange={(event) =>
+                        this.handleFieldChange(event, validation.validateUserOpinionTitle)
+                    }
+                    value={this.state.title.value}
+                />
+            }
+
+        let messageInput = null 
+        if(this.state.message.validateStatus == "success" || this.state.message.validateStatus == null ) {
+            messageInput =
+                <Form.Input 
+                    required
+                    control={TextArea}
+                    autoComplete="off"
+                    label="Treść"
+                    placeholder="Treść opinii..."
+                    name="message"
+                    onChange={(event) =>
+                        this.handleFieldChange(event, validation.validateUserOpinionMessage)
+                    }
+                    value={this.state.message.value}
+                />
+            } else {
+                messageInput =
+                    <Form.Input 
+                        required
+                        control={TextArea}
+                        autoComplete="off"
+                        label="Treść"
+                        error={{ content: this.state.message.errorMsg, pointing: 'below' }}
+                        placeholder="Treść opinii..."
+                        name="message"
+                        onChange={(event) =>
+                            this.handleFieldChange(event, validation.validateUserOpinionMessage)
+                        }
+                        value={this.state.message.value}
+                    />
+            }
 
         return(
             <Grid textAlign = 'center'>
@@ -111,23 +181,10 @@ class AddOpinion extends Component {
                     <Grid.Row>
                         <Segment width = {5} textAlign='left' color='orange' padded>
                             <Form>
-                                <Form.Field required> 
-                                    <label>Tytuł</label>
-                                    <input placeholder='Treść tytułu...' 
-                                    onChange={this.handleTitleChange}
-                                    value={this.state.title}/>
-                                </Form.Field>
+                                {titleInput}
                                 <Rating size='huge' icon='heart' defaultRating={this.state.grade} maxRating={5} onRate={this.handleRate}></Rating>
-                                <Form.Field 
-                                    control={TextArea}
-                                    label='Treść'
-                                    placeholder='Treść opinii...' 
-                                    required
-                                    onChange={this.handleMessageChange}
-                                    value={this.state.message}
-                                    > 
-                                </Form.Field>
-                                <Button color='orange' disabled={!enabled} onClick={this.handleSubmit} >Wystaw opinię</Button>
+                                {messageInput}
+                                <Button color='orange' disabled={this.isFormInvalid()} onClick={this.handleSubmit} >Wystaw opinię</Button>
                             </Form>
                         </Segment>
                     </Grid.Row>
