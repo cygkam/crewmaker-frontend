@@ -35,7 +35,9 @@ export const validation = {
   validateMessage,
   validateEventMaxPlayers,
   validateSelect,
-  validateEventDuration
+  validateEventDuration,
+  validateEventDate,
+  validateEventCity
 };
 
 
@@ -77,6 +79,20 @@ function validateEventDuration (eventDuration) {
   }
 }
 
+function validateEventDate (eventDate) {
+  if (new Date(parseInt(eventDate.substr(6, 4)), parseInt(eventDate.substr(3, 2)) - 1, parseInt(eventDate.substr(0, 2))) < new Date()) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Data powinna być dzisiejsza lub późniejsza`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
 function validateName (name) {
   if (name.length < NAME_MIN_LENGTH) {
     return {
@@ -87,6 +103,20 @@ function validateName (name) {
     return {
       validateStatus: "error",
       errorMsg: `Imię jest za długie (Maksimum to ${NAME_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+};
+
+function validateEventCity (eventCity) {
+  if (eventCity.length < 3) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Nazwa miasta jest zbyt krótka, wymagane są 3 znaki`,
     };
   } else {
     return {
