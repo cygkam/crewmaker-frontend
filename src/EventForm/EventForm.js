@@ -45,6 +45,9 @@ class EventForm extends React.Component {
             eventDuration: {
                 value: "",
             },
+            eventCity: {
+                value: "",
+            },
             userAgreement: false,
             eventPlaces: [],
             sportCategories: [],
@@ -53,22 +56,22 @@ class EventForm extends React.Component {
         this.isStepDetailsInvalid = this.isStepDetailsInvalid.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChangeEventPlace = this.handleChangeEventPlace.bind(this);
+        this.handleChangeSportCategory = this.handleChangeSportCategory.bind(this);
         this.toggleAgreement = this.toggleAgreement.bind(this);
         this.handleChangeCalendar = this.handleChangeCalendar.bind(this);
         this.wrapper = React.createRef();
     }
 
     componentDidMount () {
-        this.loadEventPlaces();
-        this.loadSportCategories(1);
+        this.loadSportCategories();
         this.loadCyclics();
     }
 
-    loadEventPlaces () {
+    loadEventPlaces (sportCategoryId, eventCity) {
         eventPlaceService
-            .getEventPlaces()
+            .getEventPlaces(sportCategoryId, eventCity)
             .then((response) => {
+                console.log(response);
                 this.setState({
                     eventPlaces: response,
                     eventPlace: {
@@ -89,14 +92,14 @@ class EventForm extends React.Component {
             });
     }
 
-    loadSportCategories (eventPlaceId) {
+    loadSportCategories () {
         sportCategoryService
-            .getSportCategoriesForPlace(eventPlaceId)
+            .getAllSportsCat()
             .then((response) => {
                 this.setState({
                     sportCategories: response,
                     sportCategory: {
-                        value: response[0].sportsCategoryID
+                        value: ""
                     }
                 });
             })
@@ -146,8 +149,9 @@ class EventForm extends React.Component {
                         eventPlace={this.state.eventPlace}
                         eventPlaces={this.state.eventPlaces}
                         sportCategories={this.state.sportCategories}
+                        eventCity={this.state.eventCity}
                         onChange={this.handleChange}
-                        onChangeEventPlace={this.handleChangeEventPlace}
+                        onChangeSportCategory={this.handleChangeSportCategory}
                     />
                 );
             case 1:
@@ -195,7 +199,6 @@ class EventForm extends React.Component {
             isCyclic: this.state.isCyclic.value,
             eventDuration: this.state.eventDuration.value
         };
-        console.log(newEventRequest);
         eventService
             .newEvent(newEventRequest)
             .then((response) => {
@@ -259,7 +262,7 @@ class EventForm extends React.Component {
         });
     }
 
-    handleChangeEventPlace (event, validationFunction) {
+    handleChangeSportCategory (event, validationFunction) {
         const target = event.target;
         const inputValue = target.value;
         const inputName = target.name;
@@ -271,7 +274,7 @@ class EventForm extends React.Component {
             },
         });
 
-        this.loadSportCategories(this.state.eventPlace.value);
+        this.loadEventPlaces(inputValue, this.state.eventCity.value);
     }
 
     isStepDetailsInvalid () {
@@ -387,7 +390,7 @@ class EventForm extends React.Component {
                                 color="orange"
                                 onClick={this.handleSubmit}
                             >
-                                Zgłoś obiekt
+                                Stwórz wydarzenie
                             </Button>
                         )}
                         {current > 0 && (

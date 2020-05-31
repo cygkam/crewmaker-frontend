@@ -236,9 +236,9 @@ function getOpinion (username, currentUser) {
   });
 }
 
-function getEventPlaces () {
+function getEventPlaces (sportCategoryId, eventCity) {
   return request({
-    url: API_BASE_URL + "/eventPlaces",
+    url: API_BASE_URL + "/eventPlacesByCategoryAndCity?sportCategoryId=" + sportCategoryId + "&eventCity=" + eventCity,
     method: "GET"
   });
 }
