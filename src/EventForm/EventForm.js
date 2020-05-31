@@ -28,10 +28,10 @@ class EventForm extends React.Component {
                 value: "",
             },
             eventPlace: {
-                value: 10,
+                value: "",
             },
             isCyclic: {
-                value: false,
+                value: true,
             },
             eventCyclicity: {
                 value: "",
@@ -53,13 +53,15 @@ class EventForm extends React.Component {
         this.isStepDetailsInvalid = this.isStepDetailsInvalid.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChangeEventPlace = this.handleChangeEventPlace.bind(this);
         this.toggleAgreement = this.toggleAgreement.bind(this);
+        this.handleChangeCalendar = this.handleChangeCalendar.bind(this);
         this.wrapper = React.createRef();
     }
 
     componentDidMount () {
         this.loadEventPlaces();
-        this.loadSportCategories(this.state.eventPlace.value);
+        this.loadSportCategories(1);
         this.loadCyclics();
     }
 
@@ -67,7 +69,6 @@ class EventForm extends React.Component {
         eventPlaceService
             .getEventPlaces()
             .then((response) => {
-                console.log("Pobrano!");
                 this.setState({
                     eventPlaces: response,
                     eventPlace: {
@@ -146,6 +147,7 @@ class EventForm extends React.Component {
                         eventPlaces={this.state.eventPlaces}
                         sportCategories={this.state.sportCategories}
                         onChange={this.handleChange}
+                        onChangeEventPlace={this.handleChangeEventPlace}
                     />
                 );
             case 1:
@@ -158,6 +160,7 @@ class EventForm extends React.Component {
                         eventDuration={this.state.eventDuration}
                         cyclics={this.state.cyclics}
                         onChange={this.handleChange}
+                        onChangeCalendar={this.handleChangeCalendar}
                     />
                 );
             case 2:
@@ -178,18 +181,21 @@ class EventForm extends React.Component {
     }
 
     handleSubmit () {
+        var changedDate = this.state.eventDate.value.substr(6, 4) + "-" + this.state.eventDate.value.substr(3, 2) + "-" + this.state.eventDate.value.substr(0, 2);
+
         const newEventRequest = {
-            cycleId: this.state.eventCyclicity,
-            eventPlaceId: this.state.eventPlace,
-            sportCategoryId: this.state.sportCategory,
-            eventName: this.state.eventName,
-            eventDescription: this.state.eventDescription,
-            eventDate: this.state.eventDate,
-            eventTime: this.state.eventTime,
-            maxPlayers: this.state.eventMaxPlayers,
-            isCyclic: this.state.isCyclic,
-            eventDuration: this.state.eventDuration
+            cycleId: this.state.eventCyclicity.value,
+            eventPlaceId: this.state.eventPlace.value,
+            sportCategoryId: this.state.sportCategory.value,
+            eventName: this.state.eventName.value,
+            eventDescription: this.state.eventDescription.value,
+            eventDate: changedDate,
+            eventTime: this.state.eventTime.value + ":00",
+            maxPlayers: parseInt(this.state.eventMaxPlayers.value),
+            isCyclic: this.state.isCyclic.value,
+            eventDuration: this.state.eventDuration.value
         };
+        console.log(newEventRequest);
         eventService
             .newEvent(newEventRequest)
             .then((response) => {
@@ -244,19 +250,45 @@ class EventForm extends React.Component {
         });
     }
 
+    handleChangeCalendar (event, { name, value }, validationFunction) {
+        this.setState({
+            [name]: {
+                value,
+                ...validationFunction(value)
+            }
+        });
+    }
+
+    handleChangeEventPlace (event, validationFunction) {
+        const target = event.target;
+        const inputValue = target.value;
+        const inputName = target.name;
+
+        this.setState({
+            [inputName]: {
+                value: inputValue,
+                ...validationFunction(inputValue),
+            },
+        });
+
+        this.loadSportCategories(this.state.eventPlace.value);
+    }
+
     isStepDetailsInvalid () {
         return !(
             this.state.eventName.validateStatus === "success" &&
             this.state.eventDescription.validateStatus === "success" &&
             this.state.eventMaxPlayers.validateStatus === "success" &&
-            this.state.sportCategory &&
-            this.state.eventPlace
+            this.state.sportCategory.validateStatus === "success" &&
+            this.state.eventPlace.validateStatus === "success"
         );
     }
 
     isStepLocationInvalid () {
         return !(
-            true
+            this.state.eventDate.validateStatus === "success" &&
+            this.state.eventTime.validateStatus === "success" &&
+            this.state.eventDuration.validateStatus === "success"
         );
     }
 
