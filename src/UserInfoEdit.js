@@ -87,8 +87,8 @@ class UserInfoEdit extends Component {
       .updateUser(updateRequest)
       .then((response) => {
         notification.success({
-          message: "Data change",
-          description: "Data were correctly changed!",
+          message: "Zmiana danych",
+          description: "Dane zostały pomyślnie zmienione!",
         });
 
         localStorage.setItem(USER, JSON.stringify(updateRequest));
@@ -97,7 +97,7 @@ class UserInfoEdit extends Component {
       .catch((error) => {
         notification.error({
           message: "Data change",
-          description: error.message || "Sorry! Something went wrong.",
+          description: error.message || "Przepraszamy, coś poszło nie tak",
         });
       });
   }
