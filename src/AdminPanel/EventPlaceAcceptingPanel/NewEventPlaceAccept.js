@@ -4,6 +4,7 @@ import { eventPlaceService } from "../../Api/Api";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import FilterBar from "./FilterBar"
 import EventPlaceCard from "./EventPlaceCard"
+import PlaceOpinionCard from '../../PlaceOpinion/PlaceOpinionCard';
 
 class NewEventPlaceAccept extends Component {
   constructor(propos) {
@@ -123,6 +124,14 @@ class NewEventPlaceAccept extends Component {
               </React.Fragment>
             )}
           </Segment>
+
+          {/* Opinia o eventplace(zhardcodowane id) */}
+          <Segment>
+            <PlaceOpinionCard>
+
+            </PlaceOpinionCard>
+          </Segment>
+          
         </Grid.Column>
       </Grid>
     );

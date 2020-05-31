@@ -15,7 +15,7 @@ class UserInfoEdit extends Component {
       email: "email użytkownika",
       photoLink: "https://react.semantic-ui.com/images/wireframe/image.png",
       phoneNumber: "telefon użytkownika",
-      description: "Lorem ipsum dolor sit amet.",
+      description: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
