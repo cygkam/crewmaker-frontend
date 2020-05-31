@@ -33,13 +33,13 @@ class MainProfilePage extends Component {
     this.loadEvents(username);
   }
 
-  componentDidUpdate(prevProps) {
-  // Typowy sposób użycia (nie zapomnij porównać właściwości):
-  const username = this.props.match.params.username;
-  if (username !== prevProps.match.params.username) {
-    this.loadEvents(username);
+  componentDidUpdate (prevProps) {
+    // Typowy sposób użycia (nie zapomnij porównać właściwości):
+    const username = this.props.match.params.username;
+    if (username !== prevProps.match.params.username) {
+      this.loadEvents(username);
+    }
   }
-}
 
   loadEvents (username) {
     this.setState({
@@ -94,25 +94,27 @@ class MainProfilePage extends Component {
       return <CheckAuthentication {...this.props} />;
     }
 
-    if(this.props.currentUser.username === this.props.match.params.username) {
+    if (this.props.currentUser.username === this.props.match.params.username) {
       return (
         <Grid textAlign="center" stackable columns={3}>
           <Grid.Column mobile={16} tablet={8} computer={4}>
-            <Button
-              fluid
-              size="massive"
-              animated
-              color="orange"
-              style={{ maxHeight: 60 }}
-            >
-              <Button.Content visible>Znajdź ekipę</Button.Content>
-              <Button.Content hidden>
-                <Icon name="group" />
-              </Button.Content>
-            </Button>
-            <UserInfo currentUser = {this.props.currentUser.username} username = {this.props.match.params.username} />
+            <Link to={"/searchPannel"} >
+              <Button
+                fluid
+                size="massive"
+                animated
+                color="orange"
+                style={{ maxHeight: 60 }}
+              >
+                <Button.Content visible>Znajdź ekipę</Button.Content>
+                <Button.Content hidden>
+                  <Icon name="group" />
+                </Button.Content>
+              </Button>
+            </Link>
+            <UserInfo currentUser={this.props.currentUser.username} username={this.props.match.params.username} />
             <br></br>
-  
+
             <Link to={"/useropinions/" + this.props.match.params.username}>
               <Button
                 fluid
@@ -128,54 +130,54 @@ class MainProfilePage extends Component {
               </Button>
             </Link>
           </Grid.Column>
-  
+
           <Grid.Column mobile={16} tablet={8} computer={5}>
             <Segment fluid="true">
               <Label attached="top">Twoje aktualne wydarzenia</Label>
               {this.state.isLoadingEvents ? (
                 <LoadingIndicator />
               ) : (
-                <React.Fragment>
-                  {this.state.events
-                    .filter(function (event) {
-                      return new Date(event.eventDate) >= new Date();
-                    })
-                    .sort(this.sortByDate)
-                    .map((event) => (
-                      <Segment key={event.eventName}>
-                        <CommingEvent
-    
-                          dataFromParent={event}
-                        />
-                      </Segment>
-                    ))}
-                </React.Fragment>
-              )}
+                  <React.Fragment>
+                    {this.state.events
+                      .filter(function (event) {
+                        return new Date(event.eventDate) >= new Date();
+                      })
+                      .sort(this.sortByDate)
+                      .map((event) => (
+                        <Segment key={event.eventName}>
+                          <CommingEvent
+
+                            dataFromParent={event}
+                          />
+                        </Segment>
+                      ))}
+                  </React.Fragment>
+                )}
             </Segment>
           </Grid.Column>
-  
+
           <Grid.Column textAlign="center" mobile={16} tablet={8} computer={5}>
             <Segment divided="true">
               <Label attached="top">Historia wydarzeń</Label>
               {this.state.isLoadingEvents ? (
                 <LoadingIndicator />
               ) : (
-                <React.Fragment>
-                  {this.state.events
-                    .filter(function (event) {
-                      return new Date(event.eventDate) < new Date();
-                    })
-                    .sort(this.sortByDate)
-                    .map((event) => (
-                      <Segment key={event.eventName}>
-                        <PassedEvent
-                          dataFromParent={event}
-                          isLoading={this.state.isLoadingEvents}
-                        />
-                      </Segment>
-                    ))}
-                </React.Fragment>
-              )}
+                  <React.Fragment>
+                    {this.state.events
+                      .filter(function (event) {
+                        return new Date(event.eventDate) < new Date();
+                      })
+                      .sort(this.sortByDate)
+                      .map((event) => (
+                        <Segment key={event.eventName}>
+                          <PassedEvent
+                            dataFromParent={event}
+                            isLoading={this.state.isLoadingEvents}
+                          />
+                        </Segment>
+                      ))}
+                  </React.Fragment>
+                )}
             </Segment>
           </Grid.Column>
         </Grid>
@@ -184,9 +186,9 @@ class MainProfilePage extends Component {
       return (
         <Grid textAlign="center" stackable columns={3}>
           <Grid.Column mobile={16} tablet={8} computer={4}>
-            <UserInfo currentUser = {this.props.currentUser.username} username = {this.props.match.params.username} />
+            <UserInfo currentUser={this.props.currentUser.username} username={this.props.match.params.username} />
             <br></br>
-  
+
             <Link to={"/useropinions/" + this.props.match.params.username}>
               <Button
                 fluid
@@ -202,55 +204,55 @@ class MainProfilePage extends Component {
               </Button>
             </Link>
           </Grid.Column>
-  
+
           <Grid.Column mobile={16} tablet={8} computer={5}>
             <Segment fluid="true">
               <Label attached="top" >Twoje aktualne wydarzenia</Label>
               {this.state.isLoadingEvents ? (
                 <LoadingIndicator />
               ) : (
-                <React.Fragment>
-                  {this.state.events
-                    .filter(function (event) {
-                      return new Date(event.eventDate) >= new Date();
-                    })
-                    .sort(this.sortByDate)
-                    .map((event) => (
-                      <Segment key={event.eventName}>
-                        <CommingEvent
-  
-                          dataFromParent={event}
-                          isLoading={this.state.isLoadingEvents}
-                        />
-                      </Segment>
-                    ))}
-                </React.Fragment>
-              )}
+                  <React.Fragment>
+                    {this.state.events
+                      .filter(function (event) {
+                        return new Date(event.eventDate) >= new Date();
+                      })
+                      .sort(this.sortByDate)
+                      .map((event) => (
+                        <Segment key={event.eventName}>
+                          <CommingEvent
+
+                            dataFromParent={event}
+                            isLoading={this.state.isLoadingEvents}
+                          />
+                        </Segment>
+                      ))}
+                  </React.Fragment>
+                )}
             </Segment>
           </Grid.Column>
-  
+
           <Grid.Column textAlign="center" mobile={16} tablet={8} computer={5}>
             <Segment divided="true">
               <Label attached="top" >Historia wydarzeń</Label>
               {this.state.isLoadingEvents ? (
                 <LoadingIndicator />
               ) : (
-                <React.Fragment>
-                  {this.state.events
-                    .filter(function (event) {
-                      return new Date(event.eventDate) < new Date();
-                    })
-                    .sort(this.sortByDate)
-                    .map((event) => (
-                      <Segment key={event.eventName}>
-                        <PassedEvent
-                          dataFromParent={event}
-                          isLoading={this.state.isLoadingEvents}
-                        />
-                      </Segment>
-                    ))}
-                </React.Fragment>
-              )}
+                  <React.Fragment>
+                    {this.state.events
+                      .filter(function (event) {
+                        return new Date(event.eventDate) < new Date();
+                      })
+                      .sort(this.sortByDate)
+                      .map((event) => (
+                        <Segment key={event.eventName}>
+                          <PassedEvent
+                            dataFromParent={event}
+                            isLoading={this.state.isLoadingEvents}
+                          />
+                        </Segment>
+                      ))}
+                  </React.Fragment>
+                )}
             </Segment>
           </Grid.Column>
         </Grid>
