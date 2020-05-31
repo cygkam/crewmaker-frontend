@@ -126,10 +126,11 @@ class EventGeneralInfo extends Component {
                                     style={{ width: 821 }}
                                     value={this.props.eventPlace.value}
                                     input={<BootstrapInput />}
+                                    name="eventPlace"
                                     onChange={(event) => {
-                                        this.props.onChange(
+                                        this.props.onChangeEventPlace(
                                             event,
-                                            validation.validateEventPlaceDescription
+                                            validation.validateSelect
                                         );
                                     }}
                                 >
@@ -148,10 +149,11 @@ class EventGeneralInfo extends Component {
                                     style={{ width: 821 }}
                                     value={this.props.sportCategory.value}
                                     input={<BootstrapInput />}
+                                    name="sportCategory"
                                     onChange={(event) => {
                                         this.props.onChange(
                                             event,
-                                            validation.validateEventPlaceDescription
+                                            validation.validateSelect
                                         );
                                     }}
                                 >

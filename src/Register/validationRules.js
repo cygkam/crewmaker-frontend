@@ -33,7 +33,9 @@ export const validation = {
   validateEventPlaceStreetNumber,
   validateTitle,
   validateMessage,
-  validateEventMaxPlayers
+  validateEventMaxPlayers,
+  validateSelect,
+  validateEventDuration
 };
 
 
@@ -58,8 +60,22 @@ function validatePhoneNumber (phoneNumber) {
       errorMsg: null,
     };
   }
-
 };
+
+function validateEventDuration (eventDuration) {
+  const DURATION_REGEX = RegExp("^\\d{2}:\\d{2}:\\d{2}$");
+  if (!DURATION_REGEX.test(eventDuration)) {
+    return {
+      validateStatus: "error",
+      errorMsg: "Niepoprawny czas trwania (format NN:NN:NN)",
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
 
 function validateName (name) {
   if (name.length < NAME_MIN_LENGTH) {
@@ -287,6 +303,20 @@ function validateEventPlaceStreet (street) {
     return {
       validateStatus: "error",
       errorMsg: `Nazwa ulicy jest za długa (Maksimum to ${EVENTPLACE_STREET_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+};
+
+function validateSelect (value) {
+  if (value == null) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Brak wymaganej wartości w selekcie`,
     };
   } else {
     return {
