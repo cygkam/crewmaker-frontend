@@ -1,15 +1,16 @@
 import React, { Component } from "react";
+import { Switch as SwitchRouter, Route, withRouter, Link } from "react-router-dom";
 import {
   Grid,
   GridColumn,
   GridRow,
   Button,
 } from "semantic-ui-react";
-import { eventPlaceService } from "../../Api/Api"
+
 import { notification } from "antd";
-import Switch from "@material-ui/core/Switch";
-import Typography from "@material-ui/core/Typography";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { Switch, Typography, FormControlLabel} from "@material-ui/core";
+import { eventPlaceService } from "../../Api/Api";
+import EventPlaceDetailView from "../../EventPlaceDetailView/EventPlaceDetailView"
 import { grey } from "@material-ui/core/colors";
 import { withStyles } from "@material-ui/core/styles";
 import badmintonSingle from "../../Icons/greyScale/badmintonSingleGrey.svg";
@@ -28,6 +29,7 @@ import tennisDouble from "../../Icons/greyScale/tennisDoubleGrey.svg";
 import tennisSingle from "../../Icons/greyScale/tennisSingleGrey.svg";
 import volleyball from "../../Icons/greyScale/volleyballGrey.svg";
 import Tooltip from "@material-ui/core/Tooltip";
+
 
 const GreySwitch = withStyles({
   switchBase: {
@@ -275,7 +277,7 @@ class EventPlaceCard extends Component {
               }}
             >
               {this.state.eventPlaceSportsCategories.map((item) => (
-                <React.Fragment>
+                <React.Fragment key={item.sportsCategoryId - 1}>
                   <Tooltip
                     title={
                       toggleSportsCategories[item.sportsCategoryId - 1].tooltip
@@ -302,9 +304,9 @@ class EventPlaceCard extends Component {
             mobile={4}
             tablet={4}
             computer={2}
-            padding={2}
+            padded="horizontally"
           >
-            <Grid.Row>
+            <Grid.Row centered={true} textAlign="center">
               {this.state.isAccepted ? (
                 <Button
                   color="grey"
@@ -314,15 +316,27 @@ class EventPlaceCard extends Component {
                   <Button.Content visible>Zatwierdź propozycję</Button.Content>
                 </Button>
               ) : (
-                  <Button
-                    positive
-                    size="small"
-                    disabled={this.state.isAccepted}
-                    onClick={this.handleAcceptEventPlace}
-                  >
-                    <Button.Content visible>Zatwierdź propozycję</Button.Content>
-                  </Button>
-                )}
+                <Button
+                  positive
+                  size="small"
+                  disabled={this.state.isAccepted}
+                  onClick={this.handleAcceptEventPlace}
+                >
+                  <Button.Content visible>Zatwierdź propozycję</Button.Content>
+                </Button>
+              )}
+            </Grid.Row>
+            <Grid.Row centered={true} textAlign="center">
+              <Link
+                to={{
+                  pathname: `/eventPlaceView/${this.state.eventPlaceID}`,
+                  state: { eventPlaceDetails: this.props.eventPlaceDetails },
+                }}
+              >
+                <Button color="brown" size="small">
+                  <Button.Content visible>Pełny widok</Button.Content>
+                </Button>
+              </Link>
             </Grid.Row>
             <Grid.Row>
               <FormControlLabel
@@ -330,7 +344,6 @@ class EventPlaceCard extends Component {
                 disabled={!this.state.isAccepted}
                 control={
                   <GreySwitch
-                    color="grey"
                     checked={this.state.isArchived}
                     onChange={this.handleToggleArchiveEventPlace}
                   />
@@ -345,4 +358,4 @@ class EventPlaceCard extends Component {
   }
 }
 
-export default EventPlaceCard;
+export default withRouter(EventPlaceCard);

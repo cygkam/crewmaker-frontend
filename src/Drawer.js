@@ -211,13 +211,13 @@ export default function MiniDrawer (props) {
             </ListItemIcon>
             <ListItemText primary={"Wydarzenie"} />
           </ListItem>
-          <ListItem button key={""} component={Link} to={`/addNewEventPlace`}>
+          <ListItem button key={"Nowy obiekt"} component={Link} to={`/addNewEventPlace`}>
             <ListItemIcon>
               <PlaceIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary={"Nowy obiekt"} />
           </ListItem>
-          <ListItem button key={""} component={Link} to={`/addNewEvent`}>
+          <ListItem button key={"Nowe wydarzenie"} component={Link} to={`/addNewEvent`}>
             <ListItemIcon>
               <PostAddIcon fontSize="small" />
             </ListItemIcon>

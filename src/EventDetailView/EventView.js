@@ -31,7 +31,6 @@ class EventView extends Component {
                     event: response,
                     isLoading: false,
                 });
-                console.log(response);
             })
             .catch((error) => {
                 if (error.status === 404) {

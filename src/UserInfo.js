@@ -27,13 +27,17 @@ class UserInfo extends Component {
   }
 
   componentDidMount() {
-    const username = this.props.username
+    const username = this.props.username;
     this.loadUserProfile(username);
     this.loadUserProfileImage(username);
   }
 
   handleChange = (updatedUser) => {
     this.setState({ user: updatedUser });
+  };
+
+  handleChangeAvatar = (newImage) => {
+    this.setState({ userProfileImage: newImage });
   };
 
   loadUserProfile(username) {
@@ -60,36 +64,36 @@ class UserInfo extends Component {
           });
         }
       });
-    } 
+  }
 
   loadUserProfileImage(username) {
-      userService
-        .getUserProfileImage(username)
-        .then((response) => {
+    userService
+      .getUserProfileImage(username)
+      .then((response) => {
+        this.setState({
+          userProfileImage: "data:image/jpeg;base64," + response.binaryData,
+          isLoadingImage: false,
+        });
+        localStorage.setItem(
+          USER_IMAGE,
+          JSON.stringify("data:image/jpeg;base64," + response.binaryData)
+        );
+      })
+      .catch((error) => {
+        if (error.status === 404) {
           this.setState({
-            userProfileImage: "data:image/jpeg;base64," + response.binaryData,
+            isLoadingImage: false,
+            userProfileImage:
+              "https://react.semantic-ui.com/images/wireframe/image.png",
+          });
+        } else {
+          this.setState({
+            serverError: true,
             isLoadingImage: false,
           });
-          localStorage.setItem(
-            USER_IMAGE,
-            JSON.stringify("data:image/jpeg;base64," + response.binaryData)
-          );
-        })
-        .catch((error) => {
-          if (error.status === 404) {
-            this.setState({
-              isLoadingImage: false,
-              userProfileImage:
-                "https://react.semantic-ui.com/images/wireframe/image.png",
-            });
-          } else {
-            this.setState({
-              serverError: true,
-              isLoadingImage: false,
-            });
-          }
-        });
-    }
+        }
+      });
+  }
 
   render() {
     if (this.state.isProfileInEdition) {
@@ -106,11 +110,12 @@ class UserInfo extends Component {
       return (
         <UserInfoView
           {...this.state.user}
+          onChangeAvatar={this.handleChangeAvatar}
           isLoading={this.state.isLoading}
           isLoadingImage={this.state.isLoadingImage}
           userProfileImage={this.state.userProfileImage}
           handler={this.panelViewHandler}
-          currentUser = {this.props.currentUser}
+          currentUser={this.props.currentUser}
         />
       );
     }

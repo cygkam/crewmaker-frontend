@@ -71,3 +71,8 @@ code {
 .steps-action {
   margin-top: 24px;
 }
+
+.avatar-uploader>.ant-upload {
+  width: 200px;
+  height: 200px;
+}
