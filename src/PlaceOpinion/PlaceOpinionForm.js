@@ -96,7 +96,7 @@ class PlaceOpinionForm extends Component {
          return (
              <Grid textAlign='center'>
                  <Grid.Row>
-                     <Grid.Column width={10} textAlign='left'>
+                     <Grid.Column textAlign='left'>
                          <Segment>
                              <Header textAlign='center' color='orange' as='h1'>Opinia o miejscu</Header>
                              <Form>

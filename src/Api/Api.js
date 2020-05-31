@@ -8,6 +8,7 @@ const userService = {
   getCurrentUser,
   getUserProfile,
   getUserProfileImage,
+  getUserProfileImageSmall,
 };
 
 const request = (options) => {
@@ -92,6 +93,12 @@ function getUserProfileImage (username) {
   });
 }
 
+function getUserProfileImageSmall(username) {
+  return request({
+    url: API_BASE_URL + "/usersProfileImageSmall/" + username,
+    method: "GET",
+  });
+}
 
 function updateUser (userData) {
   return request({
@@ -271,7 +278,8 @@ const eventPlaceService = {
   acceptEventPlace,
   archiveEventPlace,
   getEventPlaces,
-  getCyclics
+  getCyclics,
+  counteventPlaceEventsCount,
 };
 
 function newEventPlace (newEventPlaceRequest) {
@@ -281,6 +289,14 @@ function newEventPlace (newEventPlaceRequest) {
     body: JSON.stringify(newEventPlaceRequest),
   });
 }
+
+function counteventPlaceEventsCount(eventPlaceID) {
+  return request({
+    url: API_BASE_URL + "/countEventPlaceEvents?eventPlaceID=" + eventPlaceID,
+    method: "GET",
+  });
+}
+
 
 function getEventPlace (activePage, size, filtering, sorting) {
   return request({
@@ -297,7 +313,6 @@ function getEventPlace (activePage, size, filtering, sorting) {
     method: "GET",
   });
 }
-
 
 function acceptEventPlace (eventPlaceID) {
   return request({

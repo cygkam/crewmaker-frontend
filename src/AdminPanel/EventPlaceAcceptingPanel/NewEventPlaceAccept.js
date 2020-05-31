@@ -13,7 +13,7 @@ class NewEventPlaceAccept extends Component {
       isLoading: true,
       listOfEventPlaces: null,
       activePage: 1,
-      totalPages: null,
+      totalPages: 10,
       itemsCountPerPage: 10,
       totalItemsCount: null,
       filtering: "ALL",
@@ -113,9 +113,8 @@ class NewEventPlaceAccept extends Component {
               <React.Fragment>
                 <List divided verticalAlign="middle" size="huge">
                   {this.state.listOfEventPlaces.map((eventPlace) => (
-                    <Segment>
+                    <Segment key={eventPlace.eventPlaceID}>
                       <EventPlaceCard
-                        key={eventPlace.eventPlaceID}
                         eventPlaceDetails={eventPlace}
                       ></EventPlaceCard>
                     </Segment>
@@ -127,11 +126,8 @@ class NewEventPlaceAccept extends Component {
 
           {/* Opinia o eventplace(zhardcodowane id) */}
           <Segment>
-            <PlaceOpinionCard>
-
-            </PlaceOpinionCard>
+            <PlaceOpinionCard></PlaceOpinionCard>
           </Segment>
-          
         </Grid.Column>
       </Grid>
     );

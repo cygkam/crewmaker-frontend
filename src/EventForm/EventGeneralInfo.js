@@ -157,7 +157,7 @@ class EventGeneralInfo extends Component {
                                 >
                                     {this.props.sportCategories
                                         .map((sportCategory) => (
-                                            <MenuItem value={sportCategory.sportsCategoryID}>{sportCategory.sportsCategoryName}</MenuItem>
+                                            <MenuItem key={sportCategory.sportsCategoryID} value={sportCategory.sportsCategoryID}>{sportCategory.sportsCategoryName}</MenuItem>
                                         ))}
                                 </Select>
                                 <FormHelperText>Dyscyplina</FormHelperText>

@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { Button, Label, Form, Grid, GridColumn, TextArea, Segment, Input, Container } from 'semantic-ui-react';
+import {
+  Button,
+  Label,
+  Form,
+  Grid,
+  GridColumn,
+  TextArea,
+  Segment,
+  Input,
+  Container,
+} from "semantic-ui-react";
 import { mainProfileService } from "./Api/Api";
 import { notification } from "antd";
 import { USER } from "./constants";
@@ -9,6 +19,7 @@ class UserInfoEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
       username: "login",
       name: "imie",
       nazwisko: "nazwisko",
@@ -19,13 +30,16 @@ class UserInfoEdit extends Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
-  handleChange (updateRequest) {
+  handleChange(updateRequest) {
     // Here, we invoke the callback with the new value
     this.props.onChange(updateRequest);
-  };
+  }
 
+  
   componentDidMount() {
     this.setState((props) => ({
       username: this.props.username,
@@ -49,7 +63,7 @@ class UserInfoEdit extends Component {
       description: this.state.description,
     };
     this.handleChange(updateRequest);
-    
+
     mainProfileService
       .updateUser(updateRequest)
       .then((response) => {
@@ -67,6 +81,18 @@ class UserInfoEdit extends Component {
           description: error.message || "Sorry! Something went wrong.",
         });
       });
+  }
+
+  showModal() {
+    this.setState({
+      open: true,
+    });
+  }
+
+  closeModal() {
+    this.setState({
+      open: false,
+    });
   }
 
   render() {

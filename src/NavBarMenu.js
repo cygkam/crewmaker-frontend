@@ -20,6 +20,7 @@ import UserOpinionsPage from "./OpinionsPage/UserOpinionsPage";
 import PlaceOpinionForm from "./PlaceOpinion/PlaceOpinionForm";
 import NewEventPlaceAccept from "./AdminPanel/EventPlaceAcceptingPanel/NewEventPlaceAccept";
 import EventForm from "./EventForm/EventForm";
+import EventPlaceDetailView from "./EventPlaceDetailView/EventPlaceDetailView";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -187,11 +188,20 @@ class NavBarMenu extends Component {
             ></Route>
             <Route
               path="/useropinions/:username"
-              render={(props) => <UserOpinionsPage {...props} currentUser={this.state.currentUser}/>}
+              render={(props) => (
+                <UserOpinionsPage
+                  {...props}
+                  currentUser={this.state.currentUser}
+                />
+              )}
             ></Route>
             <Route
               path="/eventplaceopinonform/:eventPlaceID"
               render={(props) => <PlaceOpinionForm {...props} />}
+            ></Route>
+            <Route
+              path="/eventPlaceView/:eventPlaceID"
+              render={(props) => <EventPlaceDetailView {...props} />}
             ></Route>
 
             {this.handleCheckAuthority() ? (
@@ -200,8 +210,8 @@ class NavBarMenu extends Component {
                 render={(props) => <NewEventPlaceAccept {...props} />}
               ></Route>
             ) : (
-                <React.Fragment />
-              )}
+              <React.Fragment />
+            )}
           </Switch>
         </div>
       </div>
