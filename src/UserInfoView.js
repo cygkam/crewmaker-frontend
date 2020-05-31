@@ -11,13 +11,14 @@ class UserInfoView extends Component {
       name: "imie",
       surname: "nazwisko",
       email: "email użytkownika",
-      photo: "https://react.semantic-ui.com/images/wireframe/image.png",
+      userProfileImage:
+        "https://react.semantic-ui.com/images/wireframe/image.png",
       phoneNumber: "telefon użytkownika",
       description: "Lorem ipsum dolor sit amet.",
     };
   }
 
-  componentDidMount () {
+  componentDidMount(props) {
     this.setState((props) => ({
       username: this.props.username,
       name: this.props.name,
@@ -25,25 +26,45 @@ class UserInfoView extends Component {
       email: this.props.email,
       phoneNumber: this.props.phoneNumber,
       description: this.props.description,
+      userProfileImage: this.props.userProfileImage,
     }));
   }
 
-  render () {
+  render() {
     if (this.props.isLoading) {
       return <LoadingIndicator />;
     }
 
+    let button = null;
+    if(this.props.currentUser === this.props.username) {
+      button =  <Button
+                  fluid
+                  size="small"
+                  color="grey"
+                  onClick={this.props.handler}
+                >
+                  <Button.Content visible>Edytuj profil</Button.Content>
+                </Button>
+    }
+
     return (
       <Grid>
-        <GridColumn width='16'>
+        <GridColumn width="16">
           <Grid.Row>
             <Segment>
               <Label attached="top">{this.props.username}</Label>
-              <Image
-                fluid
-                src={this.state.photo}
-                style={{ minHeight: "200px", minWidth: "200px" }}
-              />
+              {this.props.isLoadingImage ? (
+                <LoadingIndicator />
+              ) : (
+                <Image
+                  fluid
+                  bordered
+                  rounded
+                  centered
+                  src={this.props.userProfileImage}
+                  style={{ maxHeight: "200px", maxWidth: "200px" }}
+                />
+              )}
             </Segment>
             <Segment textAlign="left">
               <Icon name="user" />
@@ -61,14 +82,7 @@ class UserInfoView extends Component {
               <Icon name="book" />
               {this.props.description}
             </Segment>
-            <Button
-              fluid
-              size="small"
-              color="grey"
-              onClick={this.props.handler}
-            >
-              <Button.Content visible>Edytuj profil</Button.Content>
-            </Button>
+            {button}
           </Grid.Row>
         </GridColumn>
       </Grid>

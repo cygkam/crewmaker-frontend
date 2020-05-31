@@ -5,28 +5,29 @@ import {
   GridRow,
   Button,
 } from "semantic-ui-react";
-import {eventPlaceService} from "../../Api/Api"
-import {notification} from "antd";
+import { eventPlaceService } from "../../Api/Api"
+import { notification } from "antd";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Link } from "react-router-dom";
-import bxBasketball from "@iconify/icons-bx/bx-basketball";
-import volleyballIcon from "@iconify/icons-uil/volleyball";
-import roundSportsHandball from "@iconify/icons-ic/round-sports-handball";
-import swimming15 from "@iconify/icons-maki/swimming-15";
-import soccer11 from "@iconify/icons-maki/soccer-11";
-import basketball11 from "@iconify/icons-maki/basketball-11";
-import tennisIcon from "@iconify/icons-map/tennis";
-import climbingIcon from "@iconify/icons-map/climbing";
-import badmintonIcon from "@iconify/icons-mdi/badminton";
-import roundDirectionsRun from "@iconify/icons-ic/round-directions-run";
-import roundDirectionsBike from "@iconify/icons-ic/round-directions-bike";
-import pingPongRacket from "@iconify/icons-si-glyph/ping-pong-racket";
-import { LineOutlined } from "@ant-design/icons";
-import { Icon } from "@iconify/react";
 import { grey } from "@material-ui/core/colors";
 import { withStyles } from "@material-ui/core/styles";
+import badmintonSingle from "../../Icons/greyScale/badmintonSingleGrey.svg";
+import badmintonDouble from "../../Icons/greyScale/badmintonDoubleGrey.svg";
+import basketball from "../../Icons/greyScale/basketballGrey.svg";
+import climbing from "../../Icons/greyScale/climbingGrey.svg";
+import cycling from "../../Icons/greyScale/cyclingGrey.svg";
+import handball from "../../Icons/greyScale/handballGrey.svg";
+import indoor from "../../Icons/greyScale/indoorGrey.svg";
+import pingpong from "../../Icons/greyScale/pingpongGrey.svg";
+import running from "../../Icons/greyScale/runningGrey.svg";
+import soccer from "../../Icons/greyScale/soccerGrey.svg";
+import squash from "../../Icons/greyScale/squashGrey.svg";
+import swimming from "../../Icons/greyScale/swimmingGrey.svg";
+import tennisDouble from "../../Icons/greyScale/tennisDoubleGrey.svg";
+import tennisSingle from "../../Icons/greyScale/tennisSingleGrey.svg";
+import volleyball from "../../Icons/greyScale/volleyballGrey.svg";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const GreySwitch = withStyles({
   switchBase: {
@@ -45,66 +46,79 @@ const GreySwitch = withStyles({
 const toggleSportsCategories = [
   {
     value: "1",
-    icon: soccer11,
+    icon: soccer,
+    tooltip: "Piłka nożna",
   },
   {
     value: "2",
-    icon: volleyballIcon,
+    icon: volleyball,
+    tooltip: "Siatkówka",
   },
   {
     value: "3",
-    icon: basketball11,
+    icon: basketball,
+    tooltip: "Koszykówka",
   },
   {
     value: "4",
-    icon: bxBasketball,
-  },
-  {
-    value: "5",
-    icon: roundSportsHandball,
+    icon: indoor,
+    tooltip: "Piłka halowa",
   },
   {
     value: "6",
-    icon: tennisIcon,
+    icon: tennisSingle,
+    tooltip: "Tenis ziemny - single",
   },
   {
     value: "7",
-    icon: tennisIcon,
-    additional: "x2",
+    icon: tennisDouble,
+    tooltip: "Tenis ziemny - debel",
   },
   {
     value: "8",
-    icon: tennisIcon,
-    icon2: LineOutlined,
+    icon: squash,
+    tooltip: "Squash",
+  },
+  {
+    value: "5",
+    icon: handball,
+    tooltip: "Piłka ręczna",
   },
   {
     value: "9",
-    icon: badmintonIcon,
+    icon: badmintonSingle,
+    tooltip: "Badminton - single",
   },
   {
     value: "10",
-    icon: badmintonIcon,
+    icon: badmintonDouble,
     additional: "x2",
+    tooltip: "Badminton - debel",
   },
   {
     value: "11",
-    icon: roundDirectionsRun,
+    icon: running,
+    tooltip: "Bieganie",
   },
   {
     value: "12",
-    icon: roundDirectionsBike,
+    icon: cycling,
+    tooltip: "Kolarstwo",
   },
   {
     value: "13",
-    icon: swimming15,
+    icon: swimming,
+    tooltip: "Pływanie",
   },
   {
     value: "14",
-    icon: pingPongRacket,
+    icon: pingpong,
+    tooltip: "Tenis stołowy",
   },
   {
     value: "15",
-    icon: climbingIcon,
+    icon: climbing,
+    tooltip: "Wspinaczka",
   },
 ];
 
@@ -135,8 +149,8 @@ class EventPlaceCard extends Component {
     this.handleToggleArchiveEventPlace = this.handleToggleArchiveEventPlace.bind(this);
   }
 
-  
-  handleToggleArchiveEventPlace() {
+
+  handleToggleArchiveEventPlace () {
     eventPlaceService
       .archiveEventPlace(this.state.eventPlaceID, this.state.isArchived)
       .then((response) => {
@@ -158,7 +172,7 @@ class EventPlaceCard extends Component {
       });
   }
 
-  handleAcceptEventPlace() {
+  handleAcceptEventPlace () {
     eventPlaceService
       .acceptEventPlace(this.state.eventPlaceID)
       .then((response) => {
@@ -181,7 +195,7 @@ class EventPlaceCard extends Component {
       });
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.setState({
       eventPlaceID: this.props.eventPlaceDetails.eventPlaceID,
       eventPlaceName: this.props.eventPlaceDetails.eventPlaceName,
@@ -200,7 +214,7 @@ class EventPlaceCard extends Component {
     });
   }
 
-  render() {
+  render () {
     return (
       <Grid divided>
         <GridRow
@@ -262,15 +276,20 @@ class EventPlaceCard extends Component {
             >
               {this.state.eventPlaceSportsCategories.map((item) => (
                 <React.Fragment>
-                  <Icon
-                    color="black"
-                    icon={
-                      toggleSportsCategories[item.sportsCategoryId - 1].icon
+                  <Tooltip
+                    title={
+                      toggleSportsCategories[item.sportsCategoryId - 1].tooltip
                     }
-                    width="2em"
-                    height="2em"
-                  />
-                  {toggleSportsCategories[item.sportsCategoryId - 1].additional}
+                  >
+                    <img
+                      height="30"
+                      width="30"
+                      src={
+                        toggleSportsCategories[item.sportsCategoryId - 1].icon
+                      }
+                      alt=""
+                    />
+                  </Tooltip>
                 </React.Fragment>
               ))}
             </div>
@@ -295,15 +314,15 @@ class EventPlaceCard extends Component {
                   <Button.Content visible>Zatwierdź propozycję</Button.Content>
                 </Button>
               ) : (
-                <Button
-                  positive
-                  size="small"
-                  disabled={this.state.isAccepted}
-                  onClick={this.handleAcceptEventPlace}
-                >
-                  <Button.Content visible>Zatwierdź propozycję</Button.Content>
-                </Button>
-              )}
+                  <Button
+                    positive
+                    size="small"
+                    disabled={this.state.isAccepted}
+                    onClick={this.handleAcceptEventPlace}
+                  >
+                    <Button.Content visible>Zatwierdź propozycję</Button.Content>
+                  </Button>
+                )}
             </Grid.Row>
             <Grid.Row>
               <FormControlLabel

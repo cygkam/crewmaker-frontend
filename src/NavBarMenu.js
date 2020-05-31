@@ -13,10 +13,13 @@ import {
   notification,
 } from "antd";
 import userService from "./Api/Api";
-import { ACCESS_TOKEN, USER } from "./constants";
+import { ACCESS_TOKEN, USER, USER_IMAGE } from "./constants";
 import Drawer from "./Drawer";
 import EventView from "./EventDetailView/EventView";
-import NewEventPlaceAccept from "./AdminPanel/EventPlaceAcceptingPanel/NewEventPlaceAccept"
+import UserOpinionsPage from "./OpinionsPage/UserOpinionsPage";
+import PlaceOpinionForm from "./PlaceOpinion/PlaceOpinionForm";
+import NewEventPlaceAccept from "./AdminPanel/EventPlaceAcceptingPanel/NewEventPlaceAccept";
+import EventForm from "./EventForm/EventForm";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -60,10 +63,10 @@ class NavBarMenu extends Component {
     this.loadCurrentUser();
   }
 
-  handleCheckAuthority(){
-      return this.state.userAuthorities.some(
-        (e) => e.authority === "ROLE_ADMIN"
-      );
+  handleCheckAuthority () {
+    return this.state.userAuthorities.some(
+      (e) => e.authority === "ROLE_ADMIN"
+    );
   };
 
   loadCurrentUser () {
@@ -96,6 +99,7 @@ class NavBarMenu extends Component {
   handleLogout () {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(USER);
+    localStorage.removeItem(USER_IMAGE);
     this.setState({
       currentUser: null,
       isAuthenticated: false,
@@ -177,15 +181,27 @@ class NavBarMenu extends Component {
               path="/addNewEventPlace"
               render={(props) => <EventPlaceForm {...props} />}
             ></Route>
+            <Route
+              path="/addNewEvent"
+              render={(props) => <EventForm {...props} />}
+            ></Route>
+            <Route
+              path="/useropinions/:username"
+              render={(props) => <UserOpinionsPage {...props} currentUser={this.state.currentUser}/>}
+            ></Route>
+            <Route
+              path="/eventplaceopinonform/:eventPlaceID"
+              render={(props) => <PlaceOpinionForm {...props} />}
+            ></Route>
 
             {this.handleCheckAuthority() ? (
-                <Route
-                  path="/newEventPlaceAccept"
-                  render={(props) => <NewEventPlaceAccept {...props} />}
-                ></Route>
+              <Route
+                path="/newEventPlaceAccept"
+                render={(props) => <NewEventPlaceAccept {...props} />}
+              ></Route>
             ) : (
-              <React.Fragment />
-            )}
+                <React.Fragment />
+              )}
           </Switch>
         </div>
       </div>
