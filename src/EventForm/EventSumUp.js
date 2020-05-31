@@ -10,8 +10,6 @@ import Regulamin from "../Register/Regulamin";
 import "antd/dist/antd.less";
 import "../index.css";
 import { Icon } from '@iconify/react';
-import twotoneLocationCity from '@iconify/icons-ic/twotone-location-city';
-import stadiumIcon from '@iconify/icons-mdi/stadium';
 import cardText from '@iconify/icons-bi/card-text';
 import signpostIcon from '@iconify/icons-oi/signpost';
 import postalCode from '@iconify/icons-map/postal-code';
@@ -51,7 +49,7 @@ class EventSumUp extends Component {
                 <Grid.Column mobile={16} tablet={16} computer={12}>
                     <Grid.Row>
                         <Segment>
-                            <Icon icon={stadiumIcon} width="2em" height="2em" />
+                            <Icon icon={signpostIcon} width="2em" height="2em" />
                             <Typography
                                 style={{
                                     paddingVertical: 15,
@@ -71,16 +69,6 @@ class EventSumUp extends Component {
                             </Typography>
                         </Segment>
                         <Segment>
-                            <Icon icon={twotoneLocationCity} width="2em" height="2em" />
-                            <Typography
-                                style={{
-                                    paddingVertical: 15,
-                                }}
-                            >
-                                {this.props.eventPlace.name} {this.props.eventPlace.postCode} {this.props.eventPlace.street} {this.props.eventPlace.streetNumber}
-                            </Typography>
-                        </Segment>
-                        <Segment>
                             <Icon icon={postalCode} width="2em" height="2em" />
                             <Typography
                                 style={{
@@ -88,16 +76,6 @@ class EventSumUp extends Component {
                                 }}
                             >
                                 {this.props.eventDate.value} {this.props.eventTime.value}
-                            </Typography>
-                        </Segment>
-                        <Segment>
-                            <Icon icon={signpostIcon} width="2em" height="2em" />
-                            <Typography
-                                style={{
-                                    paddingVertical: 15,
-                                }}
-                            >
-                                {this.props.sportCategory.sportsCategoryName}
                             </Typography>
                         </Segment>
                         <Segment>

@@ -68,6 +68,8 @@ class EventGeneralInfo extends Component {
                                     style={{ marginBottom: 0, display: 'inline-block' }}
                                     hasFeedback
                                     autoComplete="off"
+                                    validateStatus={this.props.eventDate.validateStatus}
+                                    help={this.props.eventDate.errorMsg}
                                 >
                                     <DateInput
                                         name="eventDate"
@@ -75,10 +77,11 @@ class EventGeneralInfo extends Component {
                                         iconPosition='left'
                                         style={{ width: 400 }}
                                         value={this.props.eventDate.value}
-                                        onChange={(event) => {
-                                            this.props.onChange(
+                                        onChange={(event, { name, value }) => {
+                                            this.props.onChangeCalendar(
                                                 event,
-                                                validation.validateEventPlaceDescription
+                                                { name, value },
+                                                validation.validateSelect
                                             );
                                         }}
                                     />
@@ -87,6 +90,8 @@ class EventGeneralInfo extends Component {
                                     style={{ marginBottom: 0, display: 'inline-block', paddingLeft: 10 }}
                                     hasFeedback
                                     autoComplete="off"
+                                    validateStatus={this.props.eventTime.validateStatus}
+                                    help={this.props.eventTime.errorMsg}
                                 >
                                     <TimeInput
                                         name="eventTime"
@@ -94,10 +99,11 @@ class EventGeneralInfo extends Component {
                                         style={{ width: 400 }}
                                         value={this.props.eventTime.value}
                                         iconPosition="left"
-                                        onChange={(event) => {
-                                            this.props.onChange(
+                                        onChange={(event, { name, value }) => {
+                                            this.props.onChangeCalendar(
                                                 event,
-                                                validation.validateEventPlaceDescription
+                                                { name, value },
+                                                validation.validateSelect
                                             );
                                         }}
                                     />
@@ -107,6 +113,8 @@ class EventGeneralInfo extends Component {
                                 style={{ marginBottom: 12 }}
                                 hasFeedback
                                 autoComplete="off"
+                                validateStatus={this.props.eventDuration.validateStatus}
+                                help={this.props.eventDuration.errorMsg}
                             >
                                 <Input
                                     autoComplete="off"
@@ -116,7 +124,7 @@ class EventGeneralInfo extends Component {
                                     onChange={(event) => {
                                         this.props.onChange(
                                             event,
-                                            validation.validateEventMaxPlayers
+                                            validation.validateEventDuration
                                         );
                                     }}
                                 />
@@ -126,13 +134,17 @@ class EventGeneralInfo extends Component {
                                     style={{ marginBottom: 0, display: 'inline-block' }}
                                     hasFeedback
                                     autoComplete="off"
+                                    validateStatus={this.props.isCyclic.validateStatus}
+                                    help={this.props.isCyclic.errorMsg}
                                 >
                                     <Checkbox
                                         checked={this.props.isCyclic.value}
+                                        name="isCyclic"
+                                        color="orange"
                                         onChange={(event) => {
                                             this.props.onChange(
                                                 event,
-                                                validation.validateEventPlaceDescription
+                                                validation.validateSelect
                                             );
                                         }}
                                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -142,15 +154,19 @@ class EventGeneralInfo extends Component {
                                     style={{ marginBottom: 0, display: 'inline-block', paddingLeft: 10 }}
                                     hasFeedback
                                     autoComplete="off"
+                                    validateStatus={this.props.eventCyclicity.validateStatus}
+                                    help={this.props.eventCyclicity.errorMsg}
                                 >
                                     <Select
                                         style={{ width: 762 }}
                                         value={this.props.eventCyclicity.value}
                                         input={<BootstrapInput />}
+                                        name="eventCyclicity"
+                                        disabled={!this.props.isCyclic.value}
                                         onChange={(event) => {
                                             this.props.onChange(
                                                 event,
-                                                validation.validateEventPlaceDescription
+                                                validation.validateSelect
                                             );
                                         }}
                                     >
