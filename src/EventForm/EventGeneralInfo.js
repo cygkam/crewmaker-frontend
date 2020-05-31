@@ -118,28 +118,25 @@ class EventGeneralInfo extends Component {
                                     }}
                                 />
                             </FormItem>
-                            <FormItem style={{ marginBottom: 12 }}
+                            <FormItem
+                                style={{ marginBottom: 12 }}
                                 hasFeedback
                                 autoComplete="off"
-                                validateStatus={this.props.eventPlace.validateStatus}>
-                                <Select
-                                    style={{ width: 821 }}
-                                    value={this.props.eventPlace.value}
-                                    input={<BootstrapInput />}
-                                    name="eventPlace"
+                                validateStatus={this.props.eventCity.validateStatus}
+                                help={this.props.eventCity.errorMsg}
+                            >
+                                <Input
+                                    autoComplete="off"
+                                    name="eventCity"
+                                    value={this.props.eventCity.value}
+                                    placeholder="Miasto"
                                     onChange={(event) => {
-                                        this.props.onChangeEventPlace(
+                                        this.props.onChange(
                                             event,
-                                            validation.validateSelect
+                                            validation.validateEventCity
                                         );
                                     }}
-                                >
-                                    {this.props.eventPlaces
-                                        .map((eventPlace) => (
-                                            <MenuItem value={eventPlace.eventPlaceId}>{eventPlace.name} {eventPlace.code} {eventPlace.city}</MenuItem>
-                                        ))}
-                                </Select>
-                                <FormHelperText>Miejsce</FormHelperText>
+                                />
                             </FormItem>
                             <FormItem style={{ marginBottom: 12 }}
                                 hasFeedback
@@ -150,8 +147,9 @@ class EventGeneralInfo extends Component {
                                     value={this.props.sportCategory.value}
                                     input={<BootstrapInput />}
                                     name="sportCategory"
+                                    disabled={this.props.eventCity.value.length < 3}
                                     onChange={(event) => {
-                                        this.props.onChange(
+                                        this.props.onChangeSportCategory(
                                             event,
                                             validation.validateSelect
                                         );
@@ -163,6 +161,30 @@ class EventGeneralInfo extends Component {
                                         ))}
                                 </Select>
                                 <FormHelperText>Dyscyplina</FormHelperText>
+                            </FormItem>
+                            <FormItem style={{ marginBottom: 12 }}
+                                hasFeedback
+                                autoComplete="off"
+                                validateStatus={this.props.eventPlace.validateStatus}>
+                                <Select
+                                    style={{ width: 821 }}
+                                    value={this.props.eventPlace.value}
+                                    input={<BootstrapInput />}
+                                    name="eventPlace"
+                                    disabled={this.props.sportCategory.validateStatus !== "success"}
+                                    onChange={(event) => {
+                                        this.props.onChange(
+                                            event,
+                                            validation.validateSelect
+                                        );
+                                    }}
+                                >
+                                    {this.props.eventPlaces
+                                        .map((eventPlace) => (
+                                            <MenuItem value={eventPlace.eventPlaceId}>{eventPlace.name} {eventPlace.code} {eventPlace.city}</MenuItem>
+                                        ))}
+                                </Select>
+                                <FormHelperText>Miejsce</FormHelperText>
                             </FormItem>
                         </Segment>
                     </Form>
