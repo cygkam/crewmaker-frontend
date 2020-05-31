@@ -81,7 +81,7 @@ class EventGeneralInfo extends Component {
                                             this.props.onChangeCalendar(
                                                 event,
                                                 { name, value },
-                                                validation.validateSelect
+                                                validation.validateEventDate
                                             );
                                         }}
                                     />
