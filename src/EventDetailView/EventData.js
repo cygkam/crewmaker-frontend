@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Button, Segment, Image, Grid, Label, Container, Popup, Header} from "semantic-ui-react";
 import { eventService, participationService } from '../Api/Api';
 import LoadingIndicator from "../common/LoadingIndicator";
+import { Link } from "react-router-dom";
 
 
 class EventData extends Component {
@@ -160,8 +161,7 @@ class EventData extends Component {
         });
     }
     
-    updateParticipants (){
-    
+    updateParticipants (){    
         console.log("updating participants");
         eventService.countEventParticipants(this.state.eventID)
         .then((response) => {
@@ -181,6 +181,13 @@ class EventData extends Component {
           }
         });
       }
+
+    cantBeChanged = () => {
+      const timeDifference = new Date((this.state.date + this.state.time)) - new Date();
+      const differenceInHours = Math.abs(timeDifference)/3.6e6;
+      if(differenceInHours < 6) return true;
+      else return false; 
+    }
 
 
     render() {
@@ -220,11 +227,14 @@ class EventData extends Component {
                               </Grid.Column>
                             </Grid>
                           </Popup>
-                          <Button fluid compact color='grey' size='small' 
-                                  loading={this.state.isLoading}
-                                  style={{ maxHeight: 60, marginTop: '10px' }} >
-                                  <Button.Content visible>Edytuj wydarzenie</Button.Content>
-                          </Button>
+                          <Link to={`/mainProfilePage/${this.state.username}`}>
+                            <Button fluid compact color='grey' size='small' 
+                                    loading={this.state.isLoading}
+                                    style={{ maxHeight: 60, marginTop: '10px' }} 
+                                    disabled={this.cantBeChanged}>
+                                    <Button.Content visible>Edytuj wydarzenie</Button.Content>
+                            </Button>
+                          </Link>
                         </Grid.Column>
                      </Grid>                    
         }

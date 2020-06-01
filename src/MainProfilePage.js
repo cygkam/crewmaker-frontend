@@ -153,7 +153,7 @@ class MainProfilePage extends Component {
                   
                     {this.state.events
                       .filter(function (event) {
-                        return (new Date(event.eventDate) >= new Date() && event.eventStatus !== "Anulowane");
+                        return (new Date((event.eventDate + " " + event.eventTime)) >= new Date() && event.eventStatus !== "Anulowane");
                       })
                       .sort(this.sortByDate)
                       .map((event) => (
@@ -179,7 +179,7 @@ class MainProfilePage extends Component {
                   <React.Fragment>
                     {this.state.events
                       .filter(function (event) {
-                        return new Date(event.eventDate) < new Date() || event.eventStatus === "Anulowane";
+                        return new Date((event.eventDate + " " + event.eventTime)) < new Date() || event.eventStatus === "Anulowane";
                       })
                       .sort(this.sortByDate)
                       .map((event) => (
@@ -229,7 +229,7 @@ class MainProfilePage extends Component {
                   <React.Fragment>
                     {this.state.events
                       .filter(function (event) {
-                        return (new Date(event.eventDate) >= new Date() && event.eventStatus !== "Anulowane");
+                        return (new Date((event.eventDate + " " + event.eventTime)) >= new Date() && event.eventStatus !== "Anulowane");
                       })
                       .sort(this.sortByDate)
                       .map((event) => (
@@ -256,7 +256,7 @@ class MainProfilePage extends Component {
                   <React.Fragment>
                     {this.state.events
                       .filter(function (event) {
-                        return new Date(event.eventDate) < new Date() || event.eventStatus === "Anulowane";
+                        return new Date((event.eventDate + " " + event.eventTime)) < new Date() || event.eventStatus === "Anulowane";
                       })
                       .sort(this.sortByDate)
                       .map((event) => (
