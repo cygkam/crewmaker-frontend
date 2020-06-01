@@ -20,6 +20,7 @@ import UserOpinionsPage from "./OpinionsPage/UserOpinionsPage";
 import PlaceOpinionForm from "./PlaceOpinion/PlaceOpinionForm";
 import NewEventPlaceAccept from "./AdminPanel/EventPlaceAcceptingPanel/NewEventPlaceAccept";
 import EventForm from "./EventForm/EventForm";
+import EventEditionForm from "./EventEditionForm/EventEditionForm";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class NavBarMenu extends Component {
       top: 70,
       duration: 3,
     });
-
+ 
   }
 
   toggleCollapsed = () => {
@@ -184,6 +185,10 @@ class NavBarMenu extends Component {
             <Route
               path="/addNewEvent"
               render={(props) => <EventForm {...props} />}
+            ></Route>
+             <Route
+              path="/editEvent/:eventID"
+              render={(props) => <EventEditionForm {...props} />}
             ></Route>
             <Route
               path="/useropinions/:username"
