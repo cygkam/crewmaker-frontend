@@ -165,6 +165,12 @@ class EventData extends Component {
                             <Button.Content visible>Wydarzenie minęło</Button.Content>
                     </Button>
         }
+        else if(this.props.eventStatus === "Anulowane") {
+            button = <Button color='grey' size='huge' 
+                              disabled>
+                              <Button.Content visible>Wydarzenie zostało anulowane</Button.Content>
+                    </Button>
+        }
         else if(!this.state.joinned) {
             button = <Button color='orange' size='huge' 
                              disabled={this.state.actuallPartcipantNumber>= this.state.maxPartcipantNumber}
