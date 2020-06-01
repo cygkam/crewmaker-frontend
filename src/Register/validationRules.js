@@ -80,7 +80,9 @@ function validateEventDuration (eventDuration) {
 }
 
 function validateEventDate (eventDate) {
-  if (new Date(parseInt(eventDate.substr(6, 4)), parseInt(eventDate.substr(3, 2)) - 1, parseInt(eventDate.substr(0, 2))) < new Date()) {
+  var currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+  if (new Date(parseInt(eventDate.substr(6, 4)), parseInt(eventDate.substr(3, 2)) - 1, parseInt(eventDate.substr(0, 2))) < currentDate) {
     return {
       validateStatus: "error",
       errorMsg: `Data powinna być dzisiejsza lub późniejsza`,
