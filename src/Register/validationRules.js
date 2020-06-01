@@ -37,7 +37,8 @@ export const validation = {
   validateSelect,
   validateEventDuration,
   validateEventDate,
-  validateEventCity
+  validateEventCity,
+  validateChangeTime
 };
 
 
@@ -70,6 +71,23 @@ function validateEventDuration (eventDuration) {
     return {
       validateStatus: "error",
       errorMsg: "Niepoprawny czas trwania (format NN:NN:NN)",
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
+function validateChangeTime (eventTime, eventDate) {
+  var chosenDate = new Date(parseInt(eventDate.substr(6, 4)), parseInt(eventDate.substr(3, 2)) - 1, parseInt(eventDate.substr(0, 2)),
+    parseInt(eventTime.substr(0, 2)), parseInt(eventTime.substr(3, 2)));
+  var currentDate = new Date();
+  if (chosenDate < currentDate) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Godzina powinna być późniejsza niż obecna`,
     };
   } else {
     return {
