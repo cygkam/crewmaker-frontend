@@ -59,6 +59,7 @@ class EventForm extends React.Component {
         this.handleChangeSportCategory = this.handleChangeSportCategory.bind(this);
         this.toggleAgreement = this.toggleAgreement.bind(this);
         this.handleChangeCalendar = this.handleChangeCalendar.bind(this);
+        this.handleChangeDate = this.handleChangeDate.bind(this);
         this.wrapper = React.createRef();
     }
 
@@ -165,6 +166,7 @@ class EventForm extends React.Component {
                         cyclics={this.state.cyclics}
                         onChange={this.handleChange}
                         onChangeCalendar={this.handleChangeCalendar}
+                        onChangeDate={this.handleChangeDate}
                     />
                 );
             case 2:
@@ -258,6 +260,15 @@ class EventForm extends React.Component {
             [name]: {
                 value,
                 ...validationFunction(value)
+            }
+        });
+    }
+
+    handleChangeDate (event, { name, value }, validationFunction) {
+        this.setState({
+            [name]: {
+                value,
+                ...validationFunction(value, this.state.eventDate.value)
             }
         });
     }
