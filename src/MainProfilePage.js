@@ -167,7 +167,7 @@ class MainProfilePage extends Component {
                       })
                       .sort(this.sortByDateAscending)
                       .map((event) => (
-                        <Segment key={event.eventName}>
+                        <Segment key={event.eventID}>
                           <Label attached="top" horizontal color={this.eventStatusColor(event)} />
                           <CommingEvent
 
@@ -194,7 +194,7 @@ class MainProfilePage extends Component {
                       .sort(this.sortByDateDescending)
                       .slice(0, 10)
                       .map((event) => (
-                        <Segment key={event.eventName}>
+                        <Segment key={event.eventID}>
                           <Label attached="top" horizontal color={this.eventStatusColor(event)} />
                           <PassedEvent
                             dataFromParent={event}
@@ -244,7 +244,7 @@ class MainProfilePage extends Component {
                       })
                       .sort(this.sortByDateAscending)
                       .map((event) => (
-                        <Segment key={event.eventName}>
+                        <Segment key={event.eventID}>
                           <Label attached="top" horizontal color={this.eventStatusColor(event)} />
                           <CommingEvent
 
@@ -272,7 +272,7 @@ class MainProfilePage extends Component {
                       .sort(this.sortByDateDescending)
                       .slice(0, 10)
                       .map((event) => (
-                        <Segment key={event.eventName}>
+                        <Segment key={event.eventID}>
                           <Label attached="top" horizontal color={this.eventStatusColor(event)} />
                           <PassedEvent
                             dataFromParent={event}

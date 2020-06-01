@@ -196,7 +196,7 @@ class EventData extends Component {
 
     render() {
         let button;
-        if (new Date(this.state.event + " " + this.state.time) <= new Date()) {
+        if (new Date(this.state.date + " " + this.state.time) <= new Date()) {
             button = <Button color='grey' size='huge' 
                             disabled>
                             <Button.Content visible>Wydarzenie minęło</Button.Content>
@@ -215,7 +215,7 @@ class EventData extends Component {
                              loading={this.state.isLoading}>
                             <Button.Content visible>Dołącz do wydarzenia</Button.Content>
                      </Button>
-        } else if(this.props.userInitiator === this.props.currentUser.username) {
+        } else if(this.props.event.userInitiator === this.props.currentUser.username) {
             let cantBeChanged = this.cantBeChanged();
             console.log(cantBeChanged);
             button = <Grid textAlign="center" stackable columns={1}>
@@ -225,7 +225,7 @@ class EventData extends Component {
                                           style={{ maxHeight: 60}}
                                            flowing hoverable >
                                             <Button.Content visible>Anuluj wydarzenie</Button.Content>
-                                          </Button>} flowing hoverable position='top center'>
+                                          </Button>} flowing hoverable={true} position='top center'>
                             <Grid centered columns={1}>
                               <Grid.Column textAlign='center'>
                                 <Header as='h4'>Jesteś pewien? </Header>
@@ -233,7 +233,7 @@ class EventData extends Component {
                               </Grid.Column>
                             </Grid>
                           </Popup>
-                          {/* <Link to={`/mainProfilePage/${this.state.username}`}> */}
+                          {/* <Link to={`/editEvent/${this.state.eventId}`}> */}
                             <Button fluid compact color='grey' size='small' 
                                     loading={this.state.isLoading}
                                     style={{ maxHeight: 60, marginTop: '10px' }} 
