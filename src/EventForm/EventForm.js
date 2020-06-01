@@ -75,9 +75,7 @@ class EventForm extends React.Component {
                 console.log(response);
                 this.setState({
                     eventPlaces: response,
-                    eventPlace: {
-                        value: response[0].eventPlaceId,
-                    }
+                    
                 });
             })
             .catch((error) => {
