@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Button, Segment, Image, Grid, Label, Container} from "semantic-ui-react";
+import {Button, Segment, Image, Grid, Label, Container, Popup, Header} from "semantic-ui-react";
 import { eventService, participationService } from '../Api/Api';
 import LoadingIndicator from "../common/LoadingIndicator";
 
@@ -10,18 +10,20 @@ class EventData extends Component {
 
       this.state = {
           eventId: "",
-          sportsName: "Koszykówka",
+          sportsName: "",
           sportsIcon: "https://cdn2.iconfinder.com/data/icons/activity-5/50/1F3C0-basketball-512.png",
-          description: "Opis",
-          date: "26-05-2020",
-          time: "10:30",
-          cyclePeriod: "Co dwa tygodnie",
-          duration: '1:30',
+          description: "",
+          date: "",
+          time: "",
+          cyclePeriod: "",
+          duration: '',
           joinned : false,
           actuallPartcipantNumber: 1,
           maxPartcipantNumber: 3,
-          isLoading : true
+          isLoading : true,
+          eventStatus: ""
       }
+
     }
 
     componentDidMount () {
@@ -35,6 +37,7 @@ class EventData extends Component {
           maxPartcipantNumber: this.props.maxPlayers,
           // cyclePeriod: this.props.dataFromParent,
           duration: this.props.eventDuration,
+          eventStatus: this.props.eventStatus
         })
         if(this.props.cyclic) {
           this.setState({
@@ -133,6 +136,29 @@ class EventData extends Component {
           }
         });
     }
+
+    cancelEvent = () => {
+      console.log("Cancelin event : " + this.state.eventId);
+      this.setState({ isLoading: true });
+      eventService.cancelEvent(this.state.eventId)
+        .then((response) => {
+          this.setState({
+            isLoading: false,
+            eventStatus: "Anulowane"
+          });
+        })
+        .catch((error) => {
+          if (error.status === 404) {
+            this.setState({
+              isLoading: false
+            });
+          } else {
+            this.setState({
+              isLoading: false
+            });
+          }
+        });
+    }
     
     updateParticipants (){
     
@@ -165,7 +191,7 @@ class EventData extends Component {
                             <Button.Content visible>Wydarzenie minęło</Button.Content>
                     </Button>
         }
-        else if(this.props.eventStatus === "Anulowane") {
+        else if(this.state.eventStatus === "Anulowane") {
             button = <Button color='grey' size='huge' 
                               disabled>
                               <Button.Content visible>Wydarzenie zostało anulowane</Button.Content>
@@ -178,7 +204,31 @@ class EventData extends Component {
                              loading={this.state.isLoading}>
                             <Button.Content visible>Dołącz do wydarzenia</Button.Content>
                      </Button>
-        } else {
+        } else if(this.props.userInitiator === this.props.currentUser.username) {
+            button = <Grid textAlign="center" stackable columns={1}>
+                        <Grid.Column>
+                          <Popup trigger={<Button fluid compact color='red' size='small' 
+                                          loading={this.state.isLoading}
+                                          style={{ maxHeight: 60}}
+                                           flowing hoverable >
+                                            <Button.Content visible>Anuluj wydarzenie</Button.Content>
+                                          </Button>} flowing hoverable position='top center'>
+                            <Grid centered columns={1}>
+                              <Grid.Column textAlign='center'>
+                                <Header as='h4'>Jesteś pewien? </Header>
+                                <Button color='red'  onClick={this.cancelEvent}>Tak, anuluj wydarzenie</Button>
+                              </Grid.Column>
+                            </Grid>
+                          </Popup>
+                          <Button fluid compact color='grey' size='small' 
+                                  loading={this.state.isLoading}
+                                  style={{ maxHeight: 60, marginTop: '10px' }} >
+                                  <Button.Content visible>Edytuj wydarzenie</Button.Content>
+                          </Button>
+                        </Grid.Column>
+                     </Grid>                    
+        }
+        else {
             button = <Button color='red' size='huge' 
                              loading={this.state.isLoading}
                              onClick={this.leaveEvent}
@@ -186,6 +236,7 @@ class EventData extends Component {
                             <Button.Content visible>Zrezygnuj z wydarzenia</Button.Content>
                      </Button>
         }
+
         if (this.state.isLoading) {
             return <LoadingIndicator />;
         } else return(

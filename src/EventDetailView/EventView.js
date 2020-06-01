@@ -88,7 +88,7 @@ class EventView extends Component {
                     <Grid.Column mobile={16} tablet={8} computer={3}>
                         <Segment>
                             <Label textAlign='center' attached="top" color="orange">Informacje o wydarzeniu</Label>
-                            <EventData {...this.state.event} />
+                            <EventData {...this.state.event} currentUser={this.props.currentUser}/>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column mobile={16} tablet={8} computer={8} >
