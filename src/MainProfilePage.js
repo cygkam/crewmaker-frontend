@@ -70,12 +70,22 @@ class MainProfilePage extends Component {
       });
   }
 
-  sortByDate (date1, date2) {
+  sortByDateAscending (date1, date2) {
     if (date1.eventDate < date2.eventDate) {
       return -1;
     }
     if (date1.eventDate > date2.eventDate) {
       return 1;
+    }
+    return 0;
+  }
+
+  sortByDateDescending (date1, date2) {
+    if (date1.eventDate < date2.eventDate) {
+      return 1;
+    }
+    if (date1.eventDate > date2.eventDate) {
+      return -1;
     }
     return 0;
   }
@@ -155,7 +165,7 @@ class MainProfilePage extends Component {
                       .filter(function (event) {
                         return (new Date((event.eventDate + " " + event.eventTime)) >= new Date() && event.eventStatus !== "Anulowane");
                       })
-                      .sort(this.sortByDate)
+                      .sort(this.sortByDateAscending)
                       .map((event) => (
                         <Segment key={event.eventName}>
                           <Label attached="top" horizontal color={this.eventStatusColor(event)} />
@@ -181,7 +191,7 @@ class MainProfilePage extends Component {
                       .filter(function (event) {
                         return new Date((event.eventDate + " " + event.eventTime)) < new Date() || event.eventStatus === "Anulowane";
                       })
-                      .sort(this.sortByDate)
+                      .sort(this.sortByDateDescending)
                       .slice(0, 10)
                       .map((event) => (
                         <Segment key={event.eventName}>
@@ -232,7 +242,7 @@ class MainProfilePage extends Component {
                       .filter(function (event) {
                         return (new Date((event.eventDate + " " + event.eventTime)) >= new Date() && event.eventStatus !== "Anulowane");
                       })
-                      .sort(this.sortByDate)
+                      .sort(this.sortByDateAscending)
                       .map((event) => (
                         <Segment key={event.eventName}>
                           <Label attached="top" horizontal color={this.eventStatusColor(event)} />
@@ -259,7 +269,7 @@ class MainProfilePage extends Component {
                       .filter(function (event) {
                         return new Date((event.eventDate + " " + event.eventTime)) < new Date() || event.eventStatus === "Anulowane";
                       })
-                      .sort(this.sortByDate)
+                      .sort(this.sortByDateDescending)
                       .slice(0, 10)
                       .map((event) => (
                         <Segment key={event.eventName}>
