@@ -100,10 +100,10 @@ class EventGeneralInfo extends Component {
                                         value={this.props.eventTime.value}
                                         iconPosition="left"
                                         onChange={(event, { name, value }) => {
-                                            this.props.onChangeCalendar(
+                                            this.props.onChangeDate(
                                                 event,
                                                 { name, value },
-                                                validation.validateSelect
+                                                validation.validateChangeTime
                                             );
                                         }}
                                     />
