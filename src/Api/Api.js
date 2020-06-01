@@ -121,11 +121,19 @@ function newEvent (newEventRequest) {
   });
 }
 
+function cancelEvent(eventID) {
+  return request({
+    url: API_BASE_URL + "/cancelEvent/" + eventID,
+    method: "POST",
+  });
+}
+
 const eventService = {
   getAllEvents,
   getComingUserEvents,
   countEventParticipants,
-  newEvent
+  newEvent,
+  cancelEvent
 };
 
 function countEventParticipants (eventID) {

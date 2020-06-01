@@ -175,7 +175,7 @@ class NavBarMenu extends Component {
             ></Route>
             <Route
               path="/eventView/:eventID"
-              render={(props) => <EventView {...props} />}
+              render={(props) => <EventView {...props} currentUser={this.state.currentUser}/>}
             ></Route>
             <Route
               path="/addNewEventPlace"
