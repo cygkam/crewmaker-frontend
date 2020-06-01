@@ -26,6 +26,8 @@ class MainProfilePage extends Component {
         },
       ],
     };
+
+    this.eventStatusColor = this.eventStatusColor.bind(this);
   }
 
   componentDidMount () {
@@ -76,6 +78,16 @@ class MainProfilePage extends Component {
       return 1;
     }
     return 0;
+  }
+
+  eventStatusColor(event) {
+    if(event.eventStatus === "Anulowane") {
+      return "red";
+    } else if(event.userInitiator === this.props.currentUser.username) {
+      return "yellow";
+    } else {
+      return "blue";
+    }
   }
 
   render () {
@@ -138,13 +150,15 @@ class MainProfilePage extends Component {
                 <LoadingIndicator />
               ) : (
                   <React.Fragment>
+                  
                     {this.state.events
                       .filter(function (event) {
-                        return new Date(event.eventDate) >= new Date();
+                        return (new Date(event.eventDate) >= new Date() && event.eventStatus !== "Anulowane");
                       })
                       .sort(this.sortByDate)
                       .map((event) => (
                         <Segment key={event.eventName}>
+                          <Label attached="top" horizontal color={this.eventStatusColor(event)}/>
                           <CommingEvent
 
                             dataFromParent={event}
@@ -165,11 +179,12 @@ class MainProfilePage extends Component {
                   <React.Fragment>
                     {this.state.events
                       .filter(function (event) {
-                        return new Date(event.eventDate) < new Date();
+                        return new Date(event.eventDate) < new Date() || event.eventStatus === "Anulowane";
                       })
                       .sort(this.sortByDate)
                       .map((event) => (
                         <Segment key={event.eventName}>
+                          <Label attached="top" horizontal color={this.eventStatusColor(event)}/>
                           <PassedEvent
                             dataFromParent={event}
                             isLoading={this.state.isLoadingEvents}
@@ -214,11 +229,12 @@ class MainProfilePage extends Component {
                   <React.Fragment>
                     {this.state.events
                       .filter(function (event) {
-                        return new Date(event.eventDate) >= new Date();
+                        return (new Date(event.eventDate) >= new Date() && event.eventStatus !== "Anulowane");
                       })
                       .sort(this.sortByDate)
                       .map((event) => (
                         <Segment key={event.eventName}>
+                          <Label attached="top" horizontal color={this.eventStatusColor(event)}/>
                           <CommingEvent
 
                             dataFromParent={event}
@@ -240,11 +256,12 @@ class MainProfilePage extends Component {
                   <React.Fragment>
                     {this.state.events
                       .filter(function (event) {
-                        return new Date(event.eventDate) < new Date();
+                        return new Date(event.eventDate) < new Date() || event.eventStatus === "Anulowane";
                       })
                       .sort(this.sortByDate)
                       .map((event) => (
                         <Segment key={event.eventName}>
+                          <Label attached="top" horizontal color={this.eventStatusColor(event)}/>
                           <PassedEvent
                             dataFromParent={event}
                             isLoading={this.state.isLoadingEvents}
