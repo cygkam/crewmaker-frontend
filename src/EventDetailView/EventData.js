@@ -183,16 +183,20 @@ class EventData extends Component {
       }
 
     cantBeChanged = () => {
-      const timeDifference = new Date((this.state.date + this.state.time)) - new Date();
+      const timeDifference = new Date((this.state.date + " " + this.state.time)) - new Date();
       const differenceInHours = Math.abs(timeDifference)/3.6e6;
-      if(differenceInHours < 6) return true;
-      else return false; 
+      console.log("Roznia godzin: " + differenceInHours)
+      if(differenceInHours < 6) {
+        return true
+      } else {
+        return false
+      }
     }
 
 
     render() {
         let button;
-        if (new Date(this.props.eventDate) <= new Date()) {
+        if (new Date(this.state.event + " " + this.state.time) <= new Date()) {
             button = <Button color='grey' size='huge' 
                             disabled>
                             <Button.Content visible>Wydarzenie minęło</Button.Content>
@@ -212,6 +216,8 @@ class EventData extends Component {
                             <Button.Content visible>Dołącz do wydarzenia</Button.Content>
                      </Button>
         } else if(this.props.userInitiator === this.props.currentUser.username) {
+            let cantBeChanged = this.cantBeChanged();
+            console.log(cantBeChanged);
             button = <Grid textAlign="center" stackable columns={1}>
                         <Grid.Column>
                           <Popup trigger={<Button fluid compact color='red' size='small' 
@@ -227,14 +233,15 @@ class EventData extends Component {
                               </Grid.Column>
                             </Grid>
                           </Popup>
-                          <Link to={`/mainProfilePage/${this.state.username}`}>
+                          {/* <Link to={`/mainProfilePage/${this.state.username}`}> */}
                             <Button fluid compact color='grey' size='small' 
                                     loading={this.state.isLoading}
                                     style={{ maxHeight: 60, marginTop: '10px' }} 
-                                    disabled={this.cantBeChanged}>
+                                    disabled={cantBeChanged}
+                                    >
                                     <Button.Content visible>Edytuj wydarzenie</Button.Content>
                             </Button>
-                          </Link>
+                          {/* </Link> */}
                         </Grid.Column>
                      </Grid>                    
         }
