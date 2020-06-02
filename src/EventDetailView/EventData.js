@@ -79,6 +79,11 @@ class EventData extends Component {
         return <Image size="small" src={soccer} centered />;
     }
   }
+  componentDidMount() {
+    this.setState({
+      eventId: this.props.eventID,
+    });
+  }
 
   componentWillMount() {
     const eventID = this.props.eventID;
@@ -86,6 +91,7 @@ class EventData extends Component {
     this.countEventParticipants(eventID);
     this.checkIfParticipationExists(eventID);
     this.setState({
+      eventId: this.props.eventID,
       maxPartcipantNumber: maxPlayers,
     });
   }
@@ -98,7 +104,7 @@ class EventData extends Component {
           joinned: response,
           isLoading: false,
         });
-        console.log(this.state.eventID + " joinned : " + this.state.joinned);
+        console.log(this.state.eventId + " joinned : " + this.state.joinned);
       })
       .catch((error) => {
         if (error.status === 404) {
@@ -166,7 +172,7 @@ class EventData extends Component {
           joinned: false,
           isLoading: false,
         });
-        console.log(this.state.eventID + " joinned : " + this.state.joinned);
+        console.log(this.state.eventId + " joinned : " + this.state.joinned);
         this.updateParticipants();
       })
       .catch((error) => {
