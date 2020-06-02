@@ -77,8 +77,8 @@ class AddOpinion extends Component {
 
     handleSubmit() {
         const newOpinionRequest = {
-          opinionAuthorName: this.state.userAuthor,
-          userAbout: this.state.userAbout,
+          opinionAuthorName: this.props.currentUser,
+          userAbout: this.props.aboutUser,
           title: this.state.title.value,
           message: this.state.message.value,
           grade: this.state.grade
