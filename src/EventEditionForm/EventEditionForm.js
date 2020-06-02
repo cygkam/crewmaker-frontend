@@ -18,7 +18,7 @@ class EventEditionForm extends React.Component {
             current: 0,
             isValidated: true,
             eventName: {
-                value: "",
+                value: ""
             },
             eventDescription: {
                 value: "",
@@ -67,36 +67,87 @@ class EventEditionForm extends React.Component {
     }
 
     componentDidMount () {
-        this.loadSportCategories();
         this.loadCyclics();
+    }
 
+    
+    loadEventData() {
         const eventID = this.props.match.params.eventID;
         if (eventID !== undefined) {
             eventViewService
                 .getEventInfo(eventID) 
-                    .then((response) => {
-                        console.log(response)
-                        this.setState({
-                          eventName: validation.validateEventPlaceName(response.eventName)
-                        });
-                      })
-                      .catch((error) => {
-                        if (error.status === 404) {
-                          this.setState({
-                            actuallPartcipantNumber: 1
-                          });
-                        } else {
-                          this.setState({
-                            actuallPartcipantNumber: 1
-                          });
+                .then((response) => {
+                    console.log(response)
+
+                    let date = response.eventDate;
+                    let dateParts = date.split('-');
+                    let dateInGoodFormat = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
+
+                    let time = response.eventTime;
+                    let timeParts = time.split(':');
+                    let timeInGoodFormat = timeParts[0] + ":" + timeParts[1];
+                    let isCyclic = response.isCyclic == 0 ? false : true;
+                    this.setState({
+                        eventName: {
+                            value: response.eventName,
+                            validateStatus: "success"
+                        },
+                        eventDescription: {
+                            value: response.eventDescription,
+                            validateStatus: "success"
+                        },
+                        eventMaxPlayers: {
+                            value: response.maxPlayers,
+                            validateStatus: "success"
+                        },
+                        eventCity: {
+                            value: response.eventPlaceCity,
+                            validateStatus: "success"
+                        },
+                        sportCategory: {
+                            value: response.eventSportID,
+                            validateStatus: "success"
+                        },
+                        isCyclic: {
+                            value: isCyclic,
+                            validateStatus: "success"
+                        },
+                        eventCyclicity: {
+                            value: response.cycleId,
+                            validateStatus: "success" 
+                        },
+                        eventDate: {
+                            value: dateInGoodFormat,
+                            validateStatus: "success"
+                        },
+                        eventTime: {
+                            value: timeInGoodFormat,
+                            validateStatus: "success"
+                        },
+                        eventDuration: {
+                            value: response.eventDuration,
+                            validateStatus: "success"
+                        },
+                        eventPlace: {
+                            value: response.eventPlaceID,
+                            validateStatus: "success"
                         }
-                      });
-    
-                    }
+                    });
+                })
+                .catch((error) => {
+                if (error.status === 404) {
+                    this.setState({
+                    actuallPartcipantNumber: 1
+                    });
+                } else {
+                    this.setState({
+                    actuallPartcipantNumber: 1
+                    });
+                }
+            })
+            .then(() => this.loadEventPlaces(this.state.sportCategory.value, this.state.eventCity.value));
+        }
     }
-
-    
-
 
     loadEventPlaces (sportCategoryId, eventCity) {
         eventPlaceService
@@ -105,9 +156,6 @@ class EventEditionForm extends React.Component {
                 console.log(response);
                 this.setState({
                     eventPlaces: response,
-                    eventPlace: {
-                        value: response[0].eventPlaceId,
-                    },
                 });
             })
             .catch((error) => {
@@ -133,7 +181,7 @@ class EventEditionForm extends React.Component {
                         value: ""
                     }
                 });
-            })
+            }).then(() => this.loadEventData())
             .catch((error) => {
                 if (error.status === 404) {
                     this.setState({
@@ -156,7 +204,7 @@ class EventEditionForm extends React.Component {
                     isLoading: false
 
                 });
-            })
+            }).then(() => this.loadSportCategories())
             .catch((error) => {
                 if (error.status === 404) {
                     this.setState({
@@ -221,7 +269,8 @@ class EventEditionForm extends React.Component {
     handleSubmit () {
         var changedDate = this.state.eventDate.value.substr(6, 4) + "-" + this.state.eventDate.value.substr(3, 2) + "-" + this.state.eventDate.value.substr(0, 2);
 
-        const newEventRequest = {
+        const eventEditRequest = {
+            eventId: this.props.match.params.eventID,
             cycleId: this.state.eventCyclicity.value,
             eventPlaceId: this.state.eventPlace.value,
             sportCategoryId: this.state.sportCategory.value,
@@ -234,12 +283,12 @@ class EventEditionForm extends React.Component {
             eventDuration: this.state.eventDuration.value
         };
         eventService
-            .newEvent(newEventRequest)
+            .updateEvent(eventEditRequest)
             .then((response) => {
                 notification.success({
-                    message: "New event",
+                    message: "Event updated",
                     description:
-                        "Thank you! Event created! Notify your friends about your event!",
+                        "Dane wydarzenia zostały zmienione! Lepiej poinformuj innych uczestników!",
                 });
 
                 this.setState({
@@ -255,9 +304,7 @@ class EventEditionForm extends React.Component {
                     eventDuration: ""
                 });
 
-                const user = JSON.parse(localStorage.getItem(USER).toString());
-
-                this.props.history.push(`/mainProfilePage/${user.username}`);
+                this.props.history.push(`/eventView/${this.props.match.params.eventID}`);
             })
             .catch((error) => {
                 notification.error({
@@ -285,6 +332,10 @@ class EventEditionForm extends React.Component {
                 ...validationFunction(inputValue),
             },
         });
+
+        if(inputName === "eventCity") {
+            this.loadEventPlaces(this.state.sportCategory.value, inputValue);
+        }
     }
 
     handleChangeCalendar (event, { name, value }, validationFunction) {
