@@ -21,7 +21,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PersonIcon from "@material-ui/icons/Person";
 import PlaceIcon from "@material-ui/icons/Place";
 import ReactLogo from "./logo.svg";
-import EventIcon from "@material-ui/icons/Event";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
