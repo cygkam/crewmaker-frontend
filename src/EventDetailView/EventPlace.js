@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {Segment, Grid, Image, Label} from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import { eventService } from "../Api/Api";
 
 

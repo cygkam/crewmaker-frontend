@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Grid, Segment } from "semantic-ui-react";
 import { validation } from "../Register/validationRules";
-import { Input, Form, Typography, notification, Upload, Button, Row as RowAntd } from "antd";
+import { Input, Form, notification, Upload, Button, Row as RowAntd } from "antd";
 import ImgCrop from "antd-img-crop";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { ACCESS_TOKEN } from "../constants";
 import "antd/dist/antd.less";
 import "../index.css";
 

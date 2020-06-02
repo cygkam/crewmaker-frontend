@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch as SwitchRouter, Route, withRouter, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import {
   Grid,
   GridColumn,
@@ -10,7 +10,6 @@ import {
 import { notification } from "antd";
 import { Switch, Typography, FormControlLabel} from "@material-ui/core";
 import { eventPlaceService } from "../../Api/Api";
-import EventPlaceDetailView from "../../EventPlaceDetailView/EventPlaceDetailView"
 import { grey } from "@material-ui/core/colors";
 import { withStyles } from "@material-ui/core/styles";
 import badmintonSingle from "../../Icons/greyScale/badmintonSingleGrey.svg";
