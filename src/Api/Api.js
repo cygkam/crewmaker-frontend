@@ -122,6 +122,7 @@ function newEvent (newEventRequest) {
 }
 
 function updateEvent (eventUpdate) {
+  console.log(eventUpdate);
   return request({
     url: API_BASE_URL + "/updateEvent",
     method: "POST",
@@ -129,7 +130,7 @@ function updateEvent (eventUpdate) {
   });
 }
 
-function cancelEvent(eventID) {
+function cancelEvent (eventID) {
   return request({
     url: API_BASE_URL + "/cancelEvent/" + eventID,
     method: "POST",
