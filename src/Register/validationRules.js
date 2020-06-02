@@ -35,7 +35,12 @@ export const validation = {
   validateMessage,
   validateEventMaxPlayers,
   validateUserOpinionTitle,
-    validateUserOpinionMessage
+    validateUserOpinionMessage,
+  validateSelect,
+  validateEventDuration,
+  validateEventDate,
+  validateEventCity,
+  validateChangeTime
 };
 
 
@@ -60,8 +65,67 @@ function validatePhoneNumber (phoneNumber) {
       errorMsg: null,
     };
   }
-
 };
+
+function validateEventDuration (eventDuration) {
+  const DURATION_REGEX = RegExp("^\\d{2}:\\d{2}:\\d{2}$");
+  if (!DURATION_REGEX.test(eventDuration)) {
+    return {
+      validateStatus: "error",
+      errorMsg: "Niepoprawny czas trwania (format NN:NN:NN)",
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
+function validateChangeTime (eventTime, eventDate) {
+  const TIME_REGEX = RegExp("^\\d{2}:\\d{2}$");
+  var chosenDate = new Date(parseInt(eventDate.substr(6, 4)), parseInt(eventDate.substr(3, 2)) - 1, parseInt(eventDate.substr(0, 2)),
+    parseInt(eventTime.substr(0, 2)), parseInt(eventTime.substr(3, 2)));
+  var currentDate = new Date();
+  if (chosenDate < currentDate) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Godzina powinna być późniejsza niż obecna`,
+    };
+  } else if (!TIME_REGEX.test(eventTime)) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Godzina nie jest zgodna z formatem (hh:mm)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
+
+function validateEventDate (eventDate) {
+  const DATE_REGEX = RegExp("^\\d{2}-\\d{2}-\\d{4}$");
+  var currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+  if (new Date(parseInt(eventDate.substr(6, 4)), parseInt(eventDate.substr(3, 2)) - 1, parseInt(eventDate.substr(0, 2))) < currentDate) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Data powinna być dzisiejsza lub późniejsza`,
+    };
+  } else if (!DATE_REGEX.test(eventDate)) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Data nie jest zgodna z formatem (dd-MM-yyyy)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+}
 
 function validateName (name) {
   if (name.length < NAME_MIN_LENGTH) {
@@ -73,6 +137,20 @@ function validateName (name) {
     return {
       validateStatus: "error",
       errorMsg: `Imię jest za długie (Maksimum to ${NAME_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+};
+
+function validateEventCity (eventCity) {
+  if (eventCity.length < 3) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Nazwa miasta jest zbyt krótka, wymagane są 3 znaki`,
     };
   } else {
     return {
@@ -289,6 +367,20 @@ function validateEventPlaceStreet (street) {
     return {
       validateStatus: "error",
       errorMsg: `Nazwa ulicy jest za długa (Maksimum to ${EVENTPLACE_STREET_MAX_LENGTH} znaków)`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+};
+
+function validateSelect (value) {
+  if (value == null) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Brak wymaganej wartości w selekcie`,
     };
   } else {
     return {

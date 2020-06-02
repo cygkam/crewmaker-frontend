@@ -21,6 +21,7 @@ import PlaceOpinionForm from "./PlaceOpinion/PlaceOpinionForm";
 import NewEventPlaceAccept from "./AdminPanel/EventPlaceAcceptingPanel/NewEventPlaceAccept";
 import EventForm from "./EventForm/EventForm";
 import EventPlaceDetailView from "./EventPlaceDetailView/EventPlaceDetailView";
+import EventEditionForm from "./EventEditionForm/EventEditionForm";
 
 class NavBarMenu extends Component {
   constructor(props) {
@@ -44,8 +45,7 @@ class NavBarMenu extends Component {
       placement: "topRight",
       top: 70,
       duration: 3,
-    });
-
+    }); 
   }
 
   toggleCollapsed = () => {
@@ -191,6 +191,10 @@ class NavBarMenu extends Component {
               path="/addNewEvent"
               render={(props) => <EventForm {...props} />}
             ></Route>
+             <Route
+              path="/editEvent/:eventID"
+              render={(props) => <EventEditionForm {...props} />}
+            ></Route>
             <Route
               path="/useropinions/:username"
               render={(props) => (
@@ -215,7 +219,7 @@ class NavBarMenu extends Component {
             ></Route>
             <Route
               path="/eventView/:eventID"
-              render={(props) => <EventView {...props} />}
+              render={(props) => <EventView {...props} currentUser={this.state.currentUser}/>}
             ></Route>
             {this.handleCheckAuthority() ? (
               <Route

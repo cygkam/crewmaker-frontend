@@ -50,7 +50,7 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-class EventGeneralInfo extends Component {
+class EventEditionGeneralInfo extends Component {
     constructor(props) {
         super(props);
         this.wrapper = React.createRef();
@@ -116,10 +116,10 @@ class EventGeneralInfo extends Component {
                                 help={this.props.eventDuration.errorMsg}
                             >
                                 <Input
+                                    style={{ width: 812 }}
                                     autoComplete="off"
                                     name="eventDuration"
                                     value={this.props.eventDuration.value}
-                                    style={{ width: 812 }}
                                     placeholder="Czas trwania"
                                     onChange={(event) => {
                                         this.props.onChange(
@@ -166,4 +166,4 @@ class EventGeneralInfo extends Component {
     }
 }
 
-export default EventGeneralInfo;
+export default EventEditionGeneralInfo;

@@ -1,22 +1,22 @@
 import React from "react";
 import { Steps, notification } from "antd";
 import { Grid, Button } from "semantic-ui-react";
-import EventGeneralInfo from "./EventGeneralInfo"
-import EventLocationTime from "./EventLocationTime";
-import EventSumUp from "./EventSumUp";
-import { eventPlaceService, sportCategoryService, eventService } from "../Api/Api";
-import { USER } from "../constants";
+import EventEditionGeneralInfo from "./EventEditionGeneralInfo"
+import EventEditionLocationTime from "./EventEditionLocationTime";
+import EventEditionSumUp from "./EventEditionSumUp";
+import { eventPlaceService, sportCategoryService, eventService, eventViewService } from "../Api/Api";
+import LoadingIndicator from "../common/LoadingIndicator";
 
 const { Step } = Steps;
 
-class EventForm extends React.Component {
+class EventEditionForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             current: 0,
             isValidated: true,
             eventName: {
-                value: "",
+                value: ""
             },
             eventDescription: {
                 value: "",
@@ -51,7 +51,8 @@ class EventForm extends React.Component {
             userAgreement: false,
             eventPlaces: [],
             sportCategories: [],
-            cyclics: []
+            cyclics: [],
+            isLoading: true
         };
         this.isStepDetailsInvalid = this.isStepDetailsInvalid.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -64,8 +65,86 @@ class EventForm extends React.Component {
     }
 
     componentDidMount () {
-        this.loadSportCategories();
         this.loadCyclics();
+    }
+
+
+    loadEventData () {
+        const eventID = this.props.match.params.eventID;
+        if (eventID !== undefined) {
+            eventViewService
+                .getEventInfo(eventID)
+                .then((response) => {
+                    console.log(response)
+
+                    let date = response.eventDate;
+                    let dateParts = date.split('-');
+                    let dateInGoodFormat = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
+
+                    let time = response.eventTime;
+                    let timeParts = time.split(':');
+                    let timeInGoodFormat = timeParts[0] + ":" + timeParts[1];
+                    let isCyclic = response.isCyclic === 0 ? false : true;
+                    this.setState({
+                        eventName: {
+                            value: response.eventName,
+                            validateStatus: "success"
+                        },
+                        eventDescription: {
+                            value: response.eventDescription,
+                            validateStatus: "success"
+                        },
+                        eventMaxPlayers: {
+                            value: response.maxPlayers,
+                            validateStatus: "success"
+                        },
+                        eventCity: {
+                            value: response.eventPlaceCity,
+                            validateStatus: "success"
+                        },
+                        sportCategory: {
+                            value: response.eventSportID,
+                            validateStatus: "success"
+                        },
+                        isCyclic: {
+                            value: isCyclic,
+                            validateStatus: "success"
+                        },
+                        eventCyclicity: {
+                            value: response.cycleId,
+                            validateStatus: "success"
+                        },
+                        eventDate: {
+                            value: dateInGoodFormat,
+                            validateStatus: "success"
+                        },
+                        eventTime: {
+                            value: timeInGoodFormat,
+                            validateStatus: "success"
+                        },
+                        eventDuration: {
+                            value: response.eventDuration,
+                            validateStatus: "success"
+                        },
+                        eventPlace: {
+                            value: response.eventPlaceID,
+                            validateStatus: "success"
+                        }
+                    });
+                })
+                .catch((error) => {
+                    if (error.status === 404) {
+                        this.setState({
+                            actuallPartcipantNumber: 1
+                        });
+                    } else {
+                        this.setState({
+                            actuallPartcipantNumber: 1
+                        });
+                    }
+                })
+                .then(() => this.loadEventPlaces(this.state.sportCategory.value, this.state.eventCity.value));
+        }
     }
 
     loadEventPlaces (sportCategoryId, eventCity) {
@@ -74,7 +153,7 @@ class EventForm extends React.Component {
             .then((response) => {
                 console.log(response);
                 this.setState({
-                    eventPlaces: response,        
+                    eventPlaces: response,
                 });
             })
             .catch((error) => {
@@ -100,7 +179,7 @@ class EventForm extends React.Component {
                         value: ""
                     }
                 });
-            })
+            }).then(() => this.loadEventData())
             .catch((error) => {
                 if (error.status === 404) {
                     this.setState({
@@ -119,9 +198,11 @@ class EventForm extends React.Component {
             .getCyclics()
             .then((response) => {
                 this.setState({
-                    cyclics: response
+                    cyclics: response,
+                    isLoading: false
+
                 });
-            })
+            }).then(() => this.loadSportCategories())
             .catch((error) => {
                 if (error.status === 404) {
                     this.setState({
@@ -139,7 +220,7 @@ class EventForm extends React.Component {
         switch (stepIndex) {
             case 0:
                 return (
-                    <EventGeneralInfo
+                    <EventEditionGeneralInfo
                         eventName={this.state.eventName}
                         eventDescription={this.state.eventDescription}
                         eventMaxPlayers={this.state.eventMaxPlayers}
@@ -154,7 +235,7 @@ class EventForm extends React.Component {
                 );
             case 1:
                 return (
-                    <EventLocationTime
+                    <EventEditionLocationTime
                         isCyclic={this.state.isCyclic}
                         eventCyclicity={this.state.eventCyclicity}
                         eventDate={this.state.eventDate}
@@ -168,7 +249,7 @@ class EventForm extends React.Component {
                 );
             case 2:
                 return (
-                    <EventSumUp
+                    <EventEditionSumUp
                         eventName={this.state.eventName}
                         eventDescription={this.state.eventDescription}
                         sportCategory={this.state.sportCategory}
@@ -186,7 +267,8 @@ class EventForm extends React.Component {
     handleSubmit () {
         var changedDate = this.state.eventDate.value.substr(6, 4) + "-" + this.state.eventDate.value.substr(3, 2) + "-" + this.state.eventDate.value.substr(0, 2);
 
-        const newEventRequest = {
+        const eventEditRequest = {
+            eventId: parseInt(this.props.match.params.eventID),
             cycleId: this.state.eventCyclicity.value,
             eventPlaceId: this.state.eventPlace.value,
             sportCategoryId: this.state.sportCategory.value,
@@ -198,14 +280,13 @@ class EventForm extends React.Component {
             isCyclic: this.state.isCyclic.value,
             eventDuration: this.state.eventDuration.value
         };
-        console.log(newEventRequest);
         eventService
-            .newEvent(newEventRequest)
+            .updateEvent(eventEditRequest)
             .then((response) => {
                 notification.success({
-                    message: "New event",
+                    message: "Event updated",
                     description:
-                        "Thank you! Event created! Notify your friends about your event!",
+                        "Dane wydarzenia zostały zmienione! Lepiej poinformuj innych uczestników!",
                 });
 
                 this.setState({
@@ -221,9 +302,7 @@ class EventForm extends React.Component {
                     eventDuration: ""
                 });
 
-                const user = JSON.parse(localStorage.getItem(USER).toString());
-
-                this.props.history.push(`/mainProfilePage/${user.username}`);
+                this.props.history.push(`/eventView/${this.props.match.params.eventID}`);
             })
             .catch((error) => {
                 notification.error({
@@ -251,6 +330,10 @@ class EventForm extends React.Component {
                 ...validationFunction(inputValue),
             },
         });
+
+        if (inputName === "eventCity") {
+            this.loadEventPlaces(this.state.sportCategory.value, inputValue);
+        }
     }
 
     handleChangeCalendar (event, { name, value }, validationFunction) {
@@ -352,65 +435,69 @@ class EventForm extends React.Component {
             },
         ];
 
-        return (
-            <Grid centered stackable columns={1}>
-                <Grid.Column mobile={16} tablet={8} computer={12}>
-                    <Steps className="custome-step" current={this.state.current}>
-                        <Step
-                            title={steps[0].title}
-                            status={
-                                0 < this.state.current
-                                    ? "finish"
-                                    : this.setStatus(!this.isStepDetailsInvalid(), 0)
-                            }
-                        />
-                        <Step
-                            title={steps[1].title}
-                            status={
-                                1 < this.state.current
-                                    ? "finish"
-                                    : this.setStatus(!this.isStepLocationInvalid(), 1)
-                            }
-                        />
-                        <Step
-                            title={steps[2].title}
-                            status={
-                                2 < this.state.current
-                                    ? "finish"
-                                    : this.setStatus(!this.isStepSumUpInvalid(), 2)
-                            }
-                        />
-                    </Steps>
+        if (this.state.isLoading) {
+            return <LoadingIndicator />;
+        } else
+            return (
+                <Grid centered stackable columns={1}>
+                    <Grid.Column mobile={16} tablet={8} computer={12}>
+                        <Steps className="custome-step" current={this.state.current}>
+                            <Step
+                                title={steps[0].title}
+                                status={
+                                    0 < this.state.current
+                                        ? "finish"
+                                        : this.setStatus(!this.isStepDetailsInvalid(), 0)
+                                }
+                            />
+                            <Step
+                                title={steps[1].title}
+                                status={
+                                    1 < this.state.current
+                                        ? "finish"
+                                        : this.setStatus(!this.isStepLocationInvalid(), 1)
+                                }
+                            />
+                            <Step
+                                title={steps[2].title}
+                                status={
+                                    2 < this.state.current
+                                        ? "finish"
+                                        : this.setStatus(!this.isStepSumUpInvalid(), 2)
+                                }
+                            />
+                        </Steps>
 
-                    <div className="steps-content">{this.getStepContent(current)}</div>
-                    <div className="steps-action">
-                        {current < steps.length - 1 && (
-                            <Button
-                                color="orange"
-                                disabled={steps[current].validateStatus}
-                                onClick={() => this.next()}
-                            >
-                                Następny krok
-                            </Button>
-                        )}
-                        {current === steps.length - 1 && (
-                            <Button
-                                disabled={steps[current].validateStatus}
-                                color="orange"
-                                onClick={this.handleSubmit}
-                            >
-                                Stwórz wydarzenie
-                            </Button>
-                        )}
-                        {current > 0 && (
-                            <Button style={{ margin: "0 8px" }} onClick={() => this.prev()}>
-                                Poprzedni krok
-                            </Button>
-                        )}
-                    </div>
-                </Grid.Column>
-            </Grid>
-        );
+                        <div className="steps-content">{this.getStepContent(current)}</div>
+                        <div className="steps-action">
+                            {current < steps.length - 1 && (
+                                <Button
+                                    color="orange"
+                                    disabled={steps[current].validateStatus}
+                                    onClick={() => this.next()}
+                                >
+                                    Następny krok
+                                </Button>
+                            )}
+                            {current === steps.length - 1 && (
+                                <Button
+                                    disabled={steps[current].validateStatus}
+                                    color="orange"
+                                    onClick={this.handleSubmit}
+                                >
+                                    Edytuj wydarzenie
+                                </Button>
+                            )}
+                            {current > 0 && (
+                                <Button style={{ margin: "0 8px" }} onClick={() => this.prev()}>
+                                    Poprzedni krok
+                                </Button>
+                            )}
+                        </div>
+                    </Grid.Column>
+                </Grid>
+            );
+
     }
 }
-export default EventForm;
+export default EventEditionForm;

@@ -128,13 +128,30 @@ function newEvent (newEventRequest) {
   });
 }
 
+function updateEvent (eventUpdate) {
+  console.log(eventUpdate);
+  return request({
+    url: API_BASE_URL + "/updateEvent",
+    method: "POST",
+    body: JSON.stringify(eventUpdate),
+  });
+}
+
+function cancelEvent (eventID) {
+  return request({
+    url: API_BASE_URL + "/cancelEvent/" + eventID,
+    method: "POST",
+  });
+}
+
 const eventService = {
   getAllEvents,
   getComingUserEvents,
   countEventParticipants,
   newEvent,
   getEventPlaceImage,
-  
+  cancelEvent,
+  updateEvent
 };
 
 function getEventPlaceImage(eventPlaceID) {
@@ -251,9 +268,9 @@ function getOpinion (username, currentUser) {
   });
 }
 
-function getEventPlaces () {
+function getEventPlaces (sportCategoryId, eventCity) {
   return request({
-    url: API_BASE_URL + "/eventPlaces",
+    url: API_BASE_URL + "/eventPlacesByCategoryAndCity?sportCategoryId=" + sportCategoryId + "&eventCity=" + eventCity,
     method: "GET"
   });
 }
@@ -288,7 +305,15 @@ const eventPlaceService = {
   getEventPlaces,
   getCyclics,
   counteventPlaceEventsCount,
+  getEventPlaceById
 };
+
+function getEventPlaceById (eventPlaceId) {
+  return request({
+    url: API_BASE_URL + "/eventPlace?eventPlaceID=",
+    method: "GET"
+  });
+}
 
 function newEventPlace (newEventPlaceRequest) {
   return request({

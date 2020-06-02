@@ -46,7 +46,7 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-class EventGeneralInfo extends Component {
+class EventEditionGeneralInfo extends Component {
     constructor(props) {
         super(props);
         this.wrapper = React.createRef();
@@ -194,4 +194,4 @@ class EventGeneralInfo extends Component {
     }
 }
 
-export default EventGeneralInfo;
+export default EventEditionGeneralInfo;

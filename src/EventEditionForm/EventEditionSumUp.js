@@ -16,7 +16,7 @@ import postalCode from '@iconify/icons-map/postal-code';
 
 const FormItem = Form.Item;
 
-class EventSumUp extends Component {
+class EventEditionSumUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -105,4 +105,4 @@ class EventSumUp extends Component {
     }
 }
 
-export default EventSumUp;
+export default EventEditionSumUp;
