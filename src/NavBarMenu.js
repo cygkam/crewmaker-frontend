@@ -166,7 +166,7 @@ class NavBarMenu extends Component {
               )}
             ></Route>
             <Route path="/searchPannel">
-              <SearchView />
+              <SearchView currentUser={this.state.currentUser}/>
             </Route>
             <Route
               path="/home"

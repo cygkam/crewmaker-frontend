@@ -11,8 +11,10 @@ import {
   Container,
 } from "semantic-ui-react";
 import { mainProfileService } from "./Api/Api";
+import { validation } from "./Register/validationRules"
 import { notification } from "antd";
 import { USER } from "./constants";
+import userService from "./Api/Api";
 
 
 class UserInfoEdit extends Component {
@@ -21,17 +23,27 @@ class UserInfoEdit extends Component {
     this.state = {
       open: false,
       username: "login",
-      name: "imie",
-      nazwisko: "nazwisko",
-      email: "email użytkownika",
+      name: {
+        value: "imie"
+      },
+      surname: {
+        value: "nazwisko"
+      },
+      email: {
+        value: "email użytkownika"
+      },
+      phoneNumber: {
+        value: "telefon użytkownika"
+      },
       photoLink: "https://react.semantic-ui.com/images/wireframe/image.png",
-      phoneNumber: "telefon użytkownika",
       description: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.showModal = this.showModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
+    this.isFormInvalid = this.isFormInvalid.bind(this);
   }
 
   handleChange(updateRequest) {
@@ -43,22 +55,43 @@ class UserInfoEdit extends Component {
   componentDidMount() {
     this.setState((props) => ({
       username: this.props.username,
-      name: this.props.name,
-      surname: this.props.surname,
-      email: this.props.email,
-      phoneNumber: this.props.phoneNumber,
+      name: {
+        value: this.props.name
+      },
+      surname: {
+        value: this.props.surname
+      },
+      email: {
+        value: this.props.email
+      },
+      phoneNumber: {
+        value: this.props.phoneNumber
+      },
       photoLink: this.props.photoLink,
       description: this.props.description,
     }));
   }
 
+  handleFieldChange(event, validationFunction) {
+    const target = event.target;
+    const inputValue = target.value;
+    const inputName = target.name;
+
+    this.setState({
+      [inputName]: {
+        value: inputValue,
+        ...validationFunction(inputValue),
+      },
+    });
+  }
+
   handleSubmit(event) {
     const updateRequest = {
       username: this.state.username,
-      email: this.state.email,
-      name: this.state.name,
-      surname: this.state.surname,
-      phoneNumber: this.state.phoneNumber,
+      email: this.state.email.value,
+      name: this.state.name.value,
+      surname: this.state.surname.value,
+      phoneNumber: this.state.phoneNumber.value,
       photoLink: this.props.photoLink,
       description: this.state.description,
     };
@@ -68,8 +101,8 @@ class UserInfoEdit extends Component {
       .updateUser(updateRequest)
       .then((response) => {
         notification.success({
-          message: "Data change",
-          description: "Data were correctly changed!",
+          message: "Zmiana danych",
+          description: "Dane zostały pomyślnie zmienione!",
         });
 
         localStorage.setItem(USER, JSON.stringify(updateRequest));
@@ -78,10 +111,12 @@ class UserInfoEdit extends Component {
       .catch((error) => {
         notification.error({
           message: "Data change",
-          description: error.message || "Sorry! Something went wrong.",
+          description: error.message || "Przepraszamy, coś poszło nie tak",
         });
       });
   }
+
+  
 
   showModal() {
     this.setState({
@@ -95,7 +130,137 @@ class UserInfoEdit extends Component {
     });
   }
 
+  isFormInvalid() {
+    return !(
+      (this.state.name.validateStatus === "success" || this.state.name.validateStatus == null) &&
+      (this.state.surname.validateStatus === "success" || this.state.surname.validateStatus == null) &&
+      (this.state.email.validateStatus === "success" || this.state.email.validateStatus == null || this.state.email.value == this.props.email)
+    ); 
+  }
+
   render() {
+
+    let nameInput = null 
+    if(this.state.name.validateStatus == "success" || this.state.name.validateStatus == null ) {
+      nameInput =
+        <Form>
+          <Form.Input
+            placeholder="Imię"
+            name="name"
+            style={{ width: "100%" }}
+            value={this.state.name.value}
+            onChange={(event) =>
+              this.handleFieldChange(event, validation.validateName)
+            }
+          ></Form.Input>
+        </Form>
+      } else {
+        nameInput = 
+          <Form>
+            <Form.Input
+              placeholder="Imię"
+              name="name"
+              error={{ content: this.state.name.errorMsg, pointing: 'below' }}
+              style={{ width: "100%" }}
+              value={this.state.name.value}
+              onChange={(event) =>
+                this.handleFieldChange(event, validation.validateName)
+              }
+            ></Form.Input>
+          </Form>
+      }
+
+      let surnameInput = null
+      if(this.state.surname.validateStatus == "success" || this.state.surname.validateStatus == null ) {
+        surnameInput =
+          <Form>
+            <Form.Input
+              placeholder="Nazwisko"
+              name="surname"
+              style={{ width: "100%" }}
+              value={this.state.surname.value}
+              onChange={(event) =>
+                this.handleFieldChange(event, validation.validateSurname)
+              }
+            ></Form.Input>
+          </Form>
+        } else {
+          surnameInput = 
+            <Form>
+              <Form.Input
+                placeholder="Nazwisko"
+                name="surname"
+                error={{ content: this.state.surname.errorMsg, pointing: 'below' }}
+                style={{ width: "100%" }}
+                value={this.state.surname.value}
+                onChange={(event) =>
+                  this.handleFieldChange(event, validation.validateSurname)
+                }
+              ></Form.Input>
+            </Form>
+        }
+
+      let emailInput = null
+      if(this.state.email.validateStatus == "success" || this.state.email.validateStatus == null || this.state.email.value == this.props.email) {
+        emailInput =
+          <Form>
+            <Form.Input
+              placeholder="Email"
+              name="email"
+              style={{ width: "100%" }}
+              value={this.state.email.value}
+              onChange={(event) =>
+                this.handleFieldChange(event, validation.validateEmail)
+              }
+              onBlur={this.validateEmailAvailability}
+            ></Form.Input>
+          </Form>
+        } else {
+          emailInput = 
+            <Form>
+              <Form.Input
+                placeholder="Email"
+                name="email"
+                error={{ content: this.state.email.errorMsg, pointing: 'below' }}
+                style={{ width: "100%" }}
+                value={this.state.email.value}
+                onChange={(event) =>
+                  this.handleFieldChange(event, validation.validateEmail)
+                }
+                onBlur={this.validateEmailAvailability}
+              ></Form.Input>
+            </Form>
+        }
+
+      let phoneNumberInput = null
+      if(this.state.phoneNumber.validateStatus == "success" || this.state.phoneNumber.validateStatus == null ) {
+        phoneNumberInput =
+          <Form>
+            <Form.Input
+              placeholder="phoneNumber"
+              name="phoneNumber"
+              style={{ width: "100%" }}
+              value={this.state.phoneNumber.value}
+              onChange={(event) =>
+                this.handleFieldChange(event, validation.validatePhoneNumber)
+              }
+            ></Form.Input>
+          </Form>
+        } else {
+          phoneNumberInput =
+            <Form>
+              <Form.Input
+                placeholder="phoneNumber"
+                name="phoneNumber"
+                error={{ content: this.state.phoneNumber.errorMsg, pointing: 'below' }}
+                style={{ width: "100%" }}
+                value={this.state.phoneNumber.value}
+                onChange={(event) =>
+                  this.handleFieldChange(event, validation.validatePhoneNumber)
+                }
+              ></Form.Input>
+            </Form>
+        }
     return (
       <Grid>
         <GridColumn>
@@ -103,60 +268,29 @@ class UserInfoEdit extends Component {
             <Segment>
               <Label attached="top">Imię</Label>
               <Container textAlign="left">
-                <Input
-                  placeholder="Imię"
-                  style={{ width: "100%" }}
-                  value={this.state.name}
-                  onChange={(e) => {
-                    this.setState({ name: e.target.value });
-                  }}
-                ></Input>
+                {nameInput}
               </Container>
             </Segment>
             <Segment>
               <Label attached="top">Nazwisko</Label>
               <Container textAlign="left">
-                <Input
-                  placeholder="Nazwisko"
-                  style={{ width: "100%" }}
-                  value={this.state.surname}
-                  onChange={(e) => {
-                    this.setState({ surname: e.target.value });
-                  }}
-                ></Input>
+                {surnameInput}
               </Container>
             </Segment>
             <Segment>
               <Label attached="top">Email</Label>
-              <Container textAlign="left">
-                <Input
-                  placeholder="Email"
-                  style={{ width: "100%" }}
-                  value={this.state.email}
-                  onChange={(e) => {
-                    this.setState({ email: e.target.value });
-                  }}
-                ></Input>
-              </Container>
+              {emailInput}
             </Segment>
             <Segment>
               <Label attached="top">Telefon</Label>
-              <Container textAlign="left">
-                <Input
-                  placeholder="Telefon"
-                  style={{ width: "100%" }}
-                  value={this.state.phoneNumber}
-                  onChange={(e) => {
-                    this.setState({ phoneNumber: e.target.value });
-                  }}
-                ></Input>
-              </Container>
+              {phoneNumberInput}
             </Segment>
             <Segment>
               <Label attached="top">O mnie</Label>
               <Container textAlign="left">
                 <Form>
                   <TextArea
+                    name="description"
                     value={this.state.description}
                     style={{ minHeight: "10%" }}
                     onChange={(e) => {
@@ -168,6 +302,7 @@ class UserInfoEdit extends Component {
             </Segment>
             <GridColumn width={1}>
               <Button
+                disabled={this.isFormInvalid()}
                 fluid
                 size="medium"
                 color="green"
@@ -196,6 +331,60 @@ class UserInfoEdit extends Component {
         </GridColumn>
       </Grid>
     );
+  }
+
+  validateEmailAvailability() {
+    const emailValue = this.state.email.value;
+    const emailValidation = validation.validateEmail(emailValue);
+
+    if (emailValidation.validateStatus === "error") {
+      this.setState({
+        email: {
+          value: emailValue,
+          ...emailValidation,
+        },
+      });
+      return;
+    }
+
+    this.setState({
+      email: {
+        value: emailValue,
+        validateStatus: "validating",
+        errorMsg: null,
+      },
+    });
+
+    userService
+      .checkEmailAvailability(emailValue)
+      .then((response) => {
+        if (response.available) {
+          this.setState({
+            email: {
+              value: emailValue,
+              validateStatus: "success",
+              errorMsg: null,
+            },
+          });
+        } else {
+          this.setState({
+            email: {
+              value: emailValue,
+              validateStatus: "error",
+              errorMsg: "Ten email jest już zajęty",
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          email: {
+            value: emailValue,
+            validateStatus: "success",
+            errorMsg: null,
+          },
+        });
+      });
   }
 }
 export default UserInfoEdit;
