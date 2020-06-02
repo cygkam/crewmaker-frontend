@@ -38,30 +38,6 @@ class PassedEvent extends Component {
     };
   }
 
-  componentDidMount() {
-    if (this.props.dataFromParent.eventID !== undefined) {
-      eventService
-        .countEventParticipants(this.props.dataFromParent.eventID)
-        .then((response) => {
-          this.setState({
-            eventID: this.props.dataFromParent.eventID,
-            actuallPartcipantNumber: response,
-          });
-        })
-        .catch((error) => {
-          if (error.status === 404) {
-            this.setState({
-              actuallPartcipantNumber: 1,
-            });
-          } else {
-            this.setState({
-              actuallPartcipantNumber: 1,
-            });
-          }
-        });
-    }
-  }
-
   renderSwitch(param) {
     switch (param) {
       case "Piłka nożna":
