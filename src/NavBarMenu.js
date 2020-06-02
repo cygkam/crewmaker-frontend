@@ -44,8 +44,7 @@ class NavBarMenu extends Component {
       placement: "topRight",
       top: 70,
       duration: 3,
-    });
- 
+    }); 
   }
 
   toggleCollapsed = () => {

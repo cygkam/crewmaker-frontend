@@ -18,7 +18,7 @@ class EventData extends Component {
           time: "",
           cyclePeriod: "",
           duration: '',
-          joinned : false,
+          joinned : null,
           actuallPartcipantNumber: 1,
           maxPartcipantNumber: 3,
           isLoading : true,
@@ -27,29 +27,40 @@ class EventData extends Component {
 
     }
 
-    componentDidMount () {
-      if (this.props.eventID !== undefined) {
-        this.setState({
-          eventId: this.props.eventID,
-          sportsName: this.props.eventSportName,
-          description: this.props.eventDescription,
-          date: this.props.eventDate,
-          time: this.props.eventTime,
-          maxPartcipantNumber: this.props.maxPlayers,
-          // cyclePeriod: this.props.dataFromParent,
-          duration: this.props.eventDuration,
-          eventStatus: this.props.eventStatus
-        })
-        if(this.props.cyclic) {
-          this.setState({
-            cyclePeriod: this.props.cycleType + " " + this.props.cycleLength
-          })
-        } else {
-          this.setState({cyclePeriod: 'Wydarzenie jednorazowe'})
-        }
-      }
+    componentWillMount () {
+      const eventID = this.props.eventID;
+      const maxPlayers = this.props.maxPlayers;
+      this.countEventParticipants(eventID);
+      this.checkIfParticipationExists(eventID);
+      this.setState({
+        maxPartcipantNumber: maxPlayers
+      })
+    }
 
-      eventService.countEventParticipants(this.props.eventID)
+    checkIfParticipationExists(eventID) {
+      participationService.participationExists(eventID)
+      .then((response) => {
+        this.setState({
+          joinned : response,
+          isLoading: false
+        });
+        console.log(this.state.eventID + " joinned : " + this.state.joinned);
+      })
+      .catch((error) => {
+        if (error.status === 404) {
+          this.setState({
+              isLoading: false
+          });
+        } else {
+          this.setState({
+              isLoading: false
+          });
+        }
+      });
+    }
+
+    countEventParticipants(eventID) {
+      eventService.countEventParticipants(eventID)
         .then((response) => {
           this.setState({
             actuallPartcipantNumber: response
@@ -63,26 +74,6 @@ class EventData extends Component {
           } else {
             this.setState({
               actuallPartcipantNumber: 1
-            });
-          }
-        });
-
-        participationService.participationExists(this.props.eventID)
-        .then((response) => {
-          this.setState({
-            joinned : response,
-            isLoading: false
-          });
-          console.log(this.state.eventID + " joinned : " + this.state.joinned);
-        })
-        .catch((error) => {
-          if (error.status === 404) {
-            this.setState({
-                isLoading: false
-            });
-          } else {
-            this.setState({
-                isLoading: false
             });
           }
         });
@@ -183,9 +174,9 @@ class EventData extends Component {
       }
 
     cantBeChanged = () => {
-      const timeDifference = new Date((this.state.date + " " + this.state.time)) - new Date();
+      const timeDifference = new Date((this.props.eventDate + " " + this.props.eventTime)) - new Date();
       const differenceInHours = Math.abs(timeDifference)/3.6e6;
-      console.log("Roznia godzin: " + differenceInHours)
+      console.log(differenceInHours)
       if(differenceInHours < 6) {
         return true
       } else {
@@ -196,13 +187,13 @@ class EventData extends Component {
 
     render() {
         let button;
-        if (new Date(this.state.date + " " + this.state.time) <= new Date()) {
+        if (new Date(this.props.eventDate + " " + this.props.eventTime) <= new Date()) {
             button = <Button color='grey' size='huge' 
                             disabled>
                             <Button.Content visible>Wydarzenie minęło</Button.Content>
                     </Button>
         }
-        else if(this.state.eventStatus === "Anulowane") {
+        else if(this.props.eventStatus === "Anulowane") {
             button = <Button color='grey' size='huge' 
                               disabled>
                               <Button.Content visible>Wydarzenie zostało anulowane</Button.Content>
@@ -215,7 +206,7 @@ class EventData extends Component {
                              loading={this.state.isLoading}>
                             <Button.Content visible>Dołącz do wydarzenia</Button.Content>
                      </Button>
-        } else if(this.props.event.userInitiator === this.props.currentUser.username) {
+        } else if(this.props.userInitiator === this.props.currentUser.username) {
             let cantBeChanged = this.cantBeChanged();
             console.log(cantBeChanged);
             button = <Grid textAlign="center" stackable columns={1}>
@@ -233,7 +224,7 @@ class EventData extends Component {
                               </Grid.Column>
                             </Grid>
                           </Popup>
-                          {/* <Link to={`/editEvent/${this.state.eventId}`}> */}
+                          <Link to={`/editEvent/${this.props.eventID}`}>
                             <Button fluid compact color='grey' size='small' 
                                     loading={this.state.isLoading}
                                     style={{ maxHeight: 60, marginTop: '10px' }} 
@@ -241,7 +232,7 @@ class EventData extends Component {
                                     >
                                     <Button.Content visible>Edytuj wydarzenie</Button.Content>
                             </Button>
-                          {/* </Link> */}
+                          </Link>
                         </Grid.Column>
                      </Grid>                    
         }
@@ -252,6 +243,13 @@ class EventData extends Component {
                              >
                             <Button.Content visible>Zrezygnuj z wydarzenia</Button.Content>
                      </Button>
+        }
+        let cyclePeriod = null;
+        if(this.props.cyclic) {
+            cyclePeriod = this.props.cycleType + " " + this.props.cycleLength
+
+        } else {
+          cyclePeriod = 'Wydarzenie jednorazowe';
         }
 
         if (this.state.isLoading) {
@@ -264,7 +262,7 @@ class EventData extends Component {
                                 <Container>
                                     <Grid>
                                         <Grid.Column textAlign='center'>
-                                            {this.state.sportsName}
+                                            {this.props.eventSportName}
                                         </Grid.Column>
                                         <Grid.Column>
                                             <Image src={this.state.sportsIcon}/>
@@ -274,23 +272,23 @@ class EventData extends Component {
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Opis</Label>
-                                <Container textAlign='center' >{this.state.description}</Container>
+                                <Container textAlign='center' >{this.props.eventDescription}</Container>
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Data</Label>
-                                <Container textAlign='center'>{this.state.date}</Container>
+                                <Container textAlign='center'>{this.props.eventDate}</Container>
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Godzina</Label>
-                                <Container textAlign='center'>{this.state.time}</Container>
+                                <Container textAlign='center'>{this.props.eventTime}</Container>
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Cykliczność</Label>
-                                <Container textAlign='center'>{this.state.cyclePeriod}</Container>
+                                <Container textAlign='center'>{cyclePeriod}</Container>
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Czas trwania</Label>
-                                <Container textAlign='center'>{this.state.duration}</Container>
+                                <Container textAlign='center'>{this.props.eventDuration}</Container>
                             </Segment>
                             {button}
                     </Grid.Column>

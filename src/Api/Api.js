@@ -121,6 +121,14 @@ function newEvent (newEventRequest) {
   });
 }
 
+function updateEvent (eventUpdate) {
+  return request({
+    url: API_BASE_URL + "/updateEvent",
+    method: "POST",
+    body: JSON.stringify(eventUpdate),
+  });
+}
+
 function cancelEvent(eventID) {
   return request({
     url: API_BASE_URL + "/cancelEvent/" + eventID,
@@ -133,7 +141,8 @@ const eventService = {
   getComingUserEvents,
   countEventParticipants,
   newEvent,
-  cancelEvent
+  cancelEvent,
+  updateEvent
 };
 
 function countEventParticipants (eventID) {
@@ -279,8 +288,16 @@ const eventPlaceService = {
   acceptEventPlace,
   archiveEventPlace,
   getEventPlaces,
-  getCyclics
+  getCyclics,
+  getEventPlaceById
 };
+
+function getEventPlaceById (eventPlaceId) {
+  return request({
+    url: API_BASE_URL + "/eventPlace?eventPlaceID=",
+    method: "GET"
+  });
+}
 
 function newEventPlace (newEventPlaceRequest) {
   return request({

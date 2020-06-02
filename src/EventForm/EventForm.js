@@ -74,8 +74,7 @@ class EventForm extends React.Component {
             .then((response) => {
                 console.log(response);
                 this.setState({
-                    eventPlaces: response,
-                    
+                    eventPlaces: response,        
                 });
             })
             .catch((error) => {
@@ -199,6 +198,7 @@ class EventForm extends React.Component {
             isCyclic: this.state.isCyclic.value,
             eventDuration: this.state.eventDuration.value
         };
+        console.log(newEventRequest);
         eventService
             .newEvent(newEventRequest)
             .then((response) => {
