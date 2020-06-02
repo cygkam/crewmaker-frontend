@@ -63,67 +63,65 @@ class EventPlace extends Component {
 
   render() {
     return (
-      <Link to={`/eventplaceopinonform/${this.state.placeID}`}>
-        <br />
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={16}>
-              <Segment>
-                <Label textAlign="left" attached="top left" color="orange">
-                  Nazwa
-                </Label>
-                {this.state.placeName}
-              </Segment>
-              <Segment>
-                <Label textAlign="left" attached="top left" color="orange">
-                  Opis
-                </Label>
-                {this.state.placeDescription}
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Segment>
-                <Label textAlign="left" attached="top left" color="orange">
-                  Ulica
-                </Label>
-                {this.state.placeStreet}
-              </Segment>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <Segment>
-                <Label textAlign="left" attached="top left" color="orange">
-                  Numer
-                </Label>
-                {this.state.placeStreetNumber}
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Segment>
-                <Label textAlign="left" attached="top left" color="orange">
-                  Kod pocztowy
-                </Label>
-                {this.state.placePostalcode}
-              </Segment>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <Segment>
-                <Label textAlign="left" attached="top left" color="orange">
-                  Miasto
-                </Label>
-                {this.state.placeCity}
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Segment verticalAlign="middle">
-                <Label textAlign="left" attached="top left" color="orange">
-                  Zdjęcie obiektu
-                </Label>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column width={16}>
+            <Segment>
+              <Label textAlign="left" attached="top left" color="orange">
+                Nazwa
+              </Label>
+              {this.state.placeName}
+            </Segment>
+            <Segment>
+              <Label textAlign="left" attached="top left" color="orange">
+                Opis
+              </Label>
+              {this.state.placeDescription}
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={8}>
+            <Segment>
+              <Label textAlign="left" attached="top left" color="orange">
+                Ulica
+              </Label>
+              {this.state.placeStreet}
+            </Segment>
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Segment>
+              <Label textAlign="left" attached="top left" color="orange">
+                Numer
+              </Label>
+              {this.state.placeStreetNumber}
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={8}>
+            <Segment>
+              <Label textAlign="left" attached="top left" color="orange">
+                Kod pocztowy
+              </Label>
+              {this.state.placePostalcode}
+            </Segment>
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Segment>
+              <Label textAlign="left" attached="top left" color="orange">
+                Miasto
+              </Label>
+              {this.state.placeCity}
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={8}>
+            <Segment verticalAlign="middle">
+              <Label textAlign="left" attached="top left" color="orange">
+                Zdjęcie obiektu
+              </Label>
                 <Image
                   fluid
                   bordered
@@ -132,11 +130,10 @@ class EventPlace extends Component {
                   src={this.state.eventPlaceImage}
                   style={{ height: "300px", width: "300px" }}
                 />
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Link>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }
