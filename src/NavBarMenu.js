@@ -175,8 +175,13 @@ class NavBarMenu extends Component {
               )}
             ></Route>
             <Route
-              path="/eventView/:eventID"
-              render={(props) => <EventView {...props} />}
+              path="/eventPlaces"
+              render={(props) => (
+                <NewEventPlaceAccept
+                  {...props}
+                  isAdmin={this.handleCheckAuthority()}
+                />
+              )}
             ></Route>
             <Route
               path="/addNewEventPlace"
@@ -201,13 +206,26 @@ class NavBarMenu extends Component {
             ></Route>
             <Route
               path="/eventPlaceView/:eventPlaceID"
-              render={(props) => <EventPlaceDetailView {...props} />}
+              render={(props) => (
+                <EventPlaceDetailView
+                  {...props}
+                  isAdmin={this.handleCheckAuthority()}
+                />
+              )}
             ></Route>
-
+            <Route
+              path="/eventView/:eventID"
+              render={(props) => <EventView {...props} />}
+            ></Route>
             {this.handleCheckAuthority() ? (
               <Route
                 path="/newEventPlaceAccept"
-                render={(props) => <NewEventPlaceAccept {...props} />}
+                render={(props) => (
+                  <NewEventPlaceAccept
+                    {...props}
+                    isAdmin={this.handleCheckAuthority()}
+                  />
+                )}
               ></Route>
             ) : (
               <React.Fragment />

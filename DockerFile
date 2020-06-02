@@ -1,0 +1,22 @@
+#BASE IMAGE
+FROM node:14.3.0-stretch
+
+#WORKDIR
+WORKDIR /app
+
+# install and cache app dependencies
+COPY package*.json ./
+COPY config-overrides.js ./
+COPY ./public ./public
+COPY ./src ./src
+
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+# Specify port
+EXPOSE 3000
+
+# start app
+CMD ["npm", "start"]

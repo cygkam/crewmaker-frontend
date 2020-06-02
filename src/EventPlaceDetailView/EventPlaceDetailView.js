@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Label, Grid, Segment } from "semantic-ui-react";
+import { Label, Grid, Segment, List } from "semantic-ui-react";
 import LoadingIndicator from "../common/LoadingIndicator";
 import badmintonSingle from "../Icons/colorScale/badmintonSingle.svg";
 import badmintonDouble from "../Icons/colorScale/badmintonDouble.svg";
@@ -114,7 +114,6 @@ class EventPlaceDetailView extends Component {
       this.setState({
        eventPlaceDetails: this.props.location.state.eventPlaceDetails,
       })
-       console.log(this.props.location.state.eventPlaceDetails);
   }
 
   render() {
@@ -139,6 +138,7 @@ class EventPlaceDetailView extends Component {
                 Informacje o miejscu
               </Label>
               <EventPlaceDetails
+                isAdmin={this.props.isAdmin}
                 eventPlaceDetails={this.props.location.state.eventPlaceDetails}
               />
             </Segment>
@@ -150,28 +150,28 @@ class EventPlaceDetailView extends Component {
               </Label>
               <Grid>
                 <Grid.Row centered>
-                  {this.props.location.state.eventPlaceDetails.sportsCategories.map(
-                    (item) => (
-                      <React.Fragment key={item.sportsCategoryId - 1}>
-                        <Tooltip
-                          title={
-                            toggleSportsCategories[item.sportsCategoryId - 1]
-                              .tooltip
-                          }
-                        >
-                          <img
-                            height="80"
-                            width="80"
-                            src={
-                              toggleSportsCategories[item.sportsCategoryId - 1]
-                                .icon
-                            }
-                            alt=""
-                          />
-                        </Tooltip>
-                      </React.Fragment>
-                    )
-                  )}
+                  <List>
+                    {this.props.location.state.eventPlaceDetails.sportsCategories.map(
+                      (item) => (
+                        <List.Item key={item.sportsCategoryId - 1}>
+                            <img
+                              height="80"
+                              width="80"
+                              src={
+                                toggleSportsCategories[
+                                  item.sportsCategoryId - 1
+                                ].icon
+                              }
+                              alt=""
+                            />
+                          <List.Content>
+                            <List.Header>{toggleSportsCategories[item.sportsCategoryId - 1]
+                                .tooltip}</List.Header>
+                          </List.Content>
+                        </List.Item>
+                      )
+                    )}
+                  </List>
                 </Grid.Row>
               </Grid>
             </Segment>

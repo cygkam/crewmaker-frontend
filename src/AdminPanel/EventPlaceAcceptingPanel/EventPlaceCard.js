@@ -296,62 +296,92 @@ class EventPlaceCard extends Component {
               ))}
             </div>
           </GridColumn>
-
-          <GridColumn
-            centered="true"
-            textAlign="center"
-            verticalAlign="middle"
-            mobile={4}
-            tablet={4}
-            computer={2}
-            padded="horizontally"
-          >
-            <Grid.Row centered={true} textAlign="center">
-              {this.state.isAccepted ? (
-                <Button
-                  color="grey"
-                  size="small"
-                  disabled={this.state.isAccepted}
+          {this.props.isAdmin ? (
+            <GridColumn
+              centered="true"
+              textAlign="center"
+              verticalAlign="middle"
+              mobile={4}
+              tablet={4}
+              computer={2}
+              padded="horizontally"
+            >
+              <Grid.Row centered={true} textAlign="center">
+                {this.state.isAccepted ? (
+                  <Button
+                    color="grey"
+                    size="small"
+                    disabled={this.state.isAccepted}
+                  >
+                    <Button.Content visible>
+                      Zatwierdź propozycję
+                    </Button.Content>
+                  </Button>
+                ) : (
+                  <Button
+                    positive
+                    size="small"
+                    disabled={this.state.isAccepted}
+                    onClick={this.handleAcceptEventPlace}
+                  >
+                    <Button.Content visible>
+                      Zatwierdź propozycję
+                    </Button.Content>
+                  </Button>
+                )}
+              </Grid.Row>
+              <Grid.Row centered={true} textAlign="center">
+                <Link
+                  to={{
+                    pathname: `/eventPlaceView/${this.state.eventPlaceID}`,
+                    state: { eventPlaceDetails: this.props.eventPlaceDetails, isAdmin: this.props.isAdmin },
+                  }}
                 >
-                  <Button.Content visible>Zatwierdź propozycję</Button.Content>
-                </Button>
-              ) : (
-                <Button
-                  positive
-                  size="small"
-                  disabled={this.state.isAccepted}
-                  onClick={this.handleAcceptEventPlace}
+                  <Button color="brown" size="small">
+                    <Button.Content visible>Pełny widok</Button.Content>
+                  </Button>
+                </Link>
+              </Grid.Row>
+              <Grid.Row>
+                <FormControlLabel
+                  color="black"
+                  disabled={!this.state.isAccepted}
+                  control={
+                    <GreySwitch
+                      checked={this.state.isArchived}
+                      onChange={this.handleToggleArchiveEventPlace}
+                    />
+                  }
+                  label={
+                    <Typography color="textPrimary">Archiwizuj</Typography>
+                  }
+                />
+              </Grid.Row>
+            </GridColumn>
+          ) : (
+            <GridColumn
+              centered="true"
+              textAlign="center"
+              verticalAlign="middle"
+              mobile={4}
+              tablet={4}
+              computer={2}
+              padded="horizontally"
+            >
+              <Grid.Row centered={true} textAlign="center">
+                <Link
+                  to={{
+                    pathname: `/eventPlaceView/${this.state.eventPlaceID}`,
+                    state: { eventPlaceDetails: this.props.eventPlaceDetails },
+                  }}
                 >
-                  <Button.Content visible>Zatwierdź propozycję</Button.Content>
-                </Button>
-              )}
-            </Grid.Row>
-            <Grid.Row centered={true} textAlign="center">
-              <Link
-                to={{
-                  pathname: `/eventPlaceView/${this.state.eventPlaceID}`,
-                  state: { eventPlaceDetails: this.props.eventPlaceDetails },
-                }}
-              >
-                <Button color="brown" size="small">
-                  <Button.Content visible>Pełny widok</Button.Content>
-                </Button>
-              </Link>
-            </Grid.Row>
-            <Grid.Row>
-              <FormControlLabel
-                color="black"
-                disabled={!this.state.isAccepted}
-                control={
-                  <GreySwitch
-                    checked={this.state.isArchived}
-                    onChange={this.handleToggleArchiveEventPlace}
-                  />
-                }
-                label={<Typography color="textPrimary">Archiwizuj</Typography>}
-              />
-            </Grid.Row>
-          </GridColumn>
+                  <Button color="brown" size="small">
+                    <Button.Content visible>Pełny widok</Button.Content>
+                  </Button>
+                </Link>
+              </Grid.Row>
+            </GridColumn>
+          )}
         </GridRow>
       </Grid>
     );

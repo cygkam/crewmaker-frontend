@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import {
-  Segment,
-  Image,
   Grid,
-  Label,
-  Container,
 } from "semantic-ui-react";
 import {notification} from "antd";
 import { eventPlaceService} from "../Api/Api";
@@ -72,7 +68,8 @@ class EventPlaceStatistics extends Component {
               to={`/mainProfilePage/${this.props.eventPlaceDetails.userRequestingUsername}`}
             >
               <h4 style={{ fontWeight: "bold" }}>
-                Zgłaszający: {this.props.eventPlaceDetails.userRequestingUsername}
+                Zgłaszający:{" "}
+                {this.props.eventPlaceDetails.userRequestingUsername}
               </h4>
             </Link>
             <Link
@@ -92,16 +89,13 @@ class EventPlaceStatistics extends Component {
               {this.props.eventPlaceDetails.isArchived ? "Tak" : "Nie"}
             </h4>
             <h4 style={{ fontWeight: "bold" }}>
-              Całkowita liczba wydarzeń:{" "}
-              {this.state.allEventsCount}
+              Całkowita liczba wydarzeń: {this.state.allEventsCount}
             </h4>
             <h4 style={{ fontWeight: "bold" }}>
-              Liczba nadchodzących wydarzeń:{" "}
-              {this.state.incomingEventsCount}
+              Liczba nadchodzących wydarzeń: {this.state.incomingEventsCount}
             </h4>
             <h4 style={{ fontWeight: "bold" }}>
-              Liczba minionych wydarzeń:{" "}
-              {this.state.passedEventsCount}
+              Liczba minionych wydarzeń: {this.state.passedEventsCount}
             </h4>
 
             <Route

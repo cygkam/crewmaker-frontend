@@ -132,8 +132,17 @@ const eventService = {
   getAllEvents,
   getComingUserEvents,
   countEventParticipants,
-  newEvent
+  newEvent,
+  getEventPlaceImage,
+  
 };
+
+function getEventPlaceImage(eventPlaceID) {
+  return request({
+    url: API_BASE_URL + "/eventPlaceImage/" + eventPlaceID,
+    method: "GET",
+  });
+}
 
 function countEventParticipants (eventID) {
   return request({
@@ -148,7 +157,6 @@ function getAllEvents (sportCategoryID, eventDate, eventTime) {
     method: "GET"
   });
 }
-
 
 function getComingUserEvents (username) {
   return request({
@@ -298,7 +306,7 @@ function counteventPlaceEventsCount(eventPlaceID) {
 }
 
 
-function getEventPlace (activePage, size, filtering, sorting) {
+function getEventPlace (activePage, size, filtering, sorting, city) {
   return request({
     url:
       API_BASE_URL +
@@ -309,7 +317,9 @@ function getEventPlace (activePage, size, filtering, sorting) {
       "&filtering=" +
       filtering +
       "&sorting=" +
-      sorting,
+      sorting +
+      "&city=" +
+        city,
     method: "GET",
   });
 }
@@ -332,18 +342,35 @@ function archiveEventPlace (eventPlaceID, currentArchiveStatus) {
   });
 }
 
-//Sprawdzic jak exportowac dwa rozne constansy
-//export default userService
-
 const eventPlaceOpinionService = {
-  sendEventPlaceOpinion
+  sendEventPlaceOpinion,
+  getEventPlaceOpinion,
+  getEventPlaceOpinions
 }
 
+function getEventPlaceOpinions(eventPlaceID) {
+  return request({
+    url: API_BASE_URL + "/getEventPlaceOpinions?eventPlaceID=" + eventPlaceID,
+    method: "GET",
+  });
+}
+
+function getEventPlaceOpinion(eventPlaceID, currentUser) {
+  return request({
+    url:
+      API_BASE_URL +
+      "/eventOpinion?eventPlaceID=" +
+      eventPlaceID +
+      "&currentUser=" +
+      currentUser,
+    method: "GET",
+  });
+}
 
 
 function sendEventPlaceOpinion (eventPlaceOpinion) {
   return request({
-    url: API_BASE_URL + "/addeventplaceopinion",
+    url: API_BASE_URL + "/addEventPlaceOpinion",
     method: "POST",
     body: JSON.stringify(eventPlaceOpinion)
   })

@@ -4,7 +4,7 @@ import { eventPlaceService } from "../../Api/Api";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import FilterBar from "./FilterBar"
 import EventPlaceCard from "./EventPlaceCard"
-import PlaceOpinionCard from '../../PlaceOpinion/PlaceOpinionCard';
+
 
 class NewEventPlaceAccept extends Component {
   constructor(propos) {
@@ -18,34 +18,78 @@ class NewEventPlaceAccept extends Component {
       totalItemsCount: null,
       filtering: "ALL",
       sorting: "ASC_eventPlaceId",
+      city: "",
     };
   }
 
   componentDidMount() {
-    this.getAllEventPlace(this.state.activePage, this.state.itemsCountPerPage, this.state.filtering, this.state.sorting);
+    this.getAllEventPlace(
+      this.state.activePage,
+      this.state.itemsCountPerPage,
+      this.state.filtering,
+      this.state.sorting,
+      this.state.city
+    );
   }
 
   handlePaginationChange = (e, { activePage }) => {
     this.setState({ activePage });
-    this.getAllEventPlace(activePage, this.state.itemsCountPerPage, this.state.filtering, this.state.sorting);
+    this.getAllEventPlace(
+      activePage,
+      this.state.itemsCountPerPage,
+      this.state.filtering,
+      this.state.sorting,
+      this.state.city
+    );
   };
 
   handleChangeItemsOnPage = (e, { value }) => {
     this.setState({ itemsCountPerPage: value });
-    this.getAllEventPlace(this.state.activePage, value, this.state.filtering, this.state.sorting);
+    this.getAllEventPlace(
+      this.state.activePage,
+      value,
+      this.state.filtering,
+      this.state.sorting,
+      this.state.city
+    );
   };
 
   handleChangeFiltering = (e, { value }) => {
     this.setState({ filtering: value, activePage: 1 });
-    this.getAllEventPlace(1, this.state.itemsCountPerPage, value, this.state.sorting);
+    this.getAllEventPlace(
+      1,
+      this.state.itemsCountPerPage,
+      value,
+      this.state.sorting,
+      this.state.city
+    );
   };
 
   handleChangeSorting = (e, { value }) => {
     this.setState({ sorting: value });
-    this.getAllEventPlace(this.state.activePage, this.state.itemsCountPerPage, this.state.filtering, value);
+    this.getAllEventPlace(
+      this.state.activePage,
+      this.state.itemsCountPerPage,
+      this.state.filtering,
+      value,
+      this.state.city
+    );
   };
 
-  
+  handleChangeCity = (e, { value }) => {
+    this.setState({ city: value });
+  };
+
+  handleSumbit = () =>{
+    this.getAllEventPlace(
+      this.state.activePage,
+      this.state.itemsCountPerPage,
+      this.state.filtering,
+      this.state.sorting,
+      this.state.city
+    );
+  }
+
   handleChange(event, validationFunction) {
     const target = event.target;
     const inputValue = target.value;
@@ -59,10 +103,10 @@ class NewEventPlaceAccept extends Component {
     });
   }
 
-  getAllEventPlace(activePage, itemsOnSite, filtering, sorting) {
+  getAllEventPlace(activePage, itemsOnSite, filtering, sorting, city) {
     this.setState({ isLoading: true });
     eventPlaceService
-      .getEventPlace(activePage, itemsOnSite, filtering, sorting)
+      .getEventPlace(activePage, itemsOnSite, filtering, sorting, city)
       .then((response) => {
         this.setState({
           totalPages: response.totalPages,
@@ -93,9 +137,12 @@ class NewEventPlaceAccept extends Component {
               itemsCountPerPage={this.state.itemsCountPerPage}
               sorting={this.state.sorting}
               filtering={this.state.filtering}
+              city={this.state.city}
               onChangeItemsOnPage={this.handleChangeItemsOnPage}
               onChangeSorting={this.handleChangeSorting}
               onChangeFiltering={this.handleChangeFiltering}
+              onChangeCity={this.handleChangeCity}
+              onSumbit={this.handleSumbit}
             />
           </Segment>
           <Pagination
@@ -115,6 +162,7 @@ class NewEventPlaceAccept extends Component {
                   {this.state.listOfEventPlaces.map((eventPlace) => (
                     <Segment key={eventPlace.eventPlaceID}>
                       <EventPlaceCard
+                        isAdmin={this.props.isAdmin}
                         eventPlaceDetails={eventPlace}
                       ></EventPlaceCard>
                     </Segment>
@@ -122,11 +170,6 @@ class NewEventPlaceAccept extends Component {
                 </List>
               </React.Fragment>
             )}
-          </Segment>
-
-          {/* Opinia o eventplace(zhardcodowane id) */}
-          <Segment>
-            <PlaceOpinionCard></PlaceOpinionCard>
           </Segment>
         </Grid.Column>
       </Grid>
