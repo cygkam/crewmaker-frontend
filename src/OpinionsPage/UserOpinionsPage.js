@@ -123,7 +123,7 @@ class UserOpinionsPage extends Component {
         if(this.state.currentUserOpinion != null && !this.state.opinionAdding) {
             userOpinion = <UserOpinion key={this.state.currentUserOpinion.userOpinionID} opinionData={this.state.currentUserOpinion}></UserOpinion>
         } else if(this.state.opinionAdding) {
-            userOpinion = <AddOpinion aboutUser={this.state.aboutUsername} currentUser={this.state.currentUser}
+            userOpinion = <AddOpinion aboutUser={this.props.match.params.username} currentUser={this.props.currentUser.username}
                             opinionData={this.state.currentUserOpinion} handler={this.opinionEditionHandler} onChange={this.handleCommentChange}></AddOpinion>
         }
         
