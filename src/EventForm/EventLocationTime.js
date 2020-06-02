@@ -150,6 +150,7 @@ class EventGeneralInfo extends Component {
                                             );
                                         }}
                                     >
+                                        <MenuItem value={16}>Wydarzenie jednorazowe</MenuItem>
                                         {this.props.cyclics
                                             .map((cyclic) => (
                                                 <MenuItem value={cyclic.cyclePeriodId}>{cyclic.cycleLength} {cyclic.cycleType}</MenuItem>
