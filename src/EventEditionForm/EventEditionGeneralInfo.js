@@ -143,7 +143,7 @@ class EventEditionGeneralInfo extends Component {
                                 autoComplete="off"
                                 validateStatus={this.props.sportCategory.validateStatus}>
                                 <Select
-                                    style={{ width: 821 }}
+                                    fullWidth={true}
                                     value={this.props.sportCategory.value}
                                     input={<BootstrapInput />}
                                     name="sportCategory"
@@ -167,7 +167,7 @@ class EventEditionGeneralInfo extends Component {
                                 autoComplete="off"
                                 validateStatus={this.props.eventPlace.validateStatus}>
                                 <Select
-                                    style={{ width: 821 }}
+                                    fullWidth={true}
                                     value={this.props.eventPlace.value}
                                     input={<BootstrapInput />}
                                     name="eventPlace"

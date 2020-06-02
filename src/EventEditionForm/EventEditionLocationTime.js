@@ -64,7 +64,7 @@ class EventEditionGeneralInfo extends Component {
                         <Segment stacked>
                             <FormItem style={{ marginBottom: 12 }}>
                                 <FormItem
-                                    style={{ marginBottom: 0, display: 'inline-block', marginLeft: 0, paddingLeft: 0 }}
+                                    style={{ marginBottom: 0, display: 'inline-block', marginLeft: 0, paddingLeft: 0, width: "50%" }}
                                     hasFeedback
                                     autoComplete="off"
                                     validateStatus={this.props.eventDate.validateStatus}
@@ -72,9 +72,9 @@ class EventEditionGeneralInfo extends Component {
                                 >
                                     <DateInput
                                         name="eventDate"
+                                        style={{ width: "100%" }}
                                         placeholder="Data wydarzenia"
                                         iconPosition='left'
-                                        style={{ width: 401 }}
                                         value={this.props.eventDate.value}
                                         onChange={(event, { name, value }) => {
                                             this.props.onChangeCalendar(
@@ -86,7 +86,7 @@ class EventEditionGeneralInfo extends Component {
                                     />
                                 </FormItem>
                                 <FormItem
-                                    style={{ marginBottom: 0, display: 'inline-block', paddingLeft: 10, marginRight: 0, paddingRight: 0 }}
+                                    style={{ marginBottom: 0, display: 'inline-block', paddingLeft: 10, marginRight: 0, paddingRight: 0, width: "50%" }}
                                     hasFeedback
                                     autoComplete="off"
                                     validateStatus={this.props.eventTime.validateStatus}
@@ -94,8 +94,8 @@ class EventEditionGeneralInfo extends Component {
                                 >
                                     <TimeInput
                                         name="eventTime"
+                                        style={{ width: "100%" }}
                                         placeholder="Czas wydarzenia"
-                                        style={{ width: 401 }}
                                         value={this.props.eventTime.value}
                                         iconPosition="left"
                                         onChange={(event, { name, value }) => {
@@ -116,7 +116,7 @@ class EventEditionGeneralInfo extends Component {
                                 help={this.props.eventDuration.errorMsg}
                             >
                                 <Input
-                                    style={{ width: 812 }}
+                                    fullWidth={true}
                                     autoComplete="off"
                                     name="eventDuration"
                                     value={this.props.eventDuration.value}
@@ -131,14 +131,14 @@ class EventEditionGeneralInfo extends Component {
                             </FormItem>
                             <FormItem style={{ marginBottom: 12 }}>
                                 <FormItem
-                                    style={{ marginBottom: 0, display: 'inline-block' }}
+                                    style={{ marginBottom: 0 }}
                                     hasFeedback
                                     autoComplete="off"
                                     validateStatus={this.props.eventCyclicity.validateStatus}
                                     help={this.props.eventCyclicity.errorMsg}
                                 >
                                     <Select
-                                        style={{ width: 812 }}
+                                        fullWidth={true}
                                         value={this.props.eventCyclicity.value}
                                         input={<BootstrapInput />}
                                         name="eventCyclicity"
