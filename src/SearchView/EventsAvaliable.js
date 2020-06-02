@@ -37,7 +37,8 @@ class EventAvaliable extends Component {
       city: "Miasto",
       eventTime: "",
       joinned: false,
-      isLoading: false,
+      isLoading: true,
+      eventInitiator: ""
     };
   }
 
@@ -68,14 +69,20 @@ class EventAvaliable extends Component {
       .then((response) => {
         this.setState({
           joinned: response,
+          isLoading: false,
         });
         console.log(this.state.eventID + " joinned : " + this.state.joinned);
       })
       .catch((error) => {
         if (error.status === 404) {
-          this.setState({});
+          this.setState({
+            isLoading: false,
+
+          });
         } else {
-          this.setState({});
+          this.setState({
+            isLoading: false,
+          });
         }
       });
   }
@@ -93,6 +100,7 @@ class EventAvaliable extends Component {
       streetName: this.props.dataFromParent.eventPlaceStreetName,
       streetNumber: this.props.dataFromParent.eventPlaceStreetNumber,
       city: this.props.dataFromParent.eventPlaceCity,
+      eventInitiator: this.props.dataFromParent.userInitiator
     });
     console.log(this.state.eventID);
   }
@@ -222,6 +230,14 @@ class EventAvaliable extends Component {
           </Button>
         </Link>
       );
+    } else if(this.state.eventInitiator === this.props.currentUser.username) {
+      button = (<Button
+                    color="grey"
+                    disabled={true}
+                    loading={this.state.isLoading}
+                >
+                    <Button.Content visible>To twoje wydarzenie</Button.Content>
+                </Button>) 
     } else {
       button = (
         <Link>

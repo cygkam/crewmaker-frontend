@@ -145,7 +145,7 @@ class SearchView extends Component {
                                     {this.state.events.map((event) =>
                                         <Segment>
 
-                                            <EventAvaliable key={event.eventID} dataFromParent={event}>
+                                            <EventAvaliable currentUser={this.props.currentUser} key={event.eventID} dataFromParent={event}>
 
                                             </EventAvaliable>
                                         </Segment>
