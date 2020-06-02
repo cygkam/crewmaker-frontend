@@ -38,12 +38,13 @@ class SearchView extends Component {
         console.log("TIME : " + this.state.time)
         console.log("Place : " + this.state.eventCity)
         eventService.getAllEvents(this.state.sportCategory, this.state.date, this.state.time, this.state.eventCity).then((response) => {
-            this.setState({ events: response })
+            this.setState({ events: response.filter(r => r.eventStatus === "Aktywne") })
             this.setState({ isLoading: false })
             console.log(this.state.events)
             this.setState({ wasSubmited: true });
             console.log(this.state.time);
             console.log(this.state.date);
+            console.log(this.state.events)
         }
         ).catch(
             (error) => console.log("Error")
@@ -80,7 +81,7 @@ class SearchView extends Component {
         console.log("Mounted component");
         this.setState({
             date: moment().format("DD-MM-YYYY"),
-            time: moment().format("hh:mm")
+            time: moment().format("HH:mm")
         })
     }
 
@@ -142,18 +143,21 @@ class SearchView extends Component {
                             this.state.events.length > 0 &&
                             <Segment textAlign='left'>
                                 <List divided verticalAlign='middle' size='huge'>
-                                    {this.state.events.map((event) =>
+                                    {this.state.events.map((event) =>      
                                         <Segment>
 
                                             <EventAvaliable currentUser={this.props.currentUser} key={event.eventID} dataFromParent={event}>
 
                                             </EventAvaliable>
-                                        </Segment>
-
-                                    )}
+                                        </Segment>)
+                                        
+                                     }
+                                
+                                    
                                 </List>
                             </Segment>
                         }
+
                         {
                             this.state.events.length === 0 && this.state.wasSubmited &&
                             <Segment textAlign='center'>
