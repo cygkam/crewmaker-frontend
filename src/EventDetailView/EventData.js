@@ -26,15 +26,28 @@ class EventData extends Component {
       }
 
     }
-
-    componentWillMount () {
+  
+    componentDidMount() {
       const eventID = this.props.eventID;
-      const maxPlayers = this.props.maxPlayers;
       this.countEventParticipants(eventID);
       this.checkIfParticipationExists(eventID);
       this.setState({
-        maxPartcipantNumber: maxPlayers
-      })
+          eventId: eventID,
+          sportsName: this.props.eventSportName,
+          description: this.props.eventDescription,
+          date: this.props.eventDate,
+          time: this.props.eventTime,
+          cyclePeriod: {
+            cycleLength: this.props.cycleLength,
+            cycleType: this.props.cycleType
+          },
+          duration: this.props.eventDuration,
+          joinned : true,
+          actuallPartcipantNumber: 1,
+          maxPartcipantNumber: this.props.maxPlayers,
+          isLoading : true,
+          eventStatus: this.props.eventStatus
+      });
     }
 
     checkIfParticipationExists(eventID) {
@@ -44,7 +57,7 @@ class EventData extends Component {
           joinned : response,
           isLoading: false
         });
-        console.log(this.state.eventID + " joinned : " + this.state.joinned);
+        console.log(eventID + " joinned : " + this.state.joinned);
       })
       .catch((error) => {
         if (error.status === 404) {
@@ -81,7 +94,9 @@ class EventData extends Component {
 
     joinEvent = () => {
         console.log("Joining event : " + this.state.eventId)
-        this.setState({isLoading : true});
+        this.setState({
+          isLoading : true
+        });
         participationService.joinEvent(this.state.eventId)
           .then((response) => {
             this.setState({
@@ -94,11 +109,11 @@ class EventData extends Component {
           .catch((error) => {
             if (error.status === 404) {
               this.setState({
-                
+                isLoading : false
               });
             } else {
               this.setState({
-                
+                isLoading : false
               });
             }
           });
@@ -106,7 +121,9 @@ class EventData extends Component {
 
     leaveEvent = () => {
       console.log("Leaving event : " + this.state.eventId);
-      this.setState({ isLoading: true });
+      this.setState({ 
+        isLoading: true 
+      });
       participationService.leaveEvent(this.state.eventId)
         .then((response) => {
           this.setState({
@@ -154,7 +171,7 @@ class EventData extends Component {
     
     updateParticipants (){    
         console.log("updating participants");
-        eventService.countEventParticipants(this.state.eventID)
+        eventService.countEventParticipants(this.state.eventId)
         .then((response) => {
           this.setState({
             actuallPartcipantNumber: response
@@ -187,13 +204,13 @@ class EventData extends Component {
 
     render() {
         let button;
-        if (new Date(this.props.eventDate + " " + this.props.eventTime) <= new Date()) {
+        if (new Date(this.state.date + " " + this.state.time) <= new Date()) {
             button = <Button color='grey' size='huge' 
                             disabled>
                             <Button.Content visible>Wydarzenie minęło</Button.Content>
                     </Button>
         }
-        else if(this.props.eventStatus === "Anulowane") {
+        else if(this.state.eventStatus === "Anulowane") {
             button = <Button color='grey' size='huge' 
                               disabled>
                               <Button.Content visible>Wydarzenie zostało anulowane</Button.Content>
@@ -224,7 +241,7 @@ class EventData extends Component {
                               </Grid.Column>
                             </Grid>
                           </Popup>
-                          <Link to={`/editEvent/${this.props.eventID}`}>
+                          <Link to={`/editEvent/${this.state.eventId}`}>
                             <Button fluid compact color='grey' size='small' 
                                     loading={this.state.isLoading}
                                     style={{ maxHeight: 60, marginTop: '10px' }} 
@@ -246,7 +263,7 @@ class EventData extends Component {
         }
         let cyclePeriod = null;
         if(this.props.cyclic) {
-            cyclePeriod = this.props.cycleType + " " + this.props.cycleLength
+            cyclePeriod = this.state.cyclePeriod.cycleType + " " + this.state.cyclePeriod.cycleLength
 
         } else {
           cyclePeriod = 'Wydarzenie jednorazowe';
@@ -262,7 +279,7 @@ class EventData extends Component {
                                 <Container>
                                     <Grid>
                                         <Grid.Column textAlign='center'>
-                                            {this.props.eventSportName}
+                                            {this.state.sportsName}
                                         </Grid.Column>
                                         <Grid.Column>
                                             <Image src={this.state.sportsIcon}/>
@@ -272,15 +289,15 @@ class EventData extends Component {
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Opis</Label>
-                                <Container textAlign='center' >{this.props.eventDescription}</Container>
+                                <Container textAlign='center' >{this.state.description}</Container>
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Data</Label>
-                                <Container textAlign='center'>{this.props.eventDate}</Container>
+                                <Container textAlign='center'>{this.state.date}</Container>
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Godzina</Label>
-                                <Container textAlign='center'>{this.props.eventTime}</Container>
+                                <Container textAlign='center'>{this.state.time}</Container>
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Cykliczność</Label>
@@ -288,7 +305,7 @@ class EventData extends Component {
                             </Segment>
                             <Segment textAlign='left'>
                                 <Label textAlign='left' attached="top" color="orange">Czas trwania</Label>
-                                <Container textAlign='center'>{this.props.eventDuration}</Container>
+                                <Container textAlign='center'>{this.state.duration}</Container>
                             </Segment>
                             {button}
                     </Grid.Column>
