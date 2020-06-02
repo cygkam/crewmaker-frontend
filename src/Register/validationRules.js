@@ -72,7 +72,7 @@ function validateEventDuration (eventDuration) {
   if (!DURATION_REGEX.test(eventDuration)) {
     return {
       validateStatus: "error",
-      errorMsg: "Niepoprawny czas trwania (format NN:NN:NN)",
+      errorMsg: "Niepoprawny czas trwania (format DD:HH:MM)",
     };
   } else {
     return {
