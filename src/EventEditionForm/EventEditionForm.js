@@ -154,16 +154,19 @@ class EventEditionForm extends React.Component {
                 console.log(response);
                 this.setState({
                     eventPlaces: response,
+                    isLoading: false
                 });
             })
             .catch((error) => {
                 if (error.status === 404) {
                     this.setState({
-                        notFound: true
+                        notFound: true,
+                        isLoading: false
                     });
                 } else {
                     this.setState({
-                        serverError: true
+                        serverError: true,
+                        isLoading: false
                     });
                 }
             });
@@ -183,11 +186,13 @@ class EventEditionForm extends React.Component {
             .catch((error) => {
                 if (error.status === 404) {
                     this.setState({
-                        notFound: true
+                        notFound: true,
+                        isLoading: false
                     });
                 } else {
                     this.setState({
-                        serverError: true
+                        serverError: true,
+                        isLoading: false
                     });
                 }
             });
@@ -199,18 +204,18 @@ class EventEditionForm extends React.Component {
             .then((response) => {
                 this.setState({
                     cyclics: response,
-                    isLoading: false
-
                 });
             }).then(() => this.loadSportCategories())
             .catch((error) => {
                 if (error.status === 404) {
                     this.setState({
-                        notFound: true
+                        notFound: true,
+                        isLoading: false
                     });
                 } else {
                     this.setState({
-                        serverError: true
+                        serverError: true,
+                        isLoading: false
                     });
                 }
             });
