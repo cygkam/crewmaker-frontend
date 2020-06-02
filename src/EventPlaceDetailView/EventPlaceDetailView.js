@@ -16,7 +16,6 @@ import swimming from "../Icons/colorScale/swimming.svg";
 import tennisDouble from "../Icons/colorScale/tennisDouble.svg";
 import tennisSingle from "../Icons/colorScale/tennisSingle.svg";
 import volleyball from "../Icons/colorScale/volleyball.svg";
-import Tooltip from "@material-ui/core/Tooltip";
 import EventPlaceStatistics from "./EventPlaceStatistics";
 import EventPlaceDetails from "./EventPlaceDetails";
 

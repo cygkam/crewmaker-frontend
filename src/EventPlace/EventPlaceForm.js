@@ -1,12 +1,11 @@
 import React from "react";
 import { Steps, notification } from "antd";
-import { Grid, Button, Modal } from "semantic-ui-react";
+import { Grid, Button} from "semantic-ui-react";
 import EventPlaceDetailsForm from "./EventPlaceDetailsForm"
 import EventPlaceLocationForm from "./EventPlaceLocationForm";
 import EventPlaceSumUpForm from "./EventPlaceSumUpForm";
 import { eventPlaceService } from "../Api/Api";
 import { USER } from "../constants";
-import LoadingIndicator from "../common/LoadingIndicator";
 const { Step } = Steps;
 
 

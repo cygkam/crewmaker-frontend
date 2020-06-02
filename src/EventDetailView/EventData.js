@@ -56,8 +56,8 @@ class EventData extends Component {
       case "Piłka ręczna":
         return <Image size="small" src={handball} centered />;
       case "Tenis ziemny - single":
-      case "Tenis ziemny - debel":
         return <Image size="small" src={tennisSingle} centered />;
+      case "Tenis ziemny - debel":
         return <Image size="small" src={tennisDouble} centered />;
       case "Squash":
         return <Image size="small" src={squash} centered />;

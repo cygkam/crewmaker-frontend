@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import {
   Segment,
   Grid,
-  Image,
   Label,
   Header,
   Button,
   Icon,
 } from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import PlaceOpinionCard from "../PlaceOpinion/PlaceOpinionCard";
 import AddPlaceOpinion from "../PlaceOpinion/AddPlaceOpinion";
 import { eventPlaceOpinionService, eventService } from "../Api/Api";
@@ -184,15 +182,6 @@ class EventPlaceDetails extends Component {
   }
 
   render() {
-    let button = null;
-    if (this.props.currentUser === this.props.username) {
-      button = (
-        <Button fluid size="small" color="grey" onClick={this.props.handler}>
-          <Button.Content visible>Edytuj profil</Button.Content>
-        </Button>
-      );
-    }
-
     const uploadButton = (
       <div>
         {this.state.isLoadingImage ? <LoadingOutlined /> : <PlusOutlined />}

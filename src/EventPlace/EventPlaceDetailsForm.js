@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Segment } from "semantic-ui-react";
 import { validation } from "../Register/validationRules"
-import { Input, Form, Typography, notification } from "antd";
+import { Input, Form, Typography} from "antd";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
