@@ -120,7 +120,7 @@ class MainProfilePage extends Component {
       return (
         <Grid textAlign="center" stackable columns={3}>
           <Grid.Column mobile={16} tablet={8} computer={4}>
-            <Link to={"/searchPannel"} >
+            <Link to={"/searchPannel"}>
               <Button
                 fluid
                 size="massive"
@@ -134,7 +134,10 @@ class MainProfilePage extends Component {
                 </Button.Content>
               </Button>
             </Link>
-            <UserInfo currentUser={this.props.currentUser.username} username={this.props.match.params.username} />
+            <UserInfo
+              currentUser={this.props.currentUser.username}
+              username={this.props.match.params.username}
+            />
             <br></br>
 
             <Link to={"/useropinions/" + this.props.match.params.username}>
@@ -155,28 +158,34 @@ class MainProfilePage extends Component {
 
           <Grid.Column mobile={16} tablet={8} computer={5}>
             <Segment fluid="true">
-              <Label attached="top">Twoje aktualne wydarzenia</Label>
+              <Label attached="top">
+                {this.props.currentUser.username ===
+                this.props.match.params.username ? "Twoje aktualne wydarzenia" : "Aktualne wydarzenia"}
+              </Label>
               {this.state.isLoadingEvents ? (
                 <LoadingIndicator />
               ) : (
-                  <React.Fragment>
-
-                    {this.state.events
-                      .filter(function (event) {
-                        return (new Date((event.eventDate + " " + event.eventTime)) >= new Date() && event.eventStatus !== "Anulowane");
-                      })
-                      .sort(this.sortByDateAscending)
-                      .map((event) => (
-                        <Segment key={event.eventID}>
-                          <Label attached="top" horizontal color={this.eventStatusColor(event)} />
-                          <CommingEvent
-
-                            dataFromParent={event}
-                          />
-                        </Segment>
-                      ))}
-                  </React.Fragment>
-                )}
+                <React.Fragment>
+                  {this.state.events
+                    .filter(function (event) {
+                      return (
+                        new Date(event.eventDate + " " + event.eventTime) >=
+                          new Date() && event.eventStatus !== "Anulowane"
+                      );
+                    })
+                    .sort(this.sortByDateAscending)
+                    .map((event) => (
+                      <Segment key={event.eventID}>
+                        <Label
+                          attached="top"
+                          horizontal
+                          color={this.eventStatusColor(event)}
+                        />
+                        <CommingEvent dataFromParent={event} />
+                      </Segment>
+                    ))}
+                </React.Fragment>
+              )}
             </Segment>
           </Grid.Column>
 
@@ -186,24 +195,31 @@ class MainProfilePage extends Component {
               {this.state.isLoadingEvents ? (
                 <LoadingIndicator />
               ) : (
-                  <React.Fragment>
-                    {this.state.events
-                      .filter(function (event) {
-                        return new Date((event.eventDate + " " + event.eventTime)) < new Date() || event.eventStatus === "Anulowane";
-                      })
-                      .sort(this.sortByDateDescending)
-                      .slice(0, 10)
-                      .map((event) => (
-                        <Segment key={event.eventID}>
-                          <Label attached="top" horizontal color={this.eventStatusColor(event)} />
-                          <PassedEvent
-                            dataFromParent={event}
-                            isLoading={this.state.isLoadingEvents}
-                          />
-                        </Segment>
-                      ))}
-                  </React.Fragment>
-                )}
+                <React.Fragment>
+                  {this.state.events
+                    .filter(function (event) {
+                      return (
+                        new Date(event.eventDate + " " + event.eventTime) <
+                          new Date() || event.eventStatus === "Anulowane"
+                      );
+                    })
+                    .sort(this.sortByDateDescending)
+                    .slice(0, 10)
+                    .map((event) => (
+                      <Segment key={event.eventID}>
+                        <Label
+                          attached="top"
+                          horizontal
+                          color={this.eventStatusColor(event)}
+                        />
+                        <PassedEvent
+                          dataFromParent={event}
+                          isLoading={this.state.isLoadingEvents}
+                        />
+                      </Segment>
+                    ))}
+                </React.Fragment>
+              )}
             </Segment>
           </Grid.Column>
         </Grid>
