@@ -1,5 +1,5 @@
 #BASE IMAGE
-FROM node:14.3.0-stretch
+FROM node:14.3.0-stretch as react-build
 
 #WORKDIR
 WORKDIR /app
@@ -10,13 +10,11 @@ COPY config-overrides.js ./
 COPY ./public ./public
 COPY ./src ./src
 
+RUN rm -rf node_modules
 RUN npm install
 
 # Bundle app source
 COPY . .
 
-# Specify port
 EXPOSE 3000
 
-# start app
-CMD ["npm", "start"]

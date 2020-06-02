@@ -1,4 +1,5 @@
-export const API_BASE_URL = "http://localhost:8080/api";
+//export const API_BASE_URL = "http://localhost:8080/api";
+export const API_BASE_URL = "http://156.17.130.96:8080/api";
 //export const API_BASE_URL = "https://stark-ocean-53762.herokuapp.com/api";
 
 export const ACCESS_TOKEN = "accessToken";
