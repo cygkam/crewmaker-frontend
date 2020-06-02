@@ -33,7 +33,9 @@ export const validation = {
   validateEventPlaceStreetNumber,
   validateTitle,
   validateMessage,
-  validateEventMaxPlayers
+  validateEventMaxPlayers,
+  validateUserOpinionTitle,
+    validateUserOpinionMessage
 };
 
 
@@ -352,6 +354,44 @@ function validateEventMaxPlayers (playersNumber) {
     validateStatus: "success",
     errorMsg: null,
   };
+};
+
+function validateUserOpinionTitle(title) {
+  if (title.length <= 0) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Tytuł opinii nie może być pusty !`,
+    };
+  } else if (title.length > 60) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Tytuł opinii jest za długi !`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
+};
+
+function validateUserOpinionMessage(message) {
+  if (message.length <= 0) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Treść opinii nie może być pusta !`,
+    };
+  } else if (message.length > 255) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Treść opinii jest za długa !`,
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null,
+    };
+  }
 };
 
 export default validation;

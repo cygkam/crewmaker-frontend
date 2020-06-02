@@ -147,8 +147,18 @@ export default function MiniDrawer (props) {
           >
             <MenuIcon />
           </IconButton>
-          <img src={ReactLogo} className={classes.logo} alt="logo" style={{ margin: "auto", marginRight: 5 }} />
-          <Header as="h1" color="orange" textAlign="center" style={{ margin: "auto", marginLeft: 5 }}>
+          <img
+            src={ReactLogo}
+            className={classes.logo}
+            alt="logo"
+            style={{ margin: "auto", marginRight: 5 }}
+          />
+          <Header
+            as="h1"
+            color="orange"
+            textAlign="center"
+            style={{ margin: "auto", marginLeft: 5 }}
+          >
             CrewMaker
           </Header>
         </Toolbar>
@@ -172,8 +182,8 @@ export default function MiniDrawer (props) {
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
-                <ChevronLeftIcon />
-              )}
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
@@ -202,22 +212,32 @@ export default function MiniDrawer (props) {
           </ListItem>
           <ListItem
             button
-            key={"Wydarzenie"}
+            key={"Lista obiektów"}
             component={Link}
-            to={`/eventView`}
+            to={`/eventPlaces`}
           >
             <ListItemIcon>
-              <EventIcon />
+              <Icon icon={stadiumIcon} width="2em" height="2em" />
             </ListItemIcon>
-            <ListItemText primary={"Wydarzenie"} />
+            <ListItemText primary={"Lista obiektów"} />
           </ListItem>
-          <ListItem button key={"Nowy obiekt"} component={Link} to={`/addNewEventPlace`}>
+          <ListItem
+            button
+            key={"Nowy obiekt"}
+            component={Link}
+            to={`/addNewEventPlace`}
+          >
             <ListItemIcon>
               <PlaceIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary={"Nowy obiekt"} />
           </ListItem>
-          <ListItem button key={"Nowe wydarzenie"} component={Link} to={`/addNewEvent`}>
+          <ListItem
+            button
+            key={"Nowe wydarzenie"}
+            component={Link}
+            to={`/addNewEvent`}
+          >
             <ListItemIcon>
               <PostAddIcon fontSize="small" />
             </ListItemIcon>
@@ -262,8 +282,8 @@ export default function MiniDrawer (props) {
             </Collapse>
           </React.Fragment>
         ) : (
-            <React.Fragment />
-          )}
+          <React.Fragment />
+        )}
       </Drawer>
     </div>
   );

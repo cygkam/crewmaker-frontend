@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import {
   Form,
   Header,
-  Dropdown
+  Dropdown,
+  Button,
+  Input,
+  Icon,
+  Grid,
 } from "semantic-ui-react";
 
 
@@ -36,9 +40,17 @@ class FilterBar extends Component {
     this.state = {
       isLoading: false,
       listOfEventPlaces: null,
-      itemsOnPage: "10"
+      itemsOnPage: "10",
     };
   }
+
+  handleChange = (event, { name, value }) => {
+    if (this.state.hasOwnProperty(name)) {
+      this.setState({ [name]: value });
+    }
+  };
+
+  
 
   render() {
     return (
@@ -46,52 +58,90 @@ class FilterBar extends Component {
         <Header as="h1" color="orange">
           Dostępne obiekty
         </Header>
-        <Form.Group widths="equal">
-          <Form.Field>
-            <label>Liczba obiektów na stronie</label>
-            <Dropdown
-              placeholder="Liczba obiektów na stronie"
-              compact
-              disabled={this.props.isLoading}
-              selectOnNavigation={false}
-              name="itemsCountPerPage"
-              selection
-              value={this.props.itemsCountPerPage}
-              options={itemsOnPageOptions}
-              onChange={this.props.onChangeItemsOnPage}
-            />
-          </Form.Field>
-
-          <Form.Field>
-            <label>Filtrowanie</label>
-            <Dropdown
-              placeholder="Filtrowanie"
-              compact
-              disabled={this.props.isLoading}
-              selectOnNavigation={false}
-              name="filtering"
-              selection
-              value={this.props.filtering}
-              options={filteringOptions}
-              onChange={this.props.onChangeFiltering}
-            />
-          </Form.Field>
-
-          <Form.Field>
-            <label>Sortowanie obiektów</label>
-            <Dropdown
-              placeholder="Sortowanie obiektów"
-              compact
-              disabled={this.props.isLoading}
-              selectOnNavigation={false}
-              name="sorting"
-              selection
-              value={this.props.sorting}
-              options={sortingOptions}
-              onChange={this.props.onChangeSorting}
-            />
-          </Form.Field>
-        </Form.Group>
+        <Grid columns="equal">
+          <Grid.Row columns={5} stretched>
+            <Grid.Column>
+              <Form.Field>
+                <label>Obiektów na stronie</label>
+                <Dropdown
+                  placeholder="Liczba obiektów na stronie"
+                  compact
+                  disabled={this.props.isLoading}
+                  selectOnNavigation={false}
+                  name="itemsCountPerPage"
+                  selection
+                  value={this.props.itemsCountPerPage}
+                  options={itemsOnPageOptions}
+                  onChange={this.props.onChangeItemsOnPage}
+                />
+              </Form.Field>
+            </Grid.Column>
+            <Grid.Column>
+              <Form.Field>
+                <label>Filtrowanie</label>
+                <Dropdown
+                  placeholder="Filtrowanie"
+                  compact
+                  disabled={this.props.isLoading}
+                  selectOnNavigation={false}
+                  name="filtering"
+                  selection
+                  value={this.props.filtering}
+                  options={filteringOptions}
+                  onChange={this.props.onChangeFiltering}
+                />
+              </Form.Field>
+            </Grid.Column>
+            <Grid.Column>
+              <Form.Field>
+                <label>Sortowanie obiektów</label>
+                <Dropdown
+                  placeholder="Sortowanie obiektów"
+                  compact
+                  disabled={this.props.isLoading}
+                  selectOnNavigation={false}
+                  name="sorting"
+                  selection
+                  value={this.props.sorting}
+                  options={sortingOptions}
+                  onChange={this.props.onChangeSorting}
+                />
+              </Form.Field>
+            </Grid.Column>
+            <Grid.Column>
+              <Grid.Row>
+                <Grid.Column>
+                  <Form.Field>
+                    <label>Wyszukaj po mieście</label>
+                    <Input
+                      placeholder="Miasto"
+                      onChange={this.props.onChangeCity}
+                      name="eventCity"
+                    ></Input>
+                  </Form.Field>
+                </Grid.Column>
+                <Grid.Column>
+                  <Form.Field>
+                    <label> </label>
+                    <Button
+                      fluid
+                      animated
+                      color="orange"
+                      onClick={this.props.onSumbit}
+                      loading={this.props.isLoading}
+                    >
+                      <Button.Content visible>Wyszukaj</Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="search" />
+                      </Button.Content>
+                    </Button>
+                  </Form.Field>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Form.Group widths="equal"></Form.Group>
       </Form>
     );
   }

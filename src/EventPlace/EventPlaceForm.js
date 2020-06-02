@@ -1,12 +1,12 @@
 import React from "react";
 import { Steps, notification } from "antd";
-import { Grid, Button } from "semantic-ui-react";
+import { Grid, Button, Modal } from "semantic-ui-react";
 import EventPlaceDetailsForm from "./EventPlaceDetailsForm"
 import EventPlaceLocationForm from "./EventPlaceLocationForm";
 import EventPlaceSumUpForm from "./EventPlaceSumUpForm";
 import { eventPlaceService } from "../Api/Api";
 import { USER } from "../constants";
-
+import LoadingIndicator from "../common/LoadingIndicator";
 const { Step } = Steps;
 
 
@@ -17,6 +17,7 @@ class EventPlaceForm extends React.Component {
     this.state = {
       current: 0,
       isValidated: true,
+      isLoading: false,
       eventPlaceName: {
         value: "",
       },
@@ -37,6 +38,7 @@ class EventPlaceForm extends React.Component {
       },
       sportsCategory: [],
       userAgreement: false,
+      eventPlaceImage: null,
     };
     this.isStepDetailsInvalid = this.isStepDetailsInvalid.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -65,6 +67,8 @@ class EventPlaceForm extends React.Component {
             eventPlacePostalCode={this.state.eventPlacePostalCode}
             eventPlaceStreet={this.state.eventPlaceStreet}
             eventPlaceStreetNumber={this.state.eventPlaceStreetNumber}
+            eventPlaceImage={this.state.eventPlaceImage}
+            onChangeImage={this.handleChangeImage}
             onChange={this.handleChange}
           />
         );
@@ -78,6 +82,8 @@ class EventPlaceForm extends React.Component {
             eventPlacePostalCode={this.state.eventPlacePostalCode.value}
             eventPlaceStreet={this.state.eventPlaceStreet.value}
             eventPlaceStreetNumber={this.state.eventPlaceStreetNumber.value}
+            eventPlaceImage={this.state.eventPlaceImage}
+            isEventPlaceImageNull={this.isEventPlaceImageNull}
             toggleAgreement={this.toggleAgreement}
           />
         );
@@ -86,7 +92,19 @@ class EventPlaceForm extends React.Component {
     }
   }
 
+  handleChangeImage = (newImage) => {
+    this.setState({ eventPlaceImage: newImage });
+  };
+
+  isEventPlaceImageNull = () => {
+    return (this.state.eventPlaceImage === null)
+  }
+
   handleSubmit() {
+      this.setState({
+        isLoading: true,
+      });
+
     const newEventPlaceRequest = {
       eventPlaceName: this.state.eventPlaceName.value,
       eventPlaceDescription: this.state.eventPlaceDescription.value,
@@ -95,35 +113,41 @@ class EventPlaceForm extends React.Component {
       eventPlacePostalCode: this.state.eventPlacePostalCode.value,
       eventPlaceStreet: this.state.eventPlaceStreet.value,
       eventPlaceStreetNumber: this.state.eventPlaceStreetNumber.value,
+      eventPlaceImage: this.state.eventPlaceImage,
     };
     eventPlaceService
       .newEventPlace(newEventPlaceRequest)
       .then((response) => {
         notification.success({
-          message: "New event place",
+          message: "Nowy obiekt",
           description:
-            "Thank you! Your new event place proposition has been sent. Wait for acceptance.",
+            "Dziękujemy za zgłoszenie nowego obiektu. Poczekaj na zaakceptowanie",
         });
 
         this.setState({
           eventPlaceName: "",
           eventPlaceDescription: "",
-          sportsCategory: "",
+          sportsCategory: [],
           eventPlaceCity: "",
           eventPlacePostalCode: "",
           eventPlaceStreet: "",
           eventPlaceStreetNumber: "",
+          eventPlaceImage: null,
+          isLoading: false,
         });
 
-        const user =  JSON.parse(localStorage.getItem(USER).toString());
+        const user = JSON.parse(localStorage.getItem(USER).toString());
 
         this.props.history.push(`/mainProfilePage/${user.username}`);
       })
       .catch((error) => {
         notification.error({
-          message: "New event place",
+          message: "Nowy obiekt. Błąd!",
           description:
-            error.message || "Sorry! Something went wrong. Please try again!",
+            error.message || "Ups! Coś poszło nie tak. Spróbuj jeszcze raz!",
+        });
+        this.setState({
+          isLoading: false,
         });
       });
   }
@@ -258,11 +282,13 @@ class EventPlaceForm extends React.Component {
             )}
             {current === steps.length - 1 && (
               <Button
-                disabled={steps[current].validateStatus}
+                disabled={
+                  (steps[current].validateStatus || this.state.isLoading)
+                }
                 color="orange"
                 onClick={this.handleSubmit}
               >
-                Zgłoś obiekt
+                {this.state.isLoading ? "Przetwarzamy" : "Zgłoś obiekt"}
               </Button>
             )}
             {current > 0 && (

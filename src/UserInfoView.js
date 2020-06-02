@@ -3,9 +3,10 @@ import { Button, Label, Icon, Grid, GridColumn, Image, Segment } from 'semantic-
 import LoadingIndicator from "./common/LoadingIndicator";
 import ImgCrop from "antd-img-crop";
 import { Upload, notification, Row as RowAntd } from "antd";
-import "antd/dist/antd.css";
-import "./index.css";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import "antd/dist/antd.less";
+import "./index.css";
+
 import { ACCESS_TOKEN} from "./constants";
 
 function getBase64(img, callback) {
@@ -124,7 +125,7 @@ class UserInfoView extends Component {
       <Grid>
         <GridColumn width="16">
           <Grid.Row>
-            <Segment textAlign="center">
+            <Segment textAlign="center" className="parent">
               <Label attached="top">{this.props.username}</Label>
               {(() => {
                 if (this.props.isLoadingImage) return <LoadingIndicator />;
@@ -133,12 +134,8 @@ class UserInfoView extends Component {
                     <RowAntd justify="center" type="flex">
                       <ImgCrop rotate>
                         <Upload
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
                           listType="picture-card"
-                          className="avatar-uploader"
+                          className="parent"
                           headers={headers}
                           openFileDialogOnClick
                           showUploadList={false}
