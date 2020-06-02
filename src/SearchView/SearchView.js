@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Select, Form, Icon, Button, Segment, Header, List } from "semantic-ui-react";
+import { Grid, Select, Form, Icon, Button, Segment, Header, List, Input } from "semantic-ui-react";
 import {
     DateInput,
     TimeInput
@@ -20,8 +20,10 @@ class SearchView extends Component {
             events: [],
             sportCategories: [],
             isLoading: false,
-            sportCategory: '',
-            wasSubmited: false
+            sportCategory: '1',
+            wasSubmited: false,
+            defaultSportCategory : '',
+            eventCity : ''
         };
     }
 
@@ -33,7 +35,9 @@ class SearchView extends Component {
 
     handleSubmit = (event) => {
         this.setState({ isLoading: true });
-        eventService.getAllEvents(this.state.sportCategory, this.state.date, this.state.time).then((response) => {
+        console.log("TIME : " + this.state.time)
+        console.log("Place : " + this.state.eventCity)
+        eventService.getAllEvents(this.state.sportCategory, this.state.date, this.state.time, this.state.eventCity).then((response) => {
             this.setState({ events: response })
             this.setState({ isLoading: false })
             console.log(this.state.events)
@@ -49,6 +53,7 @@ class SearchView extends Component {
         //console.log(this.state.dateTime);
     }
 
+   
 
     fetchSportCategory () {
         sportCategoryService.getAllSportsCat().then((response) => {
@@ -59,8 +64,9 @@ class SearchView extends Component {
                 )
             })
             console.log(this.state.sportCategories[0].text)
-
-
+            this.setState({
+                sportCategory : this.state.sportCategories[0].key
+            })
 
         }
         ).catch(
@@ -74,6 +80,7 @@ class SearchView extends Component {
         console.log("Mounted component");
         this.setState({
             date: moment().format("DD-MM-YYYY"),
+            time: moment().format("hh:mm")
         })
     }
 
@@ -92,6 +99,7 @@ class SearchView extends Component {
                                         name="sportCategory"
                                         value={this.state.sportCategory}
                                         placeholder="Wybierz kategorię"
+                                        selection
                                         onChange={this.handleChange} />
                                     </Form.Field>
                                     <Form.Field required>
@@ -111,6 +119,13 @@ class SearchView extends Component {
                                             iconPosition="left"
                                             onChange={this.handleChange}
                                         />
+                                    </Form.Field>
+                                    <Form.Field>
+                                        <Input
+                                        placeholder="Miasto"
+                                        onChange={this.handleChange}
+                                        name='eventCity'>
+                                        </Input>
                                     </Form.Field>
                                     <Form.Button fluid animated color="orange" onClick={this.handleSubmit}
                                         loading={this.state.isLoading}
