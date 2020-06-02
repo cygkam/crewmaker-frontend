@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Grid, Segment } from "semantic-ui-react";
 import { validation } from "../Register/validationRules"
 import { Input, Form } from "antd";
-import Checkbox from '@material-ui/core/Checkbox';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -65,7 +64,7 @@ class EventGeneralInfo extends Component {
                         <Segment stacked>
                             <FormItem style={{ marginBottom: 12 }}>
                                 <FormItem
-                                    style={{ marginBottom: 0, display: 'inline-block' }}
+                                    style={{ marginBottom: 0, display: 'inline-block', marginLeft: 0, paddingLeft: 0 }}
                                     hasFeedback
                                     autoComplete="off"
                                     validateStatus={this.props.eventDate.validateStatus}
@@ -75,7 +74,7 @@ class EventGeneralInfo extends Component {
                                         name="eventDate"
                                         placeholder="Data wydarzenia"
                                         iconPosition='left'
-                                        style={{ width: 400 }}
+                                        style={{ width: 401 }}
                                         value={this.props.eventDate.value}
                                         onChange={(event, { name, value }) => {
                                             this.props.onChangeCalendar(
@@ -87,7 +86,7 @@ class EventGeneralInfo extends Component {
                                     />
                                 </FormItem>
                                 <FormItem
-                                    style={{ marginBottom: 0, display: 'inline-block', paddingLeft: 10 }}
+                                    style={{ marginBottom: 0, display: 'inline-block', paddingLeft: 10, marginRight: 0, paddingRight: 0 }}
                                     hasFeedback
                                     autoComplete="off"
                                     validateStatus={this.props.eventTime.validateStatus}
@@ -96,7 +95,7 @@ class EventGeneralInfo extends Component {
                                     <TimeInput
                                         name="eventTime"
                                         placeholder="Czas wydarzenia"
-                                        style={{ width: 400 }}
+                                        style={{ width: 401 }}
                                         value={this.props.eventTime.value}
                                         iconPosition="left"
                                         onChange={(event, { name, value }) => {
@@ -120,6 +119,7 @@ class EventGeneralInfo extends Component {
                                     autoComplete="off"
                                     name="eventDuration"
                                     value={this.props.eventDuration.value}
+                                    style={{ width: 812 }}
                                     placeholder="Czas trwania"
                                     onChange={(event) => {
                                         this.props.onChange(
@@ -134,31 +134,11 @@ class EventGeneralInfo extends Component {
                                     style={{ marginBottom: 0, display: 'inline-block' }}
                                     hasFeedback
                                     autoComplete="off"
-                                    validateStatus={this.props.isCyclic.validateStatus}
-                                    help={this.props.isCyclic.errorMsg}
-                                >
-                                    <Checkbox
-                                        checked={this.props.isCyclic.value}
-                                        name="isCyclic"
-                                        color="orange"
-                                        onChange={(event) => {
-                                            this.props.onChange(
-                                                event,
-                                                validation.validateSelect
-                                            );
-                                        }}
-                                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                                    />
-                                </FormItem>
-                                <FormItem
-                                    style={{ marginBottom: 0, display: 'inline-block', paddingLeft: 10 }}
-                                    hasFeedback
-                                    autoComplete="off"
                                     validateStatus={this.props.eventCyclicity.validateStatus}
                                     help={this.props.eventCyclicity.errorMsg}
                                 >
                                     <Select
-                                        style={{ width: 762 }}
+                                        style={{ width: 812 }}
                                         value={this.props.eventCyclicity.value}
                                         input={<BootstrapInput />}
                                         name="eventCyclicity"

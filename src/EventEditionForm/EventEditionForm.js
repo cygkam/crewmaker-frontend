@@ -4,10 +4,8 @@ import { Grid, Button } from "semantic-ui-react";
 import EventEditionGeneralInfo from "./EventEditionGeneralInfo"
 import EventEditionLocationTime from "./EventEditionLocationTime";
 import EventEditionSumUp from "./EventEditionSumUp";
-import { eventPlaceService, sportCategoryService, eventService, eventViewService} from "../Api/Api";
-import { USER } from "../constants";
+import { eventPlaceService, sportCategoryService, eventService, eventViewService } from "../Api/Api";
 import LoadingIndicator from "../common/LoadingIndicator";
-import validation from "../Register/validationRules";
 
 const { Step } = Steps;
 
@@ -70,12 +68,12 @@ class EventEditionForm extends React.Component {
         this.loadCyclics();
     }
 
-    
-    loadEventData() {
+
+    loadEventData () {
         const eventID = this.props.match.params.eventID;
         if (eventID !== undefined) {
             eventViewService
-                .getEventInfo(eventID) 
+                .getEventInfo(eventID)
                 .then((response) => {
                     console.log(response)
 
@@ -86,7 +84,7 @@ class EventEditionForm extends React.Component {
                     let time = response.eventTime;
                     let timeParts = time.split(':');
                     let timeInGoodFormat = timeParts[0] + ":" + timeParts[1];
-                    let isCyclic = response.isCyclic == 0 ? false : true;
+                    let isCyclic = response.isCyclic === 0 ? false : true;
                     this.setState({
                         eventName: {
                             value: response.eventName,
@@ -114,7 +112,7 @@ class EventEditionForm extends React.Component {
                         },
                         eventCyclicity: {
                             value: response.cycleId,
-                            validateStatus: "success" 
+                            validateStatus: "success"
                         },
                         eventDate: {
                             value: dateInGoodFormat,
@@ -135,17 +133,17 @@ class EventEditionForm extends React.Component {
                     });
                 })
                 .catch((error) => {
-                if (error.status === 404) {
-                    this.setState({
-                    actuallPartcipantNumber: 1
-                    });
-                } else {
-                    this.setState({
-                    actuallPartcipantNumber: 1
-                    });
-                }
-            })
-            .then(() => this.loadEventPlaces(this.state.sportCategory.value, this.state.eventCity.value));
+                    if (error.status === 404) {
+                        this.setState({
+                            actuallPartcipantNumber: 1
+                        });
+                    } else {
+                        this.setState({
+                            actuallPartcipantNumber: 1
+                        });
+                    }
+                })
+                .then(() => this.loadEventPlaces(this.state.sportCategory.value, this.state.eventCity.value));
         }
     }
 
@@ -270,7 +268,7 @@ class EventEditionForm extends React.Component {
         var changedDate = this.state.eventDate.value.substr(6, 4) + "-" + this.state.eventDate.value.substr(3, 2) + "-" + this.state.eventDate.value.substr(0, 2);
 
         const eventEditRequest = {
-            eventId: this.props.match.params.eventID,
+            eventId: parseInt(this.props.match.params.eventID),
             cycleId: this.state.eventCyclicity.value,
             eventPlaceId: this.state.eventPlace.value,
             sportCategoryId: this.state.sportCategory.value,
@@ -333,7 +331,7 @@ class EventEditionForm extends React.Component {
             },
         });
 
-        if(inputName === "eventCity") {
+        if (inputName === "eventCity") {
             this.loadEventPlaces(this.state.sportCategory.value, inputValue);
         }
     }
@@ -437,69 +435,69 @@ class EventEditionForm extends React.Component {
             },
         ];
 
-        if(this.state.isLoading) {
-            return <LoadingIndicator/>;
-            } else 
-                return (
-                    <Grid centered stackable columns={1}>
-                        <Grid.Column mobile={16} tablet={8} computer={12}>
-                            <Steps className="custome-step" current={this.state.current}>
-                                <Step
-                                    title={steps[0].title}
-                                    status={
-                                        0 < this.state.current
-                                            ? "finish"
-                                            : this.setStatus(!this.isStepDetailsInvalid(), 0)
-                                    }
-                                />
-                                <Step
-                                    title={steps[1].title}
-                                    status={
-                                        1 < this.state.current
-                                            ? "finish"
-                                            : this.setStatus(!this.isStepLocationInvalid(), 1)
-                                    }
-                                />
-                                <Step
-                                    title={steps[2].title}
-                                    status={
-                                        2 < this.state.current
-                                            ? "finish"
-                                            : this.setStatus(!this.isStepSumUpInvalid(), 2)
-                                    }
-                                />
-                            </Steps>
-        
-                            <div className="steps-content">{this.getStepContent(current)}</div>
-                            <div className="steps-action">
-                                {current < steps.length - 1 && (
-                                    <Button
-                                        color="orange"
-                                        disabled={steps[current].validateStatus}
-                                        onClick={() => this.next()}
-                                    >
-                                        Następny krok
-                                    </Button>
-                                )}
-                                {current === steps.length - 1 && (
-                                    <Button
-                                        disabled={steps[current].validateStatus}
-                                        color="orange"
-                                        onClick={this.handleSubmit}
-                                    >
-                                        Stwórz wydarzenie
-                                    </Button>
-                                )}
-                                {current > 0 && (
-                                    <Button style={{ margin: "0 8px" }} onClick={() => this.prev()}>
-                                        Poprzedni krok
-                                    </Button>
-                                )}
-                            </div>
-                        </Grid.Column>
-                    </Grid>
-                );
-            
+        if (this.state.isLoading) {
+            return <LoadingIndicator />;
+        } else
+            return (
+                <Grid centered stackable columns={1}>
+                    <Grid.Column mobile={16} tablet={8} computer={12}>
+                        <Steps className="custome-step" current={this.state.current}>
+                            <Step
+                                title={steps[0].title}
+                                status={
+                                    0 < this.state.current
+                                        ? "finish"
+                                        : this.setStatus(!this.isStepDetailsInvalid(), 0)
+                                }
+                            />
+                            <Step
+                                title={steps[1].title}
+                                status={
+                                    1 < this.state.current
+                                        ? "finish"
+                                        : this.setStatus(!this.isStepLocationInvalid(), 1)
+                                }
+                            />
+                            <Step
+                                title={steps[2].title}
+                                status={
+                                    2 < this.state.current
+                                        ? "finish"
+                                        : this.setStatus(!this.isStepSumUpInvalid(), 2)
+                                }
+                            />
+                        </Steps>
+
+                        <div className="steps-content">{this.getStepContent(current)}</div>
+                        <div className="steps-action">
+                            {current < steps.length - 1 && (
+                                <Button
+                                    color="orange"
+                                    disabled={steps[current].validateStatus}
+                                    onClick={() => this.next()}
+                                >
+                                    Następny krok
+                                </Button>
+                            )}
+                            {current === steps.length - 1 && (
+                                <Button
+                                    disabled={steps[current].validateStatus}
+                                    color="orange"
+                                    onClick={this.handleSubmit}
+                                >
+                                    Edytuj wydarzenie
+                                </Button>
+                            )}
+                            {current > 0 && (
+                                <Button style={{ margin: "0 8px" }} onClick={() => this.prev()}>
+                                    Poprzedni krok
+                                </Button>
+                            )}
+                        </div>
+                    </Grid.Column>
+                </Grid>
+            );
+
     }
 }
 export default EventEditionForm;

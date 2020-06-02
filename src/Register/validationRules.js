@@ -81,6 +81,7 @@ function validateEventDuration (eventDuration) {
 }
 
 function validateChangeTime (eventTime, eventDate) {
+  const TIME_REGEX = RegExp("^\\d{2}:\\d{2}$");
   var chosenDate = new Date(parseInt(eventDate.substr(6, 4)), parseInt(eventDate.substr(3, 2)) - 1, parseInt(eventDate.substr(0, 2)),
     parseInt(eventTime.substr(0, 2)), parseInt(eventTime.substr(3, 2)));
   var currentDate = new Date();
@@ -88,6 +89,11 @@ function validateChangeTime (eventTime, eventDate) {
     return {
       validateStatus: "error",
       errorMsg: `Godzina powinna być późniejsza niż obecna`,
+    };
+  } else if (!TIME_REGEX.test(eventTime)) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Godzina nie jest zgodna z formatem (hh:mm)`,
     };
   } else {
     return {
@@ -98,12 +104,18 @@ function validateChangeTime (eventTime, eventDate) {
 }
 
 function validateEventDate (eventDate) {
+  const DATE_REGEX = RegExp("^\\d{2}-\\d{2}-\\d{4}$");
   var currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
   if (new Date(parseInt(eventDate.substr(6, 4)), parseInt(eventDate.substr(3, 2)) - 1, parseInt(eventDate.substr(0, 2))) < currentDate) {
     return {
       validateStatus: "error",
       errorMsg: `Data powinna być dzisiejsza lub późniejsza`,
+    };
+  } else if (!DATE_REGEX.test(eventDate)) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Data nie jest zgodna z formatem (dd-MM-yyyy)`,
     };
   } else {
     return {
