@@ -114,7 +114,7 @@ class AddOpinion extends Component {
    
     render() {
         let titleInput = null 
-        if(this.state.title.validateStatus == "success" || this.state.title.validateStatus == null ) {
+        if(this.state.title.validateStatus === "success" || this.state.title.validateStatus == null ) {
             titleInput =
                 <Form.Input 
                     required
@@ -144,7 +144,7 @@ class AddOpinion extends Component {
             }
 
         let messageInput = null 
-        if(this.state.message.validateStatus == "success" || this.state.message.validateStatus == null ) {
+        if(this.state.message.validateStatus === "success" || this.state.message.validateStatus == null ) {
             messageInput =
                 <Form.Input 
                     required
