@@ -317,7 +317,7 @@ class EventPlaceDetails extends Component {
                         openFileDialogOnClick
                         showUploadList={false}
                         action={
-                          "http://localhost:8080/api/uploadPhotoEventPlace/" +
+                          "http://localhost:8080/api/event-place-image/" +
                           this.props.eventPlaceDetails.eventPlaceID
                         }
                         beforeUpload={beforeUpload}

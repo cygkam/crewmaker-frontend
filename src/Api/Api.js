@@ -88,14 +88,14 @@ function getUserProfile (username) {
 
 function getUserProfileImage (username) {
   return request({
-    url: API_BASE_URL + "/usersProfileImage/" + username,
+    url: API_BASE_URL + "/user-profile-image/" + username + "?isSmall=false",
     method: "GET",
   });
 }
 
 function getUserProfileImageSmall(username) {
   return request({
-    url: API_BASE_URL + "/usersProfileImageSmall/" + username,
+    url: API_BASE_URL + "/user-profile-image/" + username + "?isSmall=true",
     method: "GET",
   });
 }
@@ -156,7 +156,7 @@ const eventService = {
 
 function getEventPlaceImage(eventPlaceID) {
   return request({
-    url: API_BASE_URL + "/eventPlaceImage/" + eventPlaceID,
+    url: API_BASE_URL + "/event-place-image/" + eventPlaceID,
     method: "GET",
   });
 }

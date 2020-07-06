@@ -139,7 +139,7 @@ class UserInfoView extends Component {
                           headers={headers}
                           openFileDialogOnClick
                           showUploadList={false}
-                          action="http://localhost:8080/api/uploadPhoto/"
+                          action="http://localhost:8080/api/user-profile-image"
                           beforeUpload={beforeUpload}
                           onChange={this.handleChange}
                         >
