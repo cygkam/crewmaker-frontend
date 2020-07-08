@@ -332,6 +332,14 @@ function counteventPlaceEventsCount(eventPlaceID) {
 
 
 function getEventPlace (activePage, size, filtering, sorting, city) {
+  let cityUrl;
+  
+  if(city===""){
+    cityUrl =""
+  }else{
+    cityUrl = "&city=" + city;
+  }
+
   return request({
     url:
       API_BASE_URL +
@@ -339,12 +347,9 @@ function getEventPlace (activePage, size, filtering, sorting, city) {
       activePage +
       "&size=" +
       size +
-      "&filtering=" +
       filtering +
-      "&sorting=" +
       sorting +
-      "&city=" +
-        city,
+      cityUrl,
     method: "GET",
   });
 }

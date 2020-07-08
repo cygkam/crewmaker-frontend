@@ -17,20 +17,36 @@ const itemsOnPageOptions = [
 ];
 
 const sortingOptions = [
-  { key: "1", value: "DESC_name", text: "Malejąco po nazwie obiektu" },
-  { key: "2", value: "ASC_name", text: "Rosnąco po nazwie obiektu" },
-  { key: "3", value: "DESC_eventPlaceId", text: "Malejąco po ID obiektu" },
-  { key: "4", value: "ASC_eventPlaceId", text: "Rosnąco po ID obiektu" },
-  { key: "5", value: "DESC_city", text: "Malejąco po nazwie miasta" },
-  { key: "6", value: "ASC_city", text: "Rosnąco po nazwie miasta" },
+  {
+    key: "1",
+    value: "&sort=name&dir=DESC",
+    text: "Malejąco po nazwie obiektu",
+  },
+  { key: "2", value: "&sort=name&dir=ASC", text: "Rosnąco po nazwie obiektu" },
+  {
+    key: "3",
+    value: "&sort=eventPlaceId&dir=DESC",
+    text: "Malejąco po ID obiektu",
+  },
+  {
+    key: "4",
+    value: "&sort=eventPlaceId&dir=ASC",
+    text: "Rosnąco po ID obiektu",
+  },
+  { key: "5", value: "&sort=city&dir=DESC", text: "Malejąco po nazwie miasta" },
+  {
+    key: "6",
+    value: "&sort=city&dir=ASC",
+    text: "Rosnąco po nazwie miasta",
+  },
 ];
 
 const filteringOptions = [
-  { key: "1", value: "ACC", text: "Zaakceptowane" },
-  { key: "2", value: "NOTACC", text: "Niezaakceptowane" },
-  { key: "3", value: "ALL", text: "Wszystkie" },
-  { key: "4", value: "ARCH", text: "Zarchiwizowane" },
-  { key: "5", value: "NOTARCH", text: "Niezarchiwizowane" },
+  { key: "1", value: "&isAccepted=true", text: "Zaakceptowane" },
+  { key: "2", value: "&isAccepted=false", text: "Niezaakceptowane" },
+  { key: "3", value: "", text: "Wszystkie" },
+  { key: "4", value: "&isArchived=true", text: "Zarchiwizowane" },
+  { key: "5", value: "&isArchived=false", text: "Niezarchiwizowane" },
 ];
 
 
@@ -50,7 +66,6 @@ class FilterBar extends Component {
     }
   };
 
-  
 
   render() {
     return (
