@@ -16,8 +16,8 @@ class NewEventPlaceAccept extends Component {
       totalPages: 10,
       itemsCountPerPage: 10,
       totalItemsCount: null,
-      filtering: "ALL",
-      sorting: "ASC_eventPlaceId",
+      filtering: "",
+      sorting: "&sort=eventPlaceId&dir=ASC",
       city: "",
     };
   }
